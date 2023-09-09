@@ -1,0 +1,6 @@
+# https://git-scm.com/docs/gitignore
+
+# output and non-source directories/files
+/.yarn/install-state.gz
+/node_modules/
+/*.local

@@ -1,0 +1,91 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/.*_cache": true
+  },
+
+  "search.useIgnoreFiles": false,
+
+  "npm.autoDetect": "off", // do not pollute tasks with auto-detected NPM tasks
+
+  // settings for extensions below
+
+  // spell checker settings
+  "cSpell.language": "en-US",
+  "cSpell.enableFiletypes": [
+    "asciidoc",
+    "csharp",
+    "editorconfig",
+    "git-commit",
+    "ignore",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "jsonc",
+    "log",
+    "markdown",
+    "plaintext",
+    "powershell",
+    "properties",
+    "text",
+    "typescript",
+    "typescriptreact"
+  ],
+  "cSpell.flagWords": ["colour"],
+  "cSpell.words": ["pandell"],
+
+  // html formatting (built-in VSCode formatter)
+  "html.format.wrapAttributes": "preserve",
+  "html.format.wrapLineLength": 512,
+
+  // eslint extension settings
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html"
+  ],
+
+  // stylelint extension settings + disable internal css validation
+  // https://github.com/stylelint/vscode-stylelint#extension-settings
+  "stylelint.enable": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+
+  // language associations
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
