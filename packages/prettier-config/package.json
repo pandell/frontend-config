@@ -1,0 +1,26 @@
+{
+  "name": "@pandell/prettier-config",
+  "version": "2.0.1",
+  "description": "Pandell Shared Prettier Config",
+  "keywords": [
+    "pandell",
+    "pli",
+    "prettier"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandell/web-pli"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pandell Technology Corporation",
+    "url": "https://github.com/pandell"
+  },
+  "main": "index.json",
+  "peerDependencies": {
+    "prettier": ">= 2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@pandell/stylelint-config",
+  "version": "15.0.1",
+  "description": "Pandell Shared StyleLint Config",
+  "keywords": [
+    "pandell",
+    "pli",
+    "stylelint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandell/web-pli"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pandell Technology Corporation",
+    "url": "https://github.com/pandell"
+  },
+  "main": "index.js",
+  "peerDependencies": {
+    "stylelint": ">= 15",
+    "stylelint-config-standard": ">= 31",
+    "stylelint-no-unsupported-browser-features": ">= 7",
+    "stylelint-order": ">= 6"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@pandell/typescript-config",
+  "version": "5.0.0",
+  "description": "Pandell Shared TypeScript Config",
+  "keywords": [
+    "pandell",
+    "pli",
+    "tsconfig"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandell/web-pli"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pandell Technology Corporation",
+    "url": "https://github.com/pandell"
+  },
+  "files": [
+    "tsconfig.json"
+  ],
+  "peerDependencies": {
+    "typescript": ">= 5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

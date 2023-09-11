@@ -1,0 +1,27 @@
+{
+  "name": "@pandell/jest-config",
+  "version": "29.0.0",
+  "description": "Pandell Shared Testing Mocks",
+  "keywords": [
+    "pandell",
+    "pli",
+    "testing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandell/web-pli"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pandell Technology Corporation",
+    "url": "https://github.com/pandell"
+  },
+  "files": [
+    "__mocks__/",
+    "configureTesting.js",
+    "jest.config.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
