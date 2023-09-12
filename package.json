@@ -5,7 +5,13 @@
   ],
   "scripts": {
     "format": "prettier . --check",
-    "format-fix": "prettier . --write"
+    "format:fix": "prettier . --write",
+    "verify": "run format",
+    "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version"
   },
-  "packageManager": "yarn@3.6.3"
+  "packageManager": "yarn@3.6.3",
+  "devDependencies": {
+    "prettier": "^3.0.3"
+  },
+  "prettier": "@pandell/prettier-config"
 }
