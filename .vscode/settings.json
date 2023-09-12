@@ -38,7 +38,7 @@
     "typescriptreact"
   ],
   "cSpell.flagWords": ["colour"],
-  "cSpell.words": ["pandell"],
+  "cSpell.words": ["pandell", "parens", "stylelint"],
 
   // html formatting (built-in VSCode formatter)
   "html.format.wrapAttributes": "preserve",
