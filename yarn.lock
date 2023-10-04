@@ -43,7 +43,7 @@ __metadata:
   resolution: "@pandell/eslint-config@workspace:packages/eslint-config"
   dependencies:
     "@typescript-eslint/parser": ~5.62.0
-    eslint-config-prettier: ^8.8.0
+    eslint-config-prettier: ^8.10.0
   peerDependencies:
     "@typescript-eslint/eslint-plugin": ">= 5"
     eslint: ">= 8"
@@ -195,7 +195,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.8.0":
+"eslint-config-prettier@npm:^8.10.0":
   version: 8.10.0
   resolution: "eslint-config-prettier@npm:8.10.0"
   peerDependencies:
