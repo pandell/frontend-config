@@ -2,7 +2,7 @@
 
 Shared Prettier config for Pandell engineering teams.
 
-For more details and configuration options, see the [prettier documentation](https://prettier.io/docs/en/configuration.html).
+For more details and configuration options, see the [Prettier documentation](https://prettier.io/docs/en/configuration.html).
 
 ## Usage
 
