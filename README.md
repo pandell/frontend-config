@@ -19,3 +19,18 @@ Shared configuration packages for frontend tools used by Pandell engineering tea
 
 - [`packages/typescript-config`](packages/typescript-config/)  
   Configuration for [typescript](https://www.typescriptlang.org/): _A strongly typed programming language that builds on JavaScript, giving you better tooling at any scale_
+
+## NPM registry tag management
+
+When publishing a pre-release, we typically label it with a custom tag. It is a good idea to remove this tag once the pre-release is over. Use `npm dist-tag` subcommands to manage registry tags:
+
+```sh
+# list specified package's tags in the registry
+npm dist-tag ls @pandell/jest-config
+
+# tag the specified package version in the registry
+npm dist-tag add @pandell/jest-config@4.2.0-preview.1 preview
+
+# remove specified tag from the registry
+npm dist-tag rm @pandell/jest-config preview
+```

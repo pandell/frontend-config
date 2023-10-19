@@ -45,13 +45,7 @@
   "html.format.wrapLineLength": 512,
 
   // eslint extension settings
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "html"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html"],
 
   // stylelint extension settings + disable internal css validation
   // https://github.com/stylelint/vscode-stylelint#extension-settings

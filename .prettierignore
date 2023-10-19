@@ -1,0 +1,14 @@
+# https://prettier.io/docs/en/ignore
+# spell-checker:words jison markdownlint
+
+# as of prettier 3.0, files matched by ".gitignore" are ignored by default
+# https://prettier.io/blog/2023/07/05/3.0.0.html#ignore-gitignored-files-by-default-14731httpsgithubcomprettierprettierpull14731-by-fiskerhttpsgithubcomfisker
+
+# ignore yarn installation
+/.yarn/
+
+# prettier Markdown formatting is terrible + incompatible with markdownlint
+*.md
+
+# prettier HTML formatting is terrible
+*.html

@@ -9,8 +9,8 @@
  * to defer loading until a ResizeObserver is actually constructed.
  */
 function ResizeObserverMock(callback) {
-    const ResizeObserver = jest.requireActual("resize-observer-polyfill");
-    return new ResizeObserver(callback);
+  const ResizeObserver = jest.requireActual("resize-observer-polyfill");
+  return new ResizeObserver(callback);
 }
 
 module.exports = ResizeObserverMock;

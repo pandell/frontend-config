@@ -4,4 +4,6 @@
 /.yarn/install-state.gz
 /node_modules/
 /build/
-/*.local
+*.local
+*.log
+*.tgz
