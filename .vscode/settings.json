@@ -1,3 +1,4 @@
+// spell-checker:ignore anson colour esbenp otbs stylelint
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
@@ -56,7 +57,6 @@
 
   // powershell settings
   "powershell.codeFormatting.alignPropertyValuePairs": false,
-  "powershell.codeFormatting.newLineAfterCloseBrace": false,
   "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
   "powershell.codeFormatting.preset": "OTBS", // "One True Brace Style" a.k.a. K&R brace style, https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81#issuecomment-285835313
   "powershell.codeFormatting.useCorrectCasing": true,
