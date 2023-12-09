@@ -22,7 +22,7 @@ import jetbrains.buildServer.configs.kotlin.ui.*
  * mvnDebug org.jetbrains.teamcity:teamcity-configs-maven-plugin:generate
  */
 
-version = "2023.05"
+version = "2023.11"
 
 // prefixes of packages included in this monorepo
 enum class ConfigPackagePrefix {
@@ -52,7 +52,7 @@ fun BuildSteps.execYarnPack(packagePrefix: ConfigPackagePrefix) {
 
 project {
   params {
-    param("env.Path", "%env.Path%;%env.NodeRoot18182%")
+    param("env.Path", "%env.Path%;%env.NodeRoot20100%")
   }
 
   // ---------------------------------------------------------------------------
