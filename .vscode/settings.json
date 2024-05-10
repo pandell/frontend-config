@@ -1,4 +1,4 @@
-// spell-checker:ignore anson colour esbenp otbs stylelint
+// spell-checker:words anson otbs stylelint
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
