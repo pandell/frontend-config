@@ -1,6 +1,16 @@
 # https://git-scm.com/docs/gitignore
 
-# output and non-source directories/files
+# Rider keeps its user-specific files in ".idea" root directory
+# Exclude all Rider user files except for run configurations ("F5" run command)
+/.idea/*/*/*
+!/.idea/*/*/runConfigurations/
+
+# TeamCity keeps its "Infrastructure as Code" (IaC) Kotlin instructions
+# in ".teamcity" root directory; exclude output directory when testing
+# Kotlin locally using "mvn --file .teamcity teamcity-configs:generate"
+/.teamcity/target/
+
+# Output and non-source directories/files
 /.yarn/install-state.gz
 /node_modules/
 /build/

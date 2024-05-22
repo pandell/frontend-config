@@ -4,6 +4,17 @@
     "dbaeumer.vscode-eslint",
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
+    "ms-vscode.powershell",
+    // 2023-12-12, milang: there are two main Kotlin extensions available as of 2023, but
+    // neither "mathiasfrohlich.kotlin" nor "fwcd.kotlin" is "the perfect choice";
+    // "mathiasfrohlich.kotlin" seems to be dead (last version is from February 2020)
+    // and has wrong syntax highlighting for some Kotlin constructs; "fwcd.kotlin"
+    // is under active development, but the language server is very buggy and slow
+    // (thus it is disabled via ".vscode/settings.json") and also contains obsolete
+    // custom fork of "facebook/ktfmt" with terrible presets (see comments in "[kotlin]"
+    // section of ".vscode/settings.json"); in the end I decided to go with "fwcd.kotlin"
+    // because it was "less bad" for the needs of TeamCity Kotlin development
+    "fwcd.kotlin",
     "streetsidesoftware.code-spell-checker"
   ]
 }
