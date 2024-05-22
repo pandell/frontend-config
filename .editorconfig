@@ -1,4 +1,5 @@
 # https://editorconfig.org/
+# spell-checker:words jetbrains ktlint resx
 root = true
 
 [*]
@@ -9,8 +10,28 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{kts,ps1}]
+[*.{fs,md,ps1}]
 indent_size = 4
+
+[*.{kt,kts}]
+ij_kotlin_packages_to_use_import_on_demand = jetbrains.buildServer.configs.kotlin.**,lib.**
+# 2023-12-12, milang: Kotlin coding conventions specify that Kotlin code should use
+# 4-space indentation; see https://kotlinlang.org/docs/coding-conventions.html#indentation
+indent_size = 4
+#
+# 2023-12-12, milang: disabling "multiline-expression-wrapping" rule allows
+# us to have (for example) "publisher = github {<newline>" versus the standard
+# "publisher =<newline>github {<newline>"; this is closer to what TeamCity generates,
+# but at this point I don't think it is worth straying from ktlint's standard rules;
+# see https://pinterest.github.io/ktlint/latest/rules/standard/#multiline-expression-wrapping
+# ktlint_standard_multiline-expression-wrapping = disabled
+#
+# note: the "string-template-indent" rule must also be disabled because it depends on
+# "multiline-expression-wrapping"; see https://pinterest.github.io/ktlint/1.0.1/faq/#why-is-a-rule-skipped-when-i-disable-some-other-rule
+# ktlint_standard_string-template-indent = disabled
+
+[*.{cshtml,svg}]
+insert_final_newline = false
 
 [*.md]
 trim_trailing_whitespace = false
