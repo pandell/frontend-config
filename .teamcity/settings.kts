@@ -1,14 +1,7 @@
 import jetbrains.buildServer.configs.kotlin.*
-import jetbrains.buildServer.configs.kotlin.BuildSteps
-import jetbrains.buildServer.configs.kotlin.BuildTypeSettings
-import jetbrains.buildServer.configs.kotlin.ParameterDisplay
-import jetbrains.buildServer.configs.kotlin.RelativeId
-import jetbrains.buildServer.configs.kotlin.buildFeatures.commitStatusPublisher
-import jetbrains.buildServer.configs.kotlin.buildSteps.PowerShellStep
-import jetbrains.buildServer.configs.kotlin.buildSteps.exec
-import jetbrains.buildServer.configs.kotlin.buildSteps.powerShell
-import jetbrains.buildServer.configs.kotlin.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.ui.*
+import jetbrains.buildServer.configs.kotlin.buildSteps.*
+import jetbrains.buildServer.configs.kotlin.triggers.*
+import lib.*
 
 /*
  * Kotlin DSL documentation for TeamCity project:
@@ -19,52 +12,58 @@ import jetbrains.buildServer.configs.kotlin.ui.*
  *
  * To debug settings scripts in CLI (attach debugger to port 8000):
  * mvnDebug org.jetbrains.teamcity:teamcity-configs-maven-plugin:generate
+ *
+ * Format all Kotlin files using https://github.com/pinterest/ktlint/releases
+ * cd [repo-root]
+ * ktlint --format
+ *
+ * Generate configurations locally (test Kotlin DSL) using https://github.com/apache/maven/releases
+ * cd [repo-root]
+ * mvn --file .teamcity teamcity-configs:generate
  */
 
-version = "2023.11"
+version = "2024.03"
 
-// prefixes of packages included in this monorepo
-enum class ConfigPackagePrefix {
-    browserslist,
-    eslint,
-    jest,
-    prettier,
-    stylelint,
-    typescript,
+// Prefixes of packages included in this monorepo.
+enum class NpmPackagePrefix {
+    BrowsersList,
+    ESLint,
+    Jest,
+    Prettier,
+    StyleLint,
+    TypeScript,
 }
 
-// calculates full package name from the specified prefix
-fun packageNameFromPrefix(packagePrefix: ConfigPackagePrefix) = "$packagePrefix-config"
+// Calculates full package name from the specified prefix.
+fun packageNameFromPrefix(npmPackagePrefix: NpmPackagePrefix) = "${npmPackagePrefix.name.lowercase()}-config"
 
-// runs "yarn pack" for the workspace with the specified package
-fun BuildSteps.execYarnPack(packagePrefix: ConfigPackagePrefix) {
-    var target = packageNameFromPrefix(packagePrefix)
+// Runs "yarn pack" for the workspace with the specified package.
+fun BuildSteps.execYarnPack(npmPackagePrefix: NpmPackagePrefix) {
+    val npmPackage = packageNameFromPrefix(npmPackagePrefix)
 
     exec {
-        name = "Pack $target"
+        name = "Pack $npmPackage"
         path = "yarn"
-        arguments = "workspace @pandell/$target pack --out ../../${target}_%%v.tgz"
+        arguments = "workspace @pandell/$npmPackage pack --out ../../${npmPackage}_%%v.tgz"
     }
 }
 
-// =============================================================================
-
-project {
-    params {
-        param("env.Path", "%env.Path%;%env.NodeRoot20100%")
-    }
-
-    // ---------------------------------------------------------------------------
-    // build and pack all packages included in this monorepo
-    // note: resulting ".tgz" archives are captured as TeamCity artifacts,
-    // to be used in publish build configuration
-    buildType {
+// -----------------------------------------------------------------------------
+// Builds and packs all packages included in this monorepo.
+// Note: resulting ".tgz" archives are captured as TeamCity artifacts,
+// to be used in "publishNpmPackage" build configuration (below).
+val buildNpmPackages =
+    BuildType {
         id("Build")
         name = "1. Build"
-        artifactRules = "*.tgz"
+        artifactRules =
+            """
+            *.tgz
+            .teamcity/*.ps1
+            """.trimIndent()
 
         params {
-            param("env.PANDELL_NPM_TOKEN", "%pandell.npmToken.access%")
+            param(name = "env.PANDELL_NPM_TOKEN", value = "%pandell.npmToken.access%")
         }
 
         vcs {
@@ -76,13 +75,11 @@ project {
         }
 
         features {
-            commitStatusPublisher {
-                publisher =
-                    github {
-                        githubUrl = "https://api.github.com"
-                        authType = vcsRoot()
-                    }
-            }
+            publishCommitStatusToGitHub()
+        }
+
+        failureConditions {
+            executionTimeoutMin = 20
         }
 
         steps {
@@ -101,20 +98,21 @@ project {
                 path = "yarn"
                 arguments = "run format"
             }
-            execYarnPack(ConfigPackagePrefix.browserslist)
-            execYarnPack(ConfigPackagePrefix.eslint)
-            execYarnPack(ConfigPackagePrefix.jest)
-            execYarnPack(ConfigPackagePrefix.prettier)
-            execYarnPack(ConfigPackagePrefix.stylelint)
-            execYarnPack(ConfigPackagePrefix.typescript)
+            execYarnPack(NpmPackagePrefix.BrowsersList)
+            execYarnPack(NpmPackagePrefix.ESLint)
+            execYarnPack(NpmPackagePrefix.Jest)
+            execYarnPack(NpmPackagePrefix.Prettier)
+            execYarnPack(NpmPackagePrefix.StyleLint)
+            execYarnPack(NpmPackagePrefix.TypeScript)
         }
     }
 
-    // ---------------------------------------------------------------------------
-    // publish selected package using the selected tag
-    // note: package is not rebuilt at this time, we use the ".tgz" file
-    // that was produced during build and captured in artifacts
-    buildType {
+// -----------------------------------------------------------------------------
+// Publish selected package using the selected tag.
+// Note: package is not rebuilt at this time, we use the ".tgz" file
+// that was produced during build and captured in artifacts.
+val publishConfig =
+    BuildType {
         id("Publish")
         name = "2. Publish"
         type = BuildTypeSettings.Type.DEPLOYMENT
@@ -123,44 +121,49 @@ project {
 
         params {
             select(
-                "selectedPackage",
-                "",
+                name = "numberOfBuildToPublish",
+                value = """Use "Dependencies" tab""",
+                label = "Build to publish",
+                display = ParameterDisplay.PROMPT,
+                options = listOf("""Use "Dependencies" tab"""),
+            )
+            select(
+                name = "selectedNpmPackage",
+                value = "",
                 label = "Package to publish",
                 display = ParameterDisplay.PROMPT,
                 options =
                     listOf(
-                        packageNameFromPrefix(ConfigPackagePrefix.browserslist),
-                        packageNameFromPrefix(ConfigPackagePrefix.eslint),
-                        packageNameFromPrefix(ConfigPackagePrefix.jest),
-                        packageNameFromPrefix(ConfigPackagePrefix.prettier),
-                        packageNameFromPrefix(ConfigPackagePrefix.stylelint),
-                        packageNameFromPrefix(ConfigPackagePrefix.typescript),
+                        packageNameFromPrefix(NpmPackagePrefix.BrowsersList),
+                        packageNameFromPrefix(NpmPackagePrefix.ESLint),
+                        packageNameFromPrefix(NpmPackagePrefix.Jest),
+                        packageNameFromPrefix(NpmPackagePrefix.Prettier),
+                        packageNameFromPrefix(NpmPackagePrefix.StyleLint),
+                        packageNameFromPrefix(NpmPackagePrefix.TypeScript),
                     ),
             )
             text(
-                "selectedTag",
-                "latest",
-                label = "NPM tag",
+                name = "selectedNpmTag",
+                value = "latest",
+                label = """NPM tag for the published package (defaults to "latest")""",
                 display = ParameterDisplay.PROMPT,
             )
-            param("packageBuildArtifactFullPath", "")
-            param("env.NPM_CONFIG_//registry.npmjs.org/:_authToken", "%pandell.npmToken.publish%")
-        }
-
-        vcs {
-            root(DslContext.settingsRoot)
+            param(name = "packageBuildArtifactFullPath", value = "")
+            param(name = "env.NPM_CONFIG_//registry.npmjs.org/:_authToken", value = "%pandell.npmToken.publish%")
         }
 
         dependencies {
-            dependency(RelativeId("Build")) {
-                snapshot {
-                    onDependencyFailure = FailureAction.FAIL_TO_START
-                }
-
-                artifacts {
-                    cleanDestination = true
-                    artifactRules = "%selectedPackage%*.tgz => build"
-                }
+            artifacts(buildNpmPackages) {
+                buildRule = build(buildNumber = "%numberOfBuildToPublish%")
+                artifactRules =
+                    """
+                    +:%selectedNpmPackage%*.tgz => %system.teamcity.build.tempDir%/deploy
+                    +:*.ps1 => %system.teamcity.build.tempDir%/deploy
+                    """.trimIndent()
+            }
+            artifacts(AbsoluteId("Tools_Deployment_PublishScripts")) {
+                buildRule = build(buildNumber = "%pandell.deployment.scripts.build%")
+                artifactRules = "** => %system.teamcity.build.tempDir%/deploy/tools"
             }
         }
 
@@ -173,19 +176,30 @@ project {
             powerShell {
                 name = "Find package build artifact"
                 edition = PowerShellStep.Edition.Core
-                scriptMode = file { path = ".teamcity/Publish-FindBuildArtifact.ps1" }
+                // Sets path of the found artifact to parameter %packageBuildArtifactFullPath%.
+                scriptMode = file { path = ".teamcity/Find-Artifact.ps1" }
                 scriptArgs =
                     """
                     -BuildCounter %build.counter%
-                    -SelectedPackage "%selectedPackage%"
-                    -SelectedTag "%selectedTag%"
+                    -SelectedNpmPackage "%selectedNpmPackage%"
+                    -SelectedNpmTag "%selectedNpmTag%"
                     """.trimIndent()
             }
             exec {
                 name = "Publish package build artifact"
                 path = "npm"
-                arguments = """publish --access public --tag "%selectedTag%" "%packageBuildArtifactFullPath%" """
+                arguments = """publish --access public --tag "%selectedNpmTag%" "%packageBuildArtifactFullPath%" """
             }
         }
     }
+
+// -----------------------------------------------------------------------------
+// Top-level frontend configurations project.
+project {
+    params {
+        param(name = "env.Path", value = "%env.Path%;%pandell.agent.node.v20.dir%")
+    }
+
+    buildType(buildNpmPackages)
+    buildType(publishConfig)
 }
