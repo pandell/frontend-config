@@ -177,7 +177,7 @@ val publishConfig =
                 name = "Find package build artifact"
                 edition = PowerShellStep.Edition.Core
                 // Sets path of the found artifact to parameter %packageBuildArtifactFullPath%.
-                scriptMode = file { path = ".teamcity/Find-Artifact.ps1" }
+                scriptMode = file { path = "%system.teamcity.build.tempDir%/deploy/Find-Artifact.ps1" }
                 scriptArgs =
                     """
                     -BuildCounter %build.counter%
@@ -187,8 +187,10 @@ val publishConfig =
             }
             exec {
                 name = "Publish package build artifact"
-                path = "npm"
-                arguments = """publish --access public --tag "%selectedNpmTag%" "%packageBuildArtifactFullPath%" """
+                //path = "npm"
+                //arguments = """publish --access public --tag "%selectedNpmTag%" "%packageBuildArtifactFullPath%" """
+                path = "cmd"
+                arguments = """/c echo "Path: %packageBuildArtifactFullPath%" """
             }
         }
     }

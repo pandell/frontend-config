@@ -7,28 +7,34 @@ Param(
     [parameter(Mandatory = $true)]
     [string]$SelectedNpmPackage,
 
-    [parameter(Mandatory = $true)]
-    [string]$SelectedNpmTag
+    [string]$SelectedNpmTag = "latest",
+
+    [string]$ArtifactsDir = "."
 )
 
 # initialize
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-. $PSScriptRoot/Lib-TeamCity.ps1
+$ArtifactsDir = Resolve-Path -RelativeBasePath $PSScriptRoot -Path $ArtifactsDir
+. "$ArtifactsDir/tools/TeamCity/Lib-TeamCity.ps1"
 trap {
-    Write-TeamCityError "Error" $_ -ReportAsBuildProblem
-    Write-TeamCityBuildStatus "Failed to find build artifact" -Failure
+    if (Get-Command Write-TeamCityError -ErrorAction SilentlyContinue) {
+        Write-TeamCityError "Error" $_ -ReportAsBuildProblem
+        Write-TeamCityBuildStatus "Failed to find build artifact" -Failure
+    } else {
+        Write-Host -ForegroundColor Red $_
+    }
     exit 1
 }
 
 # find the artifact
 Set-TeamCityBuildNumber "$BuildCounter | $SelectedNpmPackage"
-$artifact = @(Get-ChildItem build/$SelectedNpmPackage*.tgz)
+$artifact = @(Get-ChildItem $ArtifactsDir/$SelectedNpmPackage*.tgz)
 if ($artifact.Count -lt 1) {
-    Write-Error "No build artifact for `"$SelectedNpmPackage`""
+    Write-Error "No build artifact for `"$SelectedNpmPackage`" in `"$ArtifactsDir`""
 }
 if ($artifact.Count -gt 1) {
-    Write-Error "Too many build artifacts for `"$SelectedNpmPackage`""
+    Write-Error "Too many build artifacts for `"$SelectedNpmPackage`" in `"$ArtifactsDir`""
 }
 
 # extract version from artifact name
