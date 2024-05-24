@@ -9,9 +9,9 @@
     "verify": "run format",
     "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version"
   },
-  "packageManager": "yarn@3.6.4",
+  "packageManager": "yarn@4.2.2",
   "devDependencies": {
-    "prettier": "^3.0.3"
+    "prettier": "^3.2.5"
   },
   "prettier": "@pandell/prettier-config"
 }
