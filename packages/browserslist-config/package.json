@@ -1,16 +1,17 @@
 {
   "name": "@pandell/browserslist-config",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "Pandell Browserslist Shared Config",
   "keywords": [
-    "pandell",
-    "pli",
     "browserslist",
-    "browserslist-config"
+    "browserslist-config",
+    "pandell",
+    "pli"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pandell/web-pli"
+    "url": "https://github.com/pandell/frontend-config",
+    "directory": "packages/browserslist-config"
   },
   "license": "MIT",
   "author": {
@@ -19,11 +20,13 @@
   },
   "main": "./index.js",
   "scripts": {
-    "supported": "yarn supported:prod",
-    "supported:dev": "npx browserslist --env=development",
-    "supported:prod": "npx browserslist --env=production",
-    "supported:test": "npx browserslist --env=test"
+    "browserslist:dev": "run -T browserslist --env=development",
+    "browserslist:prod": "run -T browserslist --env=production",
+    "browserslist:test": "run -T browserslist --env=test"
   },
+  "browserslist": [
+    "extends @pandell/browserslist-config"
+  ],
   "publishConfig": {
     "access": "public"
   }
