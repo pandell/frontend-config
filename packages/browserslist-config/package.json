@@ -1,7 +1,7 @@
 {
   "name": "@pandell/browserslist-config",
   "version": "4.0.4",
-  "description": "Pandell Browserslist Shared Config",
+  "description": "Pandell browserslist shared config",
   "keywords": [
     "browserslist",
     "browserslist-config",
@@ -22,7 +22,8 @@
   "scripts": {
     "browserslist:dev": "run -T browserslist --env=development",
     "browserslist:prod": "run -T browserslist --env=production",
-    "browserslist:test": "run -T browserslist --env=test"
+    "browserslist:test": "run -T browserslist --env=test",
+    "prepack": "node ../../tools/clean-package-json.mjs"
   },
   "browserslist": [
     "extends @pandell/browserslist-config"

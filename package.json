@@ -7,11 +7,12 @@
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
     "verify": "run format",
-    "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version"
+    "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[browserslist]' && browserslist --version"
   },
   "packageManager": "yarn@4.2.2",
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "browserslist": "^4.23.0",
+    "prettier": "^3.3.1"
   },
   "prettier": "@pandell/prettier-config"
 }
