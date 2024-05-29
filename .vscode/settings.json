@@ -11,8 +11,8 @@
     "**/.*_cache": true
   },
 
-  "search.useIgnoreFiles": false,
-
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsc.autoDetect": "off", // do not pollute tasks with auto-detected typescript tasks
   "npm.autoDetect": "off", // do not pollute tasks with auto-detected NPM tasks
 
   // settings for extensions below
@@ -39,7 +39,7 @@
     "typescriptreact"
   ],
   "cSpell.flagWords": ["colour"],
-  "cSpell.words": ["pandell", "parens", "stylelint"],
+  "cSpell.words": ["eslintconfig", "milang", "pandell", "parens", "stylelint", "tsbuildinfo"],
 
   // html formatting (built-in VSCode formatter)
   "html.format.wrapAttributes": "preserve",

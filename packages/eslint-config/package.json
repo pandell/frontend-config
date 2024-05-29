@@ -1,48 +1,37 @@
 {
   "name": "@pandell/eslint-config",
-  "version": "8.0.2",
-  "description": "Pandell Shared Config",
+  "type": "module",
+  "version": "9.0.0",
+  "description": "Pandell ESLint shared config",
   "keywords": [
     "eslint",
     "eslintconfig",
     "pandell",
-    "pli",
-    "stylelint",
-    "tsconfig"
+    "pli"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/pandell/web-pli"
+    "url": "https://github.com/pandell/frontend-config",
+    "directory": "packages/eslint-config"
   },
   "license": "MIT",
   "author": {
     "name": "Pandell Technology Corporation",
     "url": "https://github.com/pandell"
   },
-  "main": "./index.js",
-  "files": [
-    "*.js"
-  ],
-  "scripts": {
-    "browserslist": "yarn supported:prod",
-    "browserslist:dev": "npx browserslist --env=development",
-    "browserslist:prod": "npx browserslist --env=production",
-    "browserslist:test": "npx browserslist --env=test",
-    "eslint:check": "eslint --print-config . | eslint-config-prettier-check"
-  },
+  "main": "dist/pandellEsLintConfig.js",
+  "types": "dist/pandellEsLintConfig.d.ts",
   "dependencies": {
-    "@typescript-eslint/parser": "~5.62.0",
-    "eslint-config-prettier": "^8.10.0"
+    "@eslint/js": "^9.4.0",
+    "@types/eslint__js": "^8.42.3",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import-x": "^0.5.1",
+    "eslint-plugin-jsdoc": "^48.2.9",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "typescript-eslint": "^7.12.0"
   },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": ">= 5",
-    "eslint": ">= 8",
-    "eslint-plugin-css-modules": ">= 2",
-    "eslint-plugin-import": ">= 2",
-    "eslint-plugin-jsdoc": ">= 44",
-    "eslint-plugin-react": ">= 7",
-    "eslint-plugin-react-hooks": ">= 4",
-    "eslint-plugin-simple-import-sort": ">= 10"
+    "eslint": ">= 9"
   },
   "peerDependenciesMeta": {
     "eslint-plugin-css-modules": {
