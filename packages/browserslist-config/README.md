@@ -21,10 +21,10 @@ Add the following to your `package.json`:
 
 ## Browser Support
 
-See [browserslist.dev](https://browserslist.dev/?q=ZGVmYXVsdHMgYW5kID4gMSUsIG5vdCBpZSAxMSwgbm90IG9wX21pbmkgYWxs) for the latest browsers covered by our syntax.
+See [browserslist.dev](https://browserslist.dev/?q=ZGVmYXVsdHMgYW5kID4gMSUsIGxhc3QgMiBDaHJvbWUgdmVyc2lvbnMsIG5vdCBkZWFkLCBub3Qgb3BfbWluaSBhbGw%3D) for the latest browsers covered by our syntax.
 
 We use the following browserslist query:
 
 ```text
-defaults and > 1%, not ie 11, not op_mini all
+defaults and > 1%, last 2 Chrome versions, not dead, not op_mini all
 ```
