@@ -1,6 +1,6 @@
 {
   "name": "@pandell/browserslist-config",
-  "version": "4.0.4",
+  "version": "4.1.0",
   "description": "Pandell browserslist shared config",
   "keywords": [
     "browserslist",
