@@ -5,9 +5,8 @@ import type { TSESLint } from "@typescript-eslint/utils";
 import esLintImportX from "eslint-plugin-import-x";
 import esLintJsDoc from "eslint-plugin-jsdoc";
 import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
-import type { ConfigWithExtends } from "typescript-eslint";
-import { config as esLintTsConfig, configs as esLintTsConfigs } from "typescript-eslint";
 
+// import type { ConfigWithExtends } from "typescript-eslint";
 // export type { TSESLint } from "@typescript-eslint/utils";
 // export type {
 //   Config as EsLintTsConfig,
@@ -29,7 +28,7 @@ import { config as esLintTsConfig, configs as esLintTsConfigs } from "typescript
 const esLintJsRecommendedConfig = {
   ...esLintJs.configs.recommended,
   name: "@eslint/js/recommended",
-} satisfies ConfigWithExtends;
+} satisfies TSESLint.FlatConfig.Config;
 
 /**
  * As of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config
@@ -39,7 +38,7 @@ const importXRecommendedConfig = {
   name: "eslint-plugin-import-x/recommended",
   plugins: { "import-x": esLintImportX },
   rules: esLintImportX.configs.recommended.rules,
-} satisfies ConfigWithExtends;
+} satisfies TSESLint.FlatConfig.Config;
 
 /**
  * As of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config
@@ -56,7 +55,7 @@ const importXTypeScriptConfig = {
       node: true,
     },
   },
-} satisfies ConfigWithExtends;
+} satisfies TSESLint.FlatConfig.Config;
 
 /**
  * As of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name.
@@ -65,7 +64,7 @@ const importXTypeScriptConfig = {
 const jsDocRecommendedConfig = {
   ...esLintJsDoc.configs["flat/recommended"],
   name: "eslint-plugin-jsdoc/recommended",
-} satisfies ConfigWithExtends;
+} satisfies TSESLint.FlatConfig.Config;
 
 /**
  * As of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config
@@ -74,7 +73,7 @@ const jsDocRecommendedConfig = {
 const simpleImportSortConfig = {
   name: "eslint-plugin-simple-import-sort/base",
   plugins: { "simple-import-sort": esLintSimpleImportSort },
-} satisfies ConfigWithExtends;
+} satisfies TSESLint.FlatConfig.Config;
 
 // =============================================================================
 // Pandell configurations
@@ -85,12 +84,6 @@ const simpleImportSortConfig = {
  */
 const pandellBaseConfig = {
   name: "@pandell/eslint-config/base",
-  extends: [
-    esLintJsRecommendedConfig,
-    jsDocRecommendedConfig,
-    importXRecommendedConfig,
-    simpleImportSortConfig,
-  ],
   rules: {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // "@eslint/js" rules
@@ -157,12 +150,14 @@ const pandellBaseConfig = {
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
   },
-} satisfies ConfigWithExtends;
+} satisfies TSESLint.FlatConfig.Config;
 
 /**
  * Pandell's TypeScript-specific overrides of ESLint rules.
  */
-function createPandellTypeScriptConfig(settings: PandellEsLintConfigSettings): ConfigWithExtends[] {
+async function createPandellTypeScriptConfig(
+  settings: PandellEsLintConfigSettings,
+): Promise<TSESLint.FlatConfig.ConfigArray> {
   const { typeScript = {} } = settings;
   const {
     enable: enabled = true,
@@ -176,70 +171,70 @@ function createPandellTypeScriptConfig(settings: PandellEsLintConfigSettings): C
     return [];
   }
 
+  const esLintTs = await import("typescript-eslint");
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedRules = typeChecked
-    ? esLintTsConfigs.recommendedTypeChecked
-    : esLintTsConfigs.recommended;
-  return [
-    {
-      name: `@pandell/eslint-config/typescript${typeChecked ? "-type-checked" : ""}`,
-      extends: [...recommendedRules, importXTypeScriptConfig],
-      files: resolvedFiles,
-      ...(typeChecked ? { languageOptions: { parserOptions } } : null),
-      rules: {
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // "eslint-plugin-import-x" rules
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ? esLintTs.configs.recommendedTypeChecked
+    : esLintTs.configs.recommended;
 
-        "@typescript-eslint/consistent-type-assertions": "warn",
-        "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-        "@typescript-eslint/explicit-function-return-type": [
-          "warn",
-          // be more tolerant of missing return types
-          {
-            allowExpressions: true,
-            allowTypedFunctionExpressions: true,
-            allowHigherOrderFunctions: true,
-          },
-        ],
-        "@typescript-eslint/explicit-member-accessibility": [
-          "error",
-          { accessibility: "no-public" }, // disallow "public" modifier
-        ],
-        "@typescript-eslint/naming-convention": "off", // don't enforce this
-        "@typescript-eslint/no-explicit-any": "off", // allow explicit "any" (and TS handles implicit "any")
-        "@typescript-eslint/no-require-imports": "error",
-        "no-unused-expressions": "off",
-        "@typescript-eslint/no-unused-expressions": "error", // the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
-        "@typescript-eslint/no-unused-vars": "off", // TS handles this
-        "@typescript-eslint/no-use-before-define": "off", // TS handles this for variables
-        "@typescript-eslint/no-var-requires": "off", // "no-require-imports" makes this redundant
-        "@typescript-eslint/prefer-for-of": "warn",
-        "@typescript-eslint/prefer-function-type": "warn",
-        "no-shadow": "off",
-        "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
+  return esLintTs.config({
+    name: `@pandell/eslint-config/typescript${typeChecked ? "-type-checked" : ""}`,
+    extends: [...recommendedRules, importXTypeScriptConfig],
+    files: resolvedFiles,
+    ...(typeChecked ? { languageOptions: { parserOptions } } : null),
+    rules: {
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      // "eslint-plugin-import-x" rules
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        // already checked by TypeScript compiler
-        // "no-redeclare": "off",
-        // "@typescript-eslint/no-redeclare": "error", // the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
+      "@typescript-eslint/consistent-type-assertions": "warn",
+      "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+      "@typescript-eslint/explicit-function-return-type": [
+        "warn",
+        // be more tolerant of missing return types
+        {
+          allowExpressions: true,
+          allowTypedFunctionExpressions: true,
+          allowHigherOrderFunctions: true,
+        },
+      ],
+      "@typescript-eslint/explicit-member-accessibility": [
+        "error",
+        { accessibility: "no-public" }, // disallow "public" modifier
+      ],
+      "@typescript-eslint/naming-convention": "off", // don't enforce this
+      "@typescript-eslint/no-explicit-any": "off", // allow explicit "any" (and TS handles implicit "any")
+      "@typescript-eslint/no-require-imports": "error",
+      "no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-expressions": "error", // the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
+      "@typescript-eslint/no-unused-vars": "off", // TS handles this
+      "@typescript-eslint/no-use-before-define": "off", // TS handles this for variables
+      "@typescript-eslint/no-var-requires": "off", // "no-require-imports" makes this redundant
+      "@typescript-eslint/prefer-for-of": "warn",
+      "@typescript-eslint/prefer-function-type": "warn",
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
 
-        ...(typeChecked
-          ? {
-              "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
-              "@typescript-eslint/prefer-readonly": "warn",
-              "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
-            }
-          : null),
+      // already checked by TypeScript compiler
+      // "no-redeclare": "off",
+      // "@typescript-eslint/no-redeclare": "error", // the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
 
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // "eslint-plugin-import-x" rules
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      ...(typeChecked
+        ? {
+            "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
+            "@typescript-eslint/prefer-readonly": "warn",
+            "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
+          }
+        : null),
 
-        "import-x/namespace": "error",
-        "import-x/no-deprecated": "warn",
-      },
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      // "eslint-plugin-import-x" rules
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      "import-x/namespace": "error",
+      "import-x/no-deprecated": "warn",
     },
-  ] satisfies ConfigWithExtends[];
+  });
 }
 
 /**
@@ -247,7 +242,7 @@ function createPandellTypeScriptConfig(settings: PandellEsLintConfigSettings): C
  */
 async function createPandellReactConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<ConfigWithExtends[]> {
+): Promise<TSESLint.FlatConfig.ConfigArray> {
   const { react = {} } = settings;
   const { enable: enabled = true } = react;
 
@@ -281,7 +276,7 @@ export interface PandellEsLintConfigSettings {
    * List of extra configuration layers to append to the end of ESLint configuration
    * sequence returned by {@link createPandellEsLintConfig}.
    */
-  readonly extraConfigs?: ReadonlyArray<ConfigWithExtends>;
+  readonly extraConfigs?: ReadonlyArray<TSESLint.FlatConfig.Config>;
 
   /**
    * List of ESLint global ignores.
@@ -379,11 +374,15 @@ export async function createPandellEsLintConfig(
 ): TSESLint.FlatConfig.ConfigPromise {
   const { extraConfigs = [], ignores = defaultGlobalIgnores } = settings;
 
-  return esLintTsConfig(
+  return [
     { name: "@pandell/eslint-config/ignores", ignores },
+    esLintJsRecommendedConfig,
+    jsDocRecommendedConfig,
+    importXRecommendedConfig,
+    simpleImportSortConfig,
     pandellBaseConfig,
-    ...createPandellTypeScriptConfig(settings),
+    ...(await createPandellTypeScriptConfig(settings)),
     ...(await createPandellReactConfig(settings)),
     ...extraConfigs,
-  );
+  ];
 }
