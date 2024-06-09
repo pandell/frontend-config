@@ -1,7 +1,5 @@
 // spell-checker:words tses
 
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
 import esLintImportX from "eslint-plugin-import-x";
@@ -10,26 +8,25 @@ import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
 import type { ConfigWithExtends } from "typescript-eslint";
 import { config as esLintTsConfig, configs as esLintTsConfigs } from "typescript-eslint";
 
-export type { TSESLint } from "@typescript-eslint/utils";
-export {
-  Config as EsLintTsConfig,
-  config as esLintTsConfig,
-  configs as esLintTsConfigs,
-  ConfigWithExtends as EsLintTsConfigWithExtends,
-  parser as esLintTsParser,
-  plugin as esLintTsPlugin,
-} from "typescript-eslint";
+// export type { TSESLint } from "@typescript-eslint/utils";
+// export type {
+//   Config as EsLintTsConfig,
+//   config as esLintTsConfig,
+//   configs as esLintTsConfigs,
+//   ConfigWithExtends as EsLintTsConfigWithExtends,
+//   parser as esLintTsParser,
+//   plugin as esLintTsPlugin,
+// } from "typescript-eslint";
 
-/**
- * Array of globs that match TypeScript files (including TSX) at any depth.
- */
-export const typeScriptFileGlobs = ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"];
+// =============================================================================
+// 3rd party configurations & plugins
+// =============================================================================
 
 /**
  * As of 2024-06-05, "@eslint/js" recommended config does not include a name.
  * This config object adds a name.
  */
-export const esLintConfigJsRecommended = {
+const esLintJsRecommendedConfig = {
   ...esLintJs.configs.recommended,
   name: "@eslint/js/recommended",
 } satisfies ConfigWithExtends;
@@ -38,7 +35,7 @@ export const esLintConfigJsRecommended = {
  * As of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config
  * compatible, so adapt recommended config to the correct layout.
  */
-export const esLintConfigImportXRecommended = {
+const importXRecommendedConfig = {
   name: "eslint-plugin-import-x/recommended",
   plugins: { "import-x": esLintImportX },
   rules: esLintImportX.configs.recommended.rules,
@@ -49,7 +46,7 @@ export const esLintConfigImportXRecommended = {
  * compatible, so adapt TypeScript config as recommended in documentation
  * https://github.com/un-ts/eslint-plugin-import-x#typescript.
  */
-export const esLintConfigImportXTypeScript = {
+const importXTypeScriptConfig = {
   ...esLintImportX.configs.typescript,
   name: "eslint-plugin-import-x/typescript",
   settings: {
@@ -65,7 +62,7 @@ export const esLintConfigImportXTypeScript = {
  * As of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name.
  * This config object adds a name.
  */
-export const esLintConfigJsDocRecommended = {
+const jsDocRecommendedConfig = {
   ...esLintJsDoc.configs["flat/recommended"],
   name: "eslint-plugin-jsdoc/recommended",
 } satisfies ConfigWithExtends;
@@ -74,21 +71,25 @@ export const esLintConfigJsDocRecommended = {
  * As of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config
  * compatible, so adapt the plugin to the correct layout.
  */
-export const esLintConfigSimpleImportSort = {
+const simpleImportSortConfig = {
   name: "eslint-plugin-simple-import-sort/base",
   plugins: { "simple-import-sort": esLintSimpleImportSort },
 } satisfies ConfigWithExtends;
 
+// =============================================================================
+// Pandell configurations
+// =============================================================================
+
 /**
  * Pandell's non-language/framework-specific overrides of ESLint rules.
  */
-export const esLintConfigPandellBase = {
+const pandellBaseConfig = {
   name: "@pandell/eslint-config/base",
   extends: [
-    esLintConfigJsRecommended,
-    esLintConfigJsDocRecommended,
-    esLintConfigImportXRecommended,
-    esLintConfigSimpleImportSort,
+    esLintJsRecommendedConfig,
+    jsDocRecommendedConfig,
+    importXRecommendedConfig,
+    simpleImportSortConfig,
   ],
   rules: {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -161,129 +162,228 @@ export const esLintConfigPandellBase = {
 /**
  * Pandell's TypeScript-specific overrides of ESLint rules.
  */
-export function createEsLintConfigPandellTypeScript() {
-  return {
-    name: "@pandell/eslint-config/typescript-type-checked",
-    extends: [esLintConfigImportXTypeScript, ...esLintTsConfigs.recommendedTypeChecked],
-    files: typeScriptFileGlobs,
-    languageOptions: {
-      parserOptions: {
-        project: true,
-        // tsconfigRootDir: process.cwd(), // used by Anthony Fu https://github.com/antfu/eslint-config/blob/v2.20.0/src/configs/typescript.ts#L70, also requires import process from "node:process"; and "@types/node": "^20.14.2" in package.json
-        // tsconfigRootDir: import.meta.dirname,
+function createPandellTypeScriptConfig(settings: PandellEsLintConfigSettings): ConfigWithExtends[] {
+  const { typeScript = {} } = settings;
+  const {
+    enable: enabled = true,
+    files = defaultTypeScriptFiles,
+    preferNullishCoalescing = "off",
+    parserOptions = { project: true },
+    typeChecked = true,
+  } = typeScript;
+
+  if (!enabled) {
+    return [];
+  }
+
+  const resolvedFiles = files === "do not set" ? undefined : files;
+  const recommendedRules = typeChecked
+    ? esLintTsConfigs.recommendedTypeChecked
+    : esLintTsConfigs.recommended;
+  return [
+    {
+      name: `@pandell/eslint-config/typescript${typeChecked ? "-type-checked" : ""}`,
+      extends: [...recommendedRules, importXTypeScriptConfig],
+      files: resolvedFiles,
+      ...(typeChecked ? { languageOptions: { parserOptions } } : null),
+      rules: {
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // "eslint-plugin-import-x" rules
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        "@typescript-eslint/consistent-type-assertions": "warn",
+        "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+        "@typescript-eslint/explicit-function-return-type": [
+          "warn",
+          // be more tolerant of missing return types
+          {
+            allowExpressions: true,
+            allowTypedFunctionExpressions: true,
+            allowHigherOrderFunctions: true,
+          },
+        ],
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          { accessibility: "no-public" }, // disallow "public" modifier
+        ],
+        "@typescript-eslint/naming-convention": "off", // don't enforce this
+        "@typescript-eslint/no-explicit-any": "off", // allow explicit "any" (and TS handles implicit "any")
+        "@typescript-eslint/no-require-imports": "error",
+        "no-unused-expressions": "off",
+        "@typescript-eslint/no-unused-expressions": "error", // the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
+        "@typescript-eslint/no-unused-vars": "off", // TS handles this
+        "@typescript-eslint/no-use-before-define": "off", // TS handles this for variables
+        "@typescript-eslint/no-var-requires": "off", // "no-require-imports" makes this redundant
+        "@typescript-eslint/prefer-for-of": "warn",
+        "@typescript-eslint/prefer-function-type": "warn",
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
+
+        // already checked by TypeScript compiler
+        // "no-redeclare": "off",
+        // "@typescript-eslint/no-redeclare": "error", // the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
+
+        ...(typeChecked
+          ? {
+              "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
+              "@typescript-eslint/prefer-readonly": "warn",
+              "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
+            }
+          : null),
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // "eslint-plugin-import-x" rules
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        "import-x/namespace": "error",
+        "import-x/no-deprecated": "warn",
       },
     },
-    rules: {
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // "eslint-plugin-import-x" rules
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      "@typescript-eslint/consistent-type-assertions": "warn",
-      "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-      "@typescript-eslint/explicit-function-return-type": [
-        "warn",
-        // be more tolerant of missing return types
-        {
-          allowExpressions: true,
-          allowTypedFunctionExpressions: true,
-          allowHigherOrderFunctions: true,
-        },
-      ],
-      "@typescript-eslint/explicit-member-accessibility": ["error", { accessibility: "no-public" }], // disallow "public" modifier
-      "@typescript-eslint/naming-convention": "off", // don't enforce this
-      "@typescript-eslint/no-explicit-any": "off", // allow explicit "any" (and TS handles implicit "any")
-      "@typescript-eslint/no-require-imports": "error",
-      "no-unused-expressions": "off",
-      "@typescript-eslint/no-unused-expressions": "error", // the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
-      "@typescript-eslint/no-unused-vars": "off", // TS handles this
-      "@typescript-eslint/no-use-before-define": "off", // TS handles this for variables
-      "@typescript-eslint/no-var-requires": "off", // "no-require-imports" makes this redundant
-      "@typescript-eslint/prefer-for-of": "warn",
-      "@typescript-eslint/prefer-function-type": "warn",
-      "@typescript-eslint/prefer-readonly": "warn", // (typed)
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
-      "@typescript-eslint/unbound-method": "off", // (typed) seems to be more annoying than helpful
-
-      // already checked by TypeScript compiler
-      // "no-redeclare": "off",
-      // "@typescript-eslint/no-redeclare": "error", // the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
-
-      // controversial rule that prevents some truthy/falsy-based patterns
-      // "@typescript-eslint/prefer-nullish-coalescing": "warn", // (typed)
-
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // "eslint-plugin-import-x" rules
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      "import-x/namespace": "error",
-      "import-x/no-deprecated": "warn",
-    },
-  } satisfies ConfigWithExtends;
+  ] satisfies ConfigWithExtends[];
 }
 
 /**
- * TODO
+ * Pandell's React-specific overrides of ESLint rules.
  */
-export function createEsLintConfigPandellTypeScriptTypeChecked(
-  options: PandellEsLintConfigOptions,
-) {
-  const { preferNullishCoalescing = "off" } = options;
-  return {
-    name: "@pandell/eslint-config/typescript-type-checked",
-    extends: [
-      esLintTsConfigs.recommendedTypeCheckedOnly[
-        esLintTsConfigs.recommendedTypeCheckedOnly.length - 1
-      ],
-      esLintConfigImportXTypeScript,
-    ],
-    files: typeScriptFileGlobs,
-    // languageOptions: {
-    //   parserOptions: {
-    //     project: true,
-    //     // tsconfigRootDir: process.cwd(), // used by Anthony Fu https://github.com/antfu/eslint-config/blob/v2.20.0/src/configs/typescript.ts#L70, also requires import process from "node:process"; and "@types/node": "^20.14.2" in package.json
-    //     // tsconfigRootDir: import.meta.dirname,
-    //   },
-    // },
-    rules: {
-      "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing, // (typed)
-      "@typescript-eslint/prefer-readonly": "warn", // (typed)
-      "@typescript-eslint/unbound-method": "off", // (typed) seems to be more annoying than helpful
-    },
-  } satisfies ConfigWithExtends;
+async function createPandellReactConfig(
+  settings: PandellEsLintConfigSettings,
+): Promise<ConfigWithExtends[]> {
+  const { react = {} } = settings;
+  const { enable: enabled = true } = react;
+
+  if (!enabled) {
+    return [];
+  }
+
+  const reactRoot = (await import("@eslint/js")).default;
+  return reactRoot instanceof Object ? [] : []; // silence TS/ESLint complaints for now
 }
 
+// =============================================================================
+// Pandell TypeScript configuration
+// =============================================================================
+
 /**
- * TODO
+ * Files and directories to be ignored by ESLint in Pandell projects.
  */
-export interface PandellEsLintConfigOptions {
+export const defaultGlobalIgnores = [".yarn", "**/dist"];
+
+/**
+ * Files to which TypeScript rules should apply in Pandell projects.
+ */
+export const defaultTypeScriptFiles = ["**/*.ts", "**/*.tsx"];
+
+/**
+ * Settings that control behavior of {@link createPandellEsLintConfig}.
+ */
+export interface PandellEsLintConfigSettings {
   /**
-   * TODO
+   * List of extra configuration layers to append to the end of ESLint configuration
+   * sequence returned by {@link createPandellEsLintConfig}.
    */
-  readonly extraConfigs?: ConfigWithExtends[];
+  readonly extraConfigs?: ReadonlyArray<ConfigWithExtends>;
 
   /**
-   * TODO
+   * List of ESLint global ignores.
    *
-   * @default "off"
+   * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+   * "Patterns specified in files and ignores use minimatch syntax and are evaluated
+   * relative to the location of the eslint.config.js file."
+   *
+   * @default defaultGlobalIgnores
    */
-  readonly preferNullishCoalescing?: TSESLint.FlatConfig.RuleLevel;
+  readonly ignores?: TSESLint.FlatConfig.Config["ignores"];
+
+  /**
+   * Settings for React ESLint configuration layers (opt in, not enabled by default).
+   */
+  readonly react?: {
+    /**
+     * Enable React ESLint configuration layers. When false (default), final ESLint
+     * configuration will not include React layers at all.
+     *
+     * @default false
+     */
+    readonly enable?: boolean;
+  };
+
+  /**
+   * Settings for TypeScript ESLint configuration layers.
+   */
+  readonly typeScript?: {
+    /**
+     * Enable TypeScript ESLint configuration layers. When false, final ESLint
+     * configuration will not include TypeScript layers at all.
+     *
+     * @default true
+     */
+    readonly enable?: boolean;
+
+    /**
+     * List of files to apply TypeScript configuration layers to.
+     *
+     * "do not set" indicates "files" property will not be set, i.e. the configuration
+     * layers will apply to all files matched by ESLint.
+     *
+     * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+     * "Patterns specified in files and ignores use minimatch syntax and are evaluated
+     * relative to the location of the eslint.config.js file."
+     *
+     * @default typeScriptFileGlobs
+     */
+    readonly files?: "do not set" | TSESLint.FlatConfig.Config["files"];
+
+    /**
+     * Custom entry for "@typescript-eslint/prefer-nullish-coalescing" rule.
+     *
+     * @see https://typescript-eslint.io/rules/prefer-nullish-coalescing/
+     *
+     * @default "off"
+     */
+    readonly preferNullishCoalescing?: TSESLint.FlatConfig.RuleEntry;
+
+    /**
+     * Custom value for "parserOptions" of "typescript-eslint", @see https://typescript-eslint.io/packages/parser/#configuration.
+     *
+     * Anthony Fu configuration https://github.com/antfu/eslint-config/blob/v2.20.0/src/configs/typescript.ts#L70
+     * uses "process.cwd()" for "parserOptions.tsconfigRootDir", but this makes configuration
+     * behavior dependent on current directory which can change dynamically.
+     * Note that using "process" requires "import process from 'node:process';"
+     * and addition of "@types/node" to "package.json".
+     *
+     * "typescript-eslint" documentation https://typescript-eslint.io/getting-started/typed-linting/
+     * recommends using "import.meta.dirname" for "parserOptions.tsconfigRootDir",
+     * but this doesn't work in a shared library, as it would set the root directory
+     * to somewhere in "node_modules/...".
+     *
+     * @default { project: true }
+     */
+    readonly parserOptions?: TSESLint.ParserOptions;
+
+    /**
+     * Should the TypeScript configuration include type-checked rules?
+     * This setting requires project to be using "tsconfig.json" and might reduce
+     * speed of linting the project, but is strongly recommended for all Pandell projects.
+     *
+     * @default true
+     */
+    readonly typeChecked?: boolean;
+  };
 }
 
 /**
- * TODO
+ * Creates Pandell ESLint configuration, applying specified customizations ("settings").
  */
-// eslint-disable-next-line @typescript-eslint/require-await
 export async function createPandellEsLintConfig(
-  options: PandellEsLintConfigOptions,
+  settings: PandellEsLintConfigSettings = {},
 ): TSESLint.FlatConfig.ConfigPromise {
-  const { extraConfigs = [] } = options;
+  const { extraConfigs = [], ignores = defaultGlobalIgnores } = settings;
 
   return esLintTsConfig(
-    { name: "@pandell/eslint-config/ignores", ignores: [".yarn", "**/dist"] },
-    esLintConfigPandellBase,
-    createEsLintConfigPandellTypeScript(),
-    // { ...esLintTsConfigs.recommendedTypeCheckedOnly[2], files: typeScriptFileGlobs },
+    { name: "@pandell/eslint-config/ignores", ignores },
+    pandellBaseConfig,
+    ...createPandellTypeScriptConfig(settings),
+    ...(await createPandellReactConfig(settings)),
     ...extraConfigs,
   );
 }
