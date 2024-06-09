@@ -2,6 +2,7 @@
 
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
+import type { ESLint, Linter } from "eslint";
 import esLintImportX from "eslint-plugin-import-x";
 import esLintJsDoc from "eslint-plugin-jsdoc";
 import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
@@ -17,7 +18,7 @@ import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
 const esLintJsRecommendedConfig = {
   ...esLintJs.configs.recommended,
   name: "@eslint-js/recommended",
-} satisfies TSESLint.FlatConfig.Config;
+} satisfies Linter.FlatConfig;
 
 /**
  * As of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config
@@ -25,9 +26,9 @@ const esLintJsRecommendedConfig = {
  */
 const importXRecommendedConfig = {
   name: "eslint-plugin-import-x/recommended",
-  plugins: { "import-x": esLintImportX },
+  plugins: { "import-x": esLintImportX as object as ESLint.Plugin }, // 2024-06-10, milang: shape of "eslint-plugin-import-x@0.5.1" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
   rules: esLintImportX.configs.recommended.rules,
-} satisfies TSESLint.FlatConfig.Config;
+} satisfies Linter.FlatConfig;
 
 /**
  * As of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config
@@ -44,7 +45,7 @@ const importXTypeScriptConfig = {
       node: true,
     },
   },
-} satisfies TSESLint.FlatConfig.Config;
+} satisfies Linter.FlatConfig;
 
 /**
  * As of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name.
@@ -53,7 +54,7 @@ const importXTypeScriptConfig = {
 const jsDocRecommendedErrorConfig = {
   ...esLintJsDoc.configs["flat/recommended-error"],
   name: "eslint-plugin-jsdoc/recommended-error",
-} satisfies TSESLint.FlatConfig.Config;
+} satisfies Linter.FlatConfig;
 
 /**
  * As of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name.
@@ -62,7 +63,7 @@ const jsDocRecommendedErrorConfig = {
 const jsDocRecommendedTypeScriptErrorConfig = {
   ...esLintJsDoc.configs["flat/recommended-typescript-error"],
   name: "eslint-plugin-jsdoc/recommended-typescript-error",
-} satisfies TSESLint.FlatConfig.Config;
+} satisfies Linter.FlatConfig;
 
 /**
  * As of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config
@@ -71,7 +72,7 @@ const jsDocRecommendedTypeScriptErrorConfig = {
 const simpleImportSortConfig = {
   name: "eslint-plugin-simple-import-sort/base",
   plugins: { "simple-import-sort": esLintSimpleImportSort },
-} satisfies TSESLint.FlatConfig.Config;
+} satisfies Linter.FlatConfig;
 
 // =============================================================================
 // Pandell configurations
@@ -93,14 +94,14 @@ const pandellJsDocConfig = {
     "jsdoc/require-returns": "off",
     "jsdoc/tag-lines": ["error", "any", { "startLines": 1 }],
   },
-} satisfies TSESLint.FlatConfig.Config;
+} satisfies Linter.FlatConfig;
 
 /**
  * Pandell's non-language/framework-specific overrides of ESLint rules.
  */
 function createPandellBaseConfig(
   settings: PandellEsLintConfigSettings,
-): TSESLint.FlatConfig.ConfigArray {
+): ReadonlyArray<Linter.FlatConfig> {
   const { funcStyle = ["error", "declaration"] } = settings;
 
   return [
@@ -168,7 +169,7 @@ function createPandellBaseConfig(
         "simple-import-sort/imports": "warn",
         "simple-import-sort/exports": "warn",
       },
-    } satisfies TSESLint.FlatConfig.Config,
+    },
   ];
 }
 
@@ -177,10 +178,10 @@ function createPandellBaseConfig(
  */
 async function createPandellTypeScriptConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<TSESLint.FlatConfig.ConfigArray> {
+): Promise<ReadonlyArray<Linter.FlatConfig>> {
   const { typeScript = {} } = settings;
   const {
-    enable: enabled = true,
+    enabled = true,
     files = defaultTypeScriptFiles,
     noExplicitAny = "error",
     preferNullishCoalescing = "off",
@@ -194,15 +195,15 @@ async function createPandellTypeScriptConfig(
 
   const esLintTs = await import("typescript-eslint");
   const resolvedFiles = files === "do not set" ? undefined : files;
-  const recommendedRules = typeChecked
+  const recommendedConfig = typeChecked
     ? esLintTs.configs.recommendedTypeChecked
     : esLintTs.configs.recommended;
 
   return esLintTs.config({
     name: `@pandell-eslint-config/typescript${typeChecked ? "-type-checked" : ""}`,
     extends: [
-      // prettier-ignore -- do not single-line array entries
-      ...recommendedRules,
+      // do not collapse array entries to a single-line
+      ...recommendedConfig,
       importXTypeScriptConfig,
       jsDocRecommendedTypeScriptErrorConfig,
     ],
@@ -260,7 +261,7 @@ async function createPandellTypeScriptConfig(
       "import-x/namespace": "error",
       "import-x/no-deprecated": "warn",
     },
-  });
+  }) as ReadonlyArray<object> as ReadonlyArray<Linter.FlatConfig>; // 2024-06-10, milang: "(typescript-eslint@7.12.0)/TSESLint.FlatConfig.ConfigArray" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
 }
 
 /**
@@ -268,16 +269,56 @@ async function createPandellTypeScriptConfig(
  */
 async function createPandellReactConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<TSESLint.FlatConfig.ConfigArray> {
-  const { react = {} } = settings;
-  const { enable: enabled = true } = react;
+): Promise<ReadonlyArray<Linter.FlatConfig>> {
+  const { react = {}, typeScript = {} } = settings;
+  const { enabled = false, files = defaultTypeScriptFiles, typeChecked = true } = react;
+  const { enabled: enabledTypeScript = true, typeChecked: typeCheckedTypeScript = true } =
+    typeScript;
 
   if (!enabled) {
     return [];
   }
+  if (typeChecked && (!enabledTypeScript || !typeCheckedTypeScript)) {
+    throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
+  }
 
-  const reactRoot = (await import("@eslint/js")).default;
-  return reactRoot instanceof Object ? [] : []; // silence TS/ESLint complaints for now
+  const reactPlugin = (await import("@eslint-react/eslint-plugin")).default;
+  const hooksPlugin = await import("eslint-plugin-react-hooks");
+  const refreshPlugin = await import("eslint-plugin-react-refresh");
+  const resolvedFiles = files === "do not set" ? undefined : files;
+  const recommendedConfig = typeChecked
+    ? reactPlugin.configs["recommended-type-checked"]
+    : reactPlugin.configs.recommended;
+
+  return [
+    {
+      ...recommendedConfig,
+      name: `@eslint-react-eslint-plugin/recommended${typeChecked ? "-type-checked" : ""}`,
+      files: resolvedFiles,
+    },
+    {
+      name: "eslint-plugin-react-hooks/recommended",
+      plugins: { "react-hooks": hooksPlugin },
+      files: resolvedFiles,
+      rules: hooksPlugin.configs.recommended.rules,
+    },
+    {
+      name: "eslint-plugin-react-refresh/recommended",
+      plugins: { "react-refresh": refreshPlugin },
+      files: resolvedFiles,
+      rules: { "react-refresh/only-export-components": "warn" },
+    },
+    {
+      name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
+      files: resolvedFiles,
+      rules: {
+        "react-hooks/exhaustive-deps": [
+          "warn",
+          { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
+        ],
+      },
+    },
+  ];
 }
 
 // =============================================================================
@@ -302,7 +343,7 @@ export interface PandellEsLintConfigSettings {
    * List of extra configuration layers to append to the end of ESLint configuration
    * sequence returned by {@link createPandellEsLintConfig}.
    */
-  readonly extraConfigs?: ReadonlyArray<TSESLint.FlatConfig.Config>;
+  readonly extraConfigs?: ReadonlyArray<Linter.FlatConfig>;
 
   /**
    * Enforce the consistent use of either function declarations (default)
@@ -312,7 +353,7 @@ export interface PandellEsLintConfigSettings {
    *
    * @default ["error","declaration"]
    */
-  readonly funcStyle?: TSESLint.FlatConfig.RuleEntry;
+  readonly funcStyle?: Linter.RuleEntry;
 
   /**
    * List of ESLint global ignores.
@@ -323,7 +364,7 @@ export interface PandellEsLintConfigSettings {
    *
    * @default defaultGlobalIgnores
    */
-  readonly ignores?: TSESLint.FlatConfig.Config["ignores"];
+  readonly ignores?: Linter.FlatConfig["ignores"];
 
   /**
    * Settings for React ESLint configuration layers (opt in, not enabled by default).
@@ -335,20 +376,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default false
      */
-    readonly enable?: boolean;
-  };
-
-  /**
-   * Settings for TypeScript ESLint configuration layers.
-   */
-  readonly typeScript?: {
-    /**
-     * Enable TypeScript ESLint configuration layers. When false, final ESLint
-     * configuration will not include TypeScript layers at all.
-     *
-     * @default true
-     */
-    readonly enable?: boolean;
+    readonly enabled?: boolean;
 
     /**
      * List of files to apply TypeScript configuration layers to.
@@ -362,7 +390,43 @@ export interface PandellEsLintConfigSettings {
      *
      * @default typeScriptFileGlobs
      */
-    readonly files?: "do not set" | TSESLint.FlatConfig.Config["files"];
+    readonly files?: "do not set" | Linter.FlatConfig["files"];
+
+    /**
+     * Should the React configuration include type-checked rules?
+     * This setting requires TypeScript configuration to be enabled and also
+     * include type-checked rules.
+     *
+     * @default true
+     */
+    readonly typeChecked?: boolean;
+  };
+
+  /**
+   * Settings for TypeScript ESLint configuration layers.
+   */
+  readonly typeScript?: {
+    /**
+     * Enable TypeScript ESLint configuration layers. When false, final ESLint
+     * configuration will not include TypeScript layers at all.
+     *
+     * @default true
+     */
+    readonly enabled?: boolean;
+
+    /**
+     * List of files to apply TypeScript configuration layers to.
+     *
+     * "do not set" indicates "files" property will not be set, i.e. the configuration
+     * layers will apply to all files matched by ESLint.
+     *
+     * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+     * "Patterns specified in files and ignores use minimatch syntax and are evaluated
+     * relative to the location of the eslint.config.js file."
+     *
+     * @default typeScriptFileGlobs
+     */
+    readonly files?: "do not set" | Linter.FlatConfig["files"];
 
     /**
      * Are explicit "any" type annotations allowed in TypeScript? ("give up on type-checking")
@@ -371,7 +435,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default "error"
      */
-    readonly noExplicitAny?: TSESLint.FlatConfig.RuleEntry;
+    readonly noExplicitAny?: Linter.RuleEntry;
 
     /**
      * Custom entry for "@typescript-eslint/prefer-nullish-coalescing" rule.
@@ -380,7 +444,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default "off"
      */
-    readonly preferNullishCoalescing?: TSESLint.FlatConfig.RuleEntry;
+    readonly preferNullishCoalescing?: Linter.RuleEntry;
 
     /**
      * Custom value for "parserOptions" of "typescript-eslint", @see https://typescript-eslint.io/packages/parser/#configuration.
@@ -395,6 +459,9 @@ export interface PandellEsLintConfigSettings {
      * recommends using "import.meta.dirname" for "parserOptions.tsconfigRootDir",
      * but this doesn't work in a shared library, as it would set the root directory
      * to somewhere in "node_modules/...".
+     * Note that using "import.meta.dirname" might require additional type definition as documented in
+     * https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-9.html#support-for-importmeta,
+     * for example "interface ImportMeta { dirname: string; }".
      *
      * @default {project:true}
      */
@@ -416,7 +483,7 @@ export interface PandellEsLintConfigSettings {
  */
 export async function createPandellEsLintConfig(
   settings: PandellEsLintConfigSettings = {},
-): TSESLint.FlatConfig.ConfigPromise {
+): Promise<ReadonlyArray<Linter.FlatConfig>> {
   const { extraConfigs = [], ignores = defaultGlobalIgnores } = settings;
 
   return [
