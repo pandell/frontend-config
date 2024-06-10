@@ -11,7 +11,7 @@ delete packageJson.browserslist;
 delete packageJson.devDependencies;
 delete packageJson.scripts;
 
-const newPackageJsonString = JSON.stringify(packageJson, null, 2) + "\n";
+const newPackageJsonString = `${JSON.stringify(packageJson, null, 2)}\n`;
 if (packageJsonString !== newPackageJsonString) {
   writeFileSync(packageJsonPath, newPackageJsonString, "utf8");
   console.log("Cleaned package.json");
