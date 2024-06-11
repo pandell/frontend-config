@@ -1,4 +1,4 @@
-// spell-checker:words tses
+// spell-checker:words tses yalc
 
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
@@ -28,6 +28,9 @@ const importXRecommendedConfig = {
   name: "eslint-plugin-import-x/recommended",
   plugins: { "import-x": esLintImportX as object as ESLint.Plugin }, // 2024-06-10, milang: shape of "eslint-plugin-import-x@0.5.1" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
   rules: esLintImportX.configs.recommended.rules,
+  languageOptions: {
+    parserOptions: esLintImportX.configs.recommended.parserOptions,
+  },
 } satisfies Linter.FlatConfig;
 
 /**
@@ -38,13 +41,6 @@ const importXRecommendedConfig = {
 const importXTypeScriptConfig = {
   ...esLintImportX.configs.typescript,
   name: "eslint-plugin-import-x/typescript",
-  settings: {
-    ...esLintImportX.configs.typescript.settings,
-    "import-x/resolver": {
-      typescript: true,
-      node: true,
-    },
-  },
 } satisfies Linter.FlatConfig;
 
 /**
@@ -147,20 +143,36 @@ function createPandellBaseConfig(
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         "import-x/first": "error",
-        "import-x/newline-after-import": "error",
+        "import-x/newline-after-import": "warn",
         "import-x/no-cycle": "error",
         "import-x/no-default-export": "error",
-        "import-x/namespace": "off", // enabled in TypeScript rules because it requires a parser
-        // "import-x/no-deprecated": "warn", // moved to TypeScript rules because it requires parser
         "import-x/no-duplicates": "error",
         "import-x/no-extraneous-dependencies": "error",
         "import-x/no-mutable-exports": "error",
+        "import-x/no-named-default": "error",
         "import-x/no-self-import": "error",
-        "import-x/no-unassigned-import": ["error", { "allow": ["**/*.css"] }],
+        "import-x/no-unassigned-import": [
+          "error",
+          { "allow": ["**/*.css", "@testing-library/jest-dom"] },
+        ],
         "import-x/no-useless-path-segments": "warn",
 
         // already off in "eslint-plugin-import-x@^0.5.1"
         // "import-x/no-commonjs": "off", // handled by @typescript-eslint/no-require-imports
+
+        // 2024-06-11, milang: the following "import-x" rules require a parser.
+        // We are disabling them for now because it is very hard to configure them correctly,
+        // especially while import-x is not-yet fully flat-config compatible. The "namespace"
+        // rule is not that important anymore (we mostly use named imports now), but
+        // the "no-deprecated" rule would be nice to have in the future.
+        // The best results for the parser-dependent rules were achieved when using "eslint-import-resolver-typescript"
+        // (https://github.com/import-js/eslint-import-resolver-typescript), however
+        // it has a peer dependency on "eslint-plugin-import", not "eslint-plugin-import-x",
+        // plus "settings: { 'import-x/resolver': 'eslint-import-resolver-typescript' }".
+        // I am not sure why the documentation-recommended "settings: { 'import-x/resolver': {
+        // typescript: true, node: true }" resulted in many "parserPath or languageOptions.parser is required" errors.
+        "import-x/namespace": "off",
+        // "import-x/no-deprecated": "warn",
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // "eslint-plugin-simple-import-sort" rules
@@ -210,10 +222,6 @@ async function createPandellTypeScriptConfig(
     files: resolvedFiles,
     ...(typeChecked ? { languageOptions: { parserOptions } } : null),
     rules: {
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // "eslint-plugin-import-x" rules
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
       "@typescript-eslint/consistent-type-assertions": "warn",
       "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
       "@typescript-eslint/explicit-function-return-type": [
@@ -253,13 +261,6 @@ async function createPandellTypeScriptConfig(
             "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
           }
         : null),
-
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      // "eslint-plugin-import-x" rules
-      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-      "import-x/namespace": "error",
-      "import-x/no-deprecated": "warn",
     },
   }) as ReadonlyArray<object> as ReadonlyArray<Linter.FlatConfig>; // 2024-06-10, milang: "(typescript-eslint@7.12.0)/TSESLint.FlatConfig.ConfigArray" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
 }
@@ -312,10 +313,42 @@ async function createPandellReactConfig(
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
       rules: {
+        "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "error",
+        "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn",
+        "@eslint-react/prefer-destructuring-assignment": "off",
         "react-hooks/exhaustive-deps": [
           "warn",
           { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
         ],
+      },
+    },
+  ];
+}
+
+/**
+ * Pandell's ViteJS-specific overrides of ESLint rules.
+ */
+function createPandellViteConfig(
+  settings: PandellEsLintConfigSettings,
+): ReadonlyArray<Linter.FlatConfig> {
+  const { vite = {} } = settings;
+  const {
+    enabled = false,
+    tsConfigPath = "tsconfig.node.json",
+    viteConfigPath = "vite.config.ts",
+  } = vite;
+
+  if (!enabled) {
+    return [];
+  }
+
+  return [
+    {
+      name: "@pandell-eslint-config/vite",
+      files: [viteConfigPath],
+      languageOptions: { parserOptions: { project: tsConfigPath } },
+      rules: {
+        "import-x/no-default-export": "off", // default export is required/expected by ViteJS, https://vitejs.dev/config/
       },
     },
   ];
@@ -328,7 +361,7 @@ async function createPandellReactConfig(
 /**
  * Files and directories that ESLint ignores in Pandell projects by default.
  */
-export const defaultGlobalIgnores = [".yarn", "**/dist"];
+export const defaultGlobalIgnores = [".yarn", ".yalc", "**/dist"];
 
 /**
  * Files to which ESLint TypeScript rules apply in Pandell projects by default.
@@ -476,6 +509,33 @@ export interface PandellEsLintConfigSettings {
      */
     readonly typeChecked?: boolean;
   };
+
+  /**
+   * Settings for ViteJS ESLint configuration layer.
+   */
+  readonly vite?: {
+    /**
+     * Enable ViteJS ESLint configuration layer. When false (default), final ESLint
+     * configuration will not include ViteJS layer at all.
+     *
+     * @default false
+     */
+    readonly enabled?: boolean;
+
+    /**
+     * Sets the TSConfig file to set as "project" for ESLint TypeScript parser.
+     *
+     * @default "tsconfig.node.json"
+     */
+    readonly tsConfigPath?: string;
+
+    /**
+     * Sets the Vite configuration file path (used to set "files" for the configuration layer).
+     *
+     * @default "vite.config.ts"
+     */
+    readonly viteConfigPath?: string;
+  };
 }
 
 /**
@@ -491,6 +551,7 @@ export async function createPandellEsLintConfig(
     ...createPandellBaseConfig(settings),
     ...(await createPandellTypeScriptConfig(settings)),
     ...(await createPandellReactConfig(settings)),
+    ...createPandellViteConfig(settings),
     pandellJsDocConfig, // our jsDoc rules configuration from "createPandellBaseConfig" gets overwritten by "createPandellTypeScriptConfig", so we moved then to a separate layer that is processed last before extra configs
     ...extraConfigs,
   ];
