@@ -2,7 +2,6 @@
 
 import { createPandellEsLintConfig } from "@pandell/eslint-config";
 
-// eslint-disable-next-line import-x/no-default-export -- default export is required/expected by ESLint
 export default createPandellEsLintConfig({
   extraConfigs: [
     {

@@ -347,9 +347,6 @@ function createPandellViteConfig(
       name: "@pandell-eslint-config/vite",
       files: [viteConfigPath],
       languageOptions: { parserOptions: { project: tsConfigPath } },
-      rules: {
-        "import-x/no-default-export": "off", // default export is required/expected by ViteJS, https://vitejs.dev/config/
-      },
     },
   ];
 }
@@ -552,6 +549,13 @@ export async function createPandellEsLintConfig(
     ...(await createPandellTypeScriptConfig(settings)),
     ...(await createPandellReactConfig(settings)),
     ...createPandellViteConfig(settings),
+    {
+      name: "@pandell-eslint-config/root-config-files",
+      files: ["*.config.{js,mjs,cjs,ts,mts,cts}"],
+      rules: {
+        "import-x/no-default-export": "off",
+      },
+    },
     pandellJsDocConfig, // our jsDoc rules configuration from "createPandellBaseConfig" gets overwritten by "createPandellTypeScriptConfig", so we moved then to a separate layer that is processed last before extra configs
     ...extraConfigs,
   ];
