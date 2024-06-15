@@ -172,6 +172,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint/compat@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@eslint/compat@npm:1.1.0"
+  checksum: 10c0/0aca1990c9303c35f9f0a5d9a9942fb5821b4ebbc4e663336dec7223ae73d22a24960cabf8ecac99176297d4ce766316bff24186bd4bbedd444b6658b8ec7a55
+  languageName: node
+  linkType: hard
+
 "@eslint/config-array@npm:^0.16.0":
   version: 0.16.0
   resolution: "@eslint/config-array@npm:0.16.0"
@@ -266,6 +273,7 @@ __metadata:
   resolution: "@pandell/eslint-config@workspace:packages/eslint-config"
   dependencies:
     "@eslint-react/eslint-plugin": "npm:^1.5.15"
+    "@eslint/compat": "npm:^1.1.0"
     "@eslint/js": "npm:^9.5.0"
     "@types/eslint__js": "npm:^8.42.3"
     eslint: "npm:^9.5.0"

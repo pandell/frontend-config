@@ -37,7 +37,15 @@
     "typescriptreact"
   ],
   "cSpell.flagWords": ["colour"],
-  "cSpell.words": ["eslintconfig", "milang", "pandell", "parens", "stylelint", "tsbuildinfo"],
+  "cSpell.words": [
+    "compat",
+    "eslintconfig",
+    "milang",
+    "pandell",
+    "parens",
+    "stylelint",
+    "tsbuildinfo"
+  ],
 
   // html formatting (built-in VSCode formatter)
   "html.format.wrapAttributes": "preserve",

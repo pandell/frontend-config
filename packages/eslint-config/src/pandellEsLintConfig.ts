@@ -8,69 +8,6 @@ import esLintJsDoc from "eslint-plugin-jsdoc";
 import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
 
 // =============================================================================
-// 3rd party configurations & plugins
-// =============================================================================
-
-/**
- * As of 2024-06-04, "@eslint/js" recommended config does not include a name.
- * This config object adds a name.
- */
-const esLintJsRecommendedConfig = {
-  ...esLintJs.configs.recommended,
-  name: "@eslint-js/recommended",
-} satisfies Linter.FlatConfig;
-
-/**
- * As of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config
- * compatible, so adapt recommended config to the correct layout.
- */
-const importXRecommendedConfig = {
-  name: "eslint-plugin-import-x/recommended",
-  plugins: { "import-x": esLintImportX as object as ESLint.Plugin }, // 2024-06-10, milang: shape of "eslint-plugin-import-x@0.5.1" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
-  rules: esLintImportX.configs.recommended.rules,
-  languageOptions: {
-    parserOptions: esLintImportX.configs.recommended.parserOptions,
-  },
-} satisfies Linter.FlatConfig;
-
-/**
- * As of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config
- * compatible, so adapt TypeScript config as recommended in documentation
- * https://github.com/un-ts/eslint-plugin-import-x#typescript.
- */
-const importXTypeScriptConfig = {
-  ...esLintImportX.configs.typescript,
-  name: "eslint-plugin-import-x/typescript",
-} satisfies Linter.FlatConfig;
-
-/**
- * As of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name.
- * This config object adds a name.
- */
-const jsDocRecommendedErrorConfig = {
-  ...esLintJsDoc.configs["flat/recommended-error"],
-  name: "eslint-plugin-jsdoc/recommended-error",
-} satisfies Linter.FlatConfig;
-
-/**
- * As of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name.
- * This config object adds a name.
- */
-const jsDocRecommendedTypeScriptErrorConfig = {
-  ...esLintJsDoc.configs["flat/recommended-typescript-error"],
-  name: "eslint-plugin-jsdoc/recommended-typescript-error",
-} satisfies Linter.FlatConfig;
-
-/**
- * As of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config
- * compatible, so adapt the plugin to the correct layout.
- */
-const simpleImportSortConfig = {
-  name: "eslint-plugin-simple-import-sort/base",
-  plugins: { "simple-import-sort": esLintSimpleImportSort },
-} satisfies Linter.FlatConfig;
-
-// =============================================================================
 // Pandell configurations
 // =============================================================================
 
@@ -101,10 +38,26 @@ function createPandellBaseConfig(
   const { funcStyle = ["error", "declaration"] } = settings;
 
   return [
-    esLintJsRecommendedConfig,
-    importXRecommendedConfig,
-    simpleImportSortConfig,
-    jsDocRecommendedErrorConfig,
+    {
+      ...esLintJs.configs.recommended,
+      name: "@eslint-js/recommended", // as of 2024-06-04, "@eslint/js" recommended config does not include a name; this config object adds a name
+    },
+    {
+      name: "eslint-plugin-import-x/recommended", // as of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config compatible, so adapt recommended config to the correct layout
+      plugins: { "import-x": esLintImportX as object as ESLint.Plugin }, // 2024-06-10, milang: shape of "eslint-plugin-import-x@0.5.1" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
+      rules: esLintImportX.configs.recommended.rules,
+      languageOptions: {
+        parserOptions: esLintImportX.configs.recommended.parserOptions,
+      },
+    },
+    {
+      name: "eslint-plugin-simple-import-sort/base", // as of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
+      plugins: { "simple-import-sort": esLintSimpleImportSort },
+    },
+    {
+      ...esLintJsDoc.configs["flat/recommended-error"],
+      name: "eslint-plugin-jsdoc/recommended-error", // as of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name; this config object adds a name
+    },
     {
       name: "@pandell-eslint-config/base",
       rules: {
@@ -214,10 +167,15 @@ async function createPandellTypeScriptConfig(
   return esLintTs.config({
     name: `@pandell-eslint-config/typescript${typeChecked ? "-type-checked" : ""}`,
     extends: [
-      // do not collapse array entries to a single-line
       ...recommendedConfig,
-      importXTypeScriptConfig,
-      jsDocRecommendedTypeScriptErrorConfig,
+      {
+        ...esLintImportX.configs.typescript,
+        name: "eslint-plugin-import-x/typescript", // as of 2024-06-04, "eslint-plugin-import-x" config does not include a name; this config object adds a name
+      },
+      {
+        ...esLintJsDoc.configs["flat/recommended-typescript-error"],
+        name: "eslint-plugin-jsdoc/recommended-typescript-error", // as of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name; this config object adds a name
+      },
     ],
     files: resolvedFiles,
     ...(typeChecked ? { languageOptions: { parserOptions } } : null),
@@ -283,13 +241,15 @@ async function createPandellReactConfig(
     throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
   }
 
-  const reactPlugin = (await import("@eslint-react/eslint-plugin")).default;
-  const hooksPlugin = await import("eslint-plugin-react-hooks");
-  const refreshPlugin = await import("eslint-plugin-react-refresh");
+  const [reactPlugin, hooksPlugin, refreshPlugin] = await Promise.all([
+    import("@eslint-react/eslint-plugin"),
+    import("eslint-plugin-react-hooks"),
+    import("eslint-plugin-react-refresh"),
+  ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? reactPlugin.configs["recommended-type-checked"]
-    : reactPlugin.configs.recommended;
+    ? reactPlugin.default.configs["recommended-type-checked"]
+    : reactPlugin.default.configs.recommended;
 
   return [
     {
@@ -323,6 +283,41 @@ async function createPandellReactConfig(
       },
     },
   ];
+}
+
+/**
+ * Pandell's testing-specific overrides of ESLint rules.
+ */
+async function createPandellTestingConfig(
+  settings: PandellEsLintConfigSettings,
+): Promise<ReadonlyArray<Linter.FlatConfig>> {
+  const { testing = {} } = settings;
+  const { enabledTestingLibrary = false, enabledJsDom = false } = testing;
+
+  const configs = [] as Linter.FlatConfig[];
+  const [jsDom, testingLibrary, testingLibraryCompat] = await Promise.all([
+    enabledJsDom ? import("eslint-plugin-jest-dom") : null,
+    enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
+    enabledTestingLibrary ? import("@eslint/compat") : null,
+  ]);
+  if (jsDom) {
+    configs.push({
+      ...jsDom.default.configs["flat/recommended"],
+      name: "eslint-plugin-jest-dom/flat-recommended",
+    });
+  }
+  if (testingLibrary && testingLibraryCompat) {
+    configs.push({
+      name: "eslint-plugin-testing-library/react",
+      // 2024-06-15, milang: eslint-plugin-testing-library currently does not support
+      // either flat config or ESLint 9 API; we have to use an adapter for the time being, see
+      // https://github.com/testing-library/eslint-plugin-testing-library/issues/899#issuecomment-2121272355
+      plugins: { "testing-library": testingLibraryCompat.fixupPluginRules(testingLibrary.default) },
+      rules: testingLibrary.default.configs.react.rules,
+    });
+  }
+
+  return configs;
 }
 
 /**
@@ -430,6 +425,21 @@ export interface PandellEsLintConfigSettings {
      * @default true
      */
     readonly typeChecked?: boolean;
+  };
+
+  /**
+   * Settings for testing configuration layers (opt in, not enabled by default).
+   */
+  readonly testing?: {
+    /**
+     * @default false
+     */
+    enabledJsDom?: boolean;
+
+    /**
+     * @default false
+     */
+    enabledTestingLibrary?: boolean;
   };
 
   /**
@@ -548,6 +558,7 @@ export async function createPandellEsLintConfig(
     ...createPandellBaseConfig(settings),
     ...(await createPandellTypeScriptConfig(settings)),
     ...(await createPandellReactConfig(settings)),
+    ...(await createPandellTestingConfig(settings)),
     ...createPandellViteConfig(settings),
     {
       name: "@pandell-eslint-config/root-config-files",
