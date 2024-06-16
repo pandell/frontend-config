@@ -129,6 +129,7 @@ async function createPandellTypeScriptConfig(
   const { typeScript = {} } = settings;
   const {
     enabled = true,
+    extraRules,
     files = defaultTypeScriptFiles,
     noExplicitAny = "error",
     preferNullishCoalescing = "off",
@@ -199,6 +200,8 @@ async function createPandellTypeScriptConfig(
         "@typescript-eslint/prefer-readonly": "warn",
         "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
       }),
+
+      ...extraRules,
     },
   }) as ReadonlyArray<object> as ReadonlyArray<Linter.FlatConfig>; // 2024-06-10, milang: "(typescript-eslint@7.12.0)/TSESLint.FlatConfig.ConfigArray" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
 }
@@ -210,7 +213,7 @@ async function createPandellReactConfig(
   settings: PandellEsLintConfigSettings,
 ): Promise<ReadonlyArray<Linter.FlatConfig>> {
   const { react = {}, typeScript = {} } = settings;
-  const { enabled = false, files = defaultTypeScriptFiles, typeChecked = true } = react;
+  const { enabled = false, extraRules, files = defaultTypeScriptFiles, typeChecked = true } = react;
   const { enabled: enabledTypeScript = true, typeChecked: typeCheckedTypeScript = true } =
     typeScript;
 
@@ -260,6 +263,7 @@ async function createPandellReactConfig(
           "warn",
           { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
         ],
+        ...extraRules,
       },
     },
   ];
@@ -275,6 +279,7 @@ async function createPandellTestingConfig(
   const {
     enabledTestingLibrary = false,
     enabledVitest = false,
+    extraRules,
     files = defaultTestFiles,
   } = testing;
 
@@ -314,8 +319,7 @@ async function createPandellTestingConfig(
     });
   }
 
-  // we do not currently have any custom Pandell rules for testing-library
-  if (enabledVitest) {
+  if (extraRules || enabledVitest) {
     configs.push({
       name: "@pandell-eslint-config/testing",
       files: resolvedFiles,
@@ -338,6 +342,7 @@ async function createPandellTestingConfig(
           "vitest/prefer-todo": "warn",
           "vitest/require-hook": "error",
         }),
+        ...extraRules,
       },
     });
   }
@@ -434,6 +439,11 @@ export interface PandellEsLintConfigSettings {
     readonly enabled?: boolean;
 
     /**
+     * Extra rule configurations that will be appended to Pandell React configuration layer.
+     */
+    readonly extraRules?: Linter.FlatConfig["rules"];
+
+    /**
      * List of files to apply TypeScript configuration layers to.
      *
      * "do not set" indicates "files" property will not be set, i.e. the configuration
@@ -478,6 +488,11 @@ export interface PandellEsLintConfigSettings {
     enabledVitest?: boolean;
 
     /**
+     * Extra rule configurations that will be appended to Pandell testing configuration layer.
+     */
+    readonly extraRules?: Linter.FlatConfig["rules"];
+
+    /**
      * List of files to apply testing configuration layers to.
      *
      * "do not set" indicates "files" property will not be set, i.e. the configuration
@@ -503,6 +518,11 @@ export interface PandellEsLintConfigSettings {
      * @default true
      */
     readonly enabled?: boolean;
+
+    /**
+     * Extra rule configurations that will be appended to Pandell TypeScript configuration layer.
+     */
+    readonly extraRules?: Linter.FlatConfig["rules"];
 
     /**
      * List of files to apply TypeScript configuration layers to.
