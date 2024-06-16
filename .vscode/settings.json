@@ -38,13 +38,15 @@
   ],
   "cSpell.flagWords": ["colour"],
   "cSpell.words": [
+    "chriscoyier",
     "compat",
     "eslintconfig",
     "milang",
     "pandell",
     "parens",
     "stylelint",
-    "tsbuildinfo"
+    "tsbuildinfo",
+    "vitest"
   ],
 
   // html formatting (built-in VSCode formatter)

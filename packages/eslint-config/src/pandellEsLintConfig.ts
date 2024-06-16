@@ -1,4 +1,4 @@
-// spell-checker:words tses yalc
+// spell-checker:words indexeddb milang tses yalc
 
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
@@ -10,24 +10,6 @@ import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
 // =============================================================================
 // Pandell configurations
 // =============================================================================
-
-/**
- * Pandell's overrides of JSDoc rules.
- *
- * See comments in {@link createPandellEsLintConfig} for more information about
- * why JSDoc rules were extracted into a separate layer that is included last.
- */
-const pandellJsDocConfig = {
-  name: "@pandell-eslint-config/jsdoc",
-  rules: {
-    "jsdoc/check-tag-names": ["error", { "typed": true, "definedTags": ["jest-environment"] }],
-    "jsdoc/no-defaults": "off",
-    "jsdoc/require-jsdoc": "off",
-    "jsdoc/require-param": "off",
-    "jsdoc/require-returns": "off",
-    "jsdoc/tag-lines": ["error", "any", { "startLines": 1 }],
-  },
-} satisfies Linter.FlatConfig;
 
 /**
  * Pandell's non-language/framework-specific overrides of ESLint rules.
@@ -106,7 +88,7 @@ function createPandellBaseConfig(
         "import-x/no-self-import": "error",
         "import-x/no-unassigned-import": [
           "error",
-          { "allow": ["**/*.css", "@testing-library/jest-dom"] },
+          { "allow": ["**/*.css", "@testing-library/**", "fake-indexeddb/**"] },
         ],
         "import-x/no-useless-path-segments": "warn",
 
@@ -178,7 +160,7 @@ async function createPandellTypeScriptConfig(
       },
     ],
     files: resolvedFiles,
-    ...(typeChecked ? { languageOptions: { parserOptions } } : null),
+    ...(typeChecked && { languageOptions: { parserOptions } }),
     rules: {
       "@typescript-eslint/consistent-type-assertions": "warn",
       "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
@@ -212,13 +194,11 @@ async function createPandellTypeScriptConfig(
       // "no-redeclare": "off",
       // "@typescript-eslint/no-redeclare": "error", // the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
 
-      ...(typeChecked
-        ? {
-            "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
-            "@typescript-eslint/prefer-readonly": "warn",
-            "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
-          }
-        : null),
+      ...(typeChecked && {
+        "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
+        "@typescript-eslint/prefer-readonly": "warn",
+        "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
+      }),
     },
   }) as ReadonlyArray<object> as ReadonlyArray<Linter.FlatConfig>; // 2024-06-10, milang: "(typescript-eslint@7.12.0)/TSESLint.FlatConfig.ConfigArray" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
 }
@@ -292,28 +272,73 @@ async function createPandellTestingConfig(
   settings: PandellEsLintConfigSettings,
 ): Promise<ReadonlyArray<Linter.FlatConfig>> {
   const { testing = {} } = settings;
-  const { enabledTestingLibrary = false, enabledJsDom = false } = testing;
+  const {
+    enabledTestingLibrary = false,
+    enabledVitest = false,
+    files = defaultTestFiles,
+  } = testing;
 
+  const resolvedFiles = files === "do not set" ? undefined : files;
   const configs = [] as Linter.FlatConfig[];
-  const [jsDom, testingLibrary, testingLibraryCompat] = await Promise.all([
-    enabledJsDom ? import("eslint-plugin-jest-dom") : null,
+  const [jsDom, testingLibrary, testingLibraryCompat, vitest] = await Promise.all([
+    enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
     enabledTestingLibrary ? import("@eslint/compat") : null,
+    enabledVitest ? import("eslint-plugin-vitest") : null,
   ]);
-  if (jsDom) {
+  if (jsDom && testingLibrary && testingLibraryCompat) {
+    configs.push(
+      {
+        ...jsDom.default.configs["flat/recommended"],
+        name: "eslint-plugin-jest-dom/flat-recommended",
+        files: resolvedFiles,
+      },
+      {
+        name: "eslint-plugin-testing-library/react",
+        // 2024-06-15, milang: eslint-plugin-testing-library currently does not support
+        // either flat config or ESLint 9 API; we have to use an adapter for the time being, see
+        // https://github.com/testing-library/eslint-plugin-testing-library/issues/899#issuecomment-2121272355
+        plugins: {
+          "testing-library": testingLibraryCompat.fixupPluginRules(testingLibrary.default),
+        },
+        rules: testingLibrary.default.configs.react.rules,
+        files: resolvedFiles,
+      },
+    );
+  }
+  if (vitest) {
     configs.push({
-      ...jsDom.default.configs["flat/recommended"],
-      name: "eslint-plugin-jest-dom/flat-recommended",
+      ...vitest.default.configs.recommended,
+      name: "eslint-plugin-vitest/recommended",
+      files: resolvedFiles,
     });
   }
-  if (testingLibrary && testingLibraryCompat) {
+
+  // we do not currently have any custom Pandell rules for testing-library
+  if (enabledVitest) {
     configs.push({
-      name: "eslint-plugin-testing-library/react",
-      // 2024-06-15, milang: eslint-plugin-testing-library currently does not support
-      // either flat config or ESLint 9 API; we have to use an adapter for the time being, see
-      // https://github.com/testing-library/eslint-plugin-testing-library/issues/899#issuecomment-2121272355
-      plugins: { "testing-library": testingLibraryCompat.fixupPluginRules(testingLibrary.default) },
-      rules: testingLibrary.default.configs.react.rules,
+      name: "@pandell-eslint-config/testing",
+      files: resolvedFiles,
+      rules: {
+        ...(enabledVitest && {
+          "vitest/consistent-test-it": "warn",
+          "vitest/no-alias-methods": "warn",
+          "vitest/no-conditional-tests": "error",
+          "vitest/no-duplicate-hooks": "warn",
+          "vitest/no-focused-tests": "error",
+          "vitest/no-standalone-expect": "error",
+          "vitest/prefer-each": "error",
+          "vitest/prefer-hooks-in-order": "error",
+          "vitest/prefer-hooks-on-top": "error",
+          "vitest/prefer-lowercase-title": ["error", { "ignore": ["describe"] }],
+          "vitest/prefer-spy-on": "warn",
+          "vitest/prefer-strict-equal": "warn",
+          "vitest/prefer-to-be": "warn",
+          "vitest/prefer-to-contain": "warn",
+          "vitest/prefer-todo": "warn",
+          "vitest/require-hook": "error",
+        }),
+      },
     });
   }
 
@@ -358,7 +383,12 @@ export const defaultGlobalIgnores = [".yarn", ".yalc", "**/dist"];
 /**
  * Files to which ESLint TypeScript rules apply in Pandell projects by default.
  */
-export const defaultTypeScriptFiles = ["**/*.ts", "**/*.tsx"];
+export const defaultTypeScriptFiles = ["**/*.{ts,tsx}"];
+
+/**
+ * Files to which ESLint testing rules apply in Pandell projects by default.
+ */
+export const defaultTestFiles = ["**/*.test.{ts,tsx,js,jsx}"];
 
 /**
  * Settings that control behavior of {@link createPandellEsLintConfig}.
@@ -413,7 +443,7 @@ export interface PandellEsLintConfigSettings {
      * "Patterns specified in files and ignores use minimatch syntax and are evaluated
      * relative to the location of the eslint.config.js file."
      *
-     * @default typeScriptFileGlobs
+     * @default defaultTypeScriptFiles
      */
     readonly files?: "do not set" | Linter.FlatConfig["files"];
 
@@ -432,14 +462,34 @@ export interface PandellEsLintConfigSettings {
    */
   readonly testing?: {
     /**
-     * @default false
-     */
-    enabledJsDom?: boolean;
-
-    /**
+     * Enable testing-library ESLint configuration layers. When false (default), final ESLint
+     * configuration will not include testing-library layers at all.
+     *
      * @default false
      */
     enabledTestingLibrary?: boolean;
+
+    /**
+     * Enable Vitest ESLint configuration layers. When false (default), final ESLint
+     * configuration will not include Vitest layers at all.
+     *
+     * @default false
+     */
+    enabledVitest?: boolean;
+
+    /**
+     * List of files to apply testing configuration layers to.
+     *
+     * "do not set" indicates "files" property will not be set, i.e. the configuration
+     * layers will apply to all files matched by ESLint.
+     *
+     * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+     * "Patterns specified in files and ignores use minimatch syntax and are evaluated
+     * relative to the location of the eslint.config.js file."
+     *
+     * @default defaultTestFiles
+     */
+    readonly files?: "do not set" | Linter.FlatConfig["files"];
   };
 
   /**
@@ -464,7 +514,7 @@ export interface PandellEsLintConfigSettings {
      * "Patterns specified in files and ignores use minimatch syntax and are evaluated
      * relative to the location of the eslint.config.js file."
      *
-     * @default typeScriptFileGlobs
+     * @default defaultTypeScriptFiles
      */
     readonly files?: "do not set" | Linter.FlatConfig["files"];
 
@@ -567,7 +617,23 @@ export async function createPandellEsLintConfig(
         "import-x/no-default-export": "off",
       },
     },
-    pandellJsDocConfig, // our jsDoc rules configuration from "createPandellBaseConfig" gets overwritten by "createPandellTypeScriptConfig", so we moved then to a separate layer that is processed last before extra configs
+    {
+      // our jsDoc rules configuration from "createPandellBaseConfig" gets overwritten
+      // by "createPandellTypeScriptConfig", so we moved then to a separate layer that
+      // is processed last before extra configs
+      name: "@pandell-eslint-config/jsdoc",
+      rules: {
+        "jsdoc/check-tag-names": [
+          "error",
+          { "typed": true, "definedTags": ["jest-environment", "vitest-environment"] },
+        ],
+        "jsdoc/no-defaults": "off",
+        "jsdoc/require-jsdoc": "off",
+        "jsdoc/require-param": "off",
+        "jsdoc/require-returns": "off",
+        "jsdoc/tag-lines": ["error", "any", { "startLines": 1 }],
+      },
+    },
     ...extraConfigs,
   ];
 }
