@@ -213,7 +213,13 @@ async function createPandellReactConfig(
   settings: PandellEsLintConfigSettings,
 ): Promise<ReadonlyArray<Linter.FlatConfig>> {
   const { react = {}, typeScript = {} } = settings;
-  const { enabled = false, extraRules, files = defaultTypeScriptFiles, typeChecked = true } = react;
+  const {
+    enabled = false,
+    extraRules,
+    files = defaultTypeScriptFiles,
+    includeReactQuery = false,
+    typeChecked = true,
+  } = react;
   const { enabled: enabledTypeScript = true, typeChecked: typeCheckedTypeScript = true } =
     typeScript;
 
@@ -224,17 +230,18 @@ async function createPandellReactConfig(
     throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
   }
 
-  const [reactPlugin, hooksPlugin, refreshPlugin] = await Promise.all([
+  const [reactPlugin, hooksPlugin, refreshPlugin, queryPlugin] = await Promise.all([
     import("@eslint-react/eslint-plugin"),
     import("eslint-plugin-react-hooks"),
     import("eslint-plugin-react-refresh"),
+    includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
     ? reactPlugin.default.configs["recommended-type-checked"]
     : reactPlugin.default.configs.recommended;
 
-  return [
+  const configs: Linter.FlatConfig[] = [
     {
       ...recommendedConfig,
       name: `@eslint-react-eslint-plugin/recommended${typeChecked ? "-type-checked" : ""}`,
@@ -242,31 +249,43 @@ async function createPandellReactConfig(
     },
     {
       name: "eslint-plugin-react-hooks/recommended",
-      plugins: { "react-hooks": hooksPlugin },
       files: resolvedFiles,
+      plugins: { "react-hooks": hooksPlugin },
       rules: hooksPlugin.configs.recommended.rules,
     },
     {
       name: "eslint-plugin-react-refresh/recommended",
-      plugins: { "react-refresh": refreshPlugin },
       files: resolvedFiles,
+      plugins: { "react-refresh": refreshPlugin },
       rules: { "react-refresh/only-export-components": "warn" },
     },
-    {
-      name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
-      files: resolvedFiles,
-      rules: {
-        "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "error",
-        "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn",
-        "@eslint-react/prefer-destructuring-assignment": "off",
-        "react-hooks/exhaustive-deps": [
-          "warn",
-          { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
-        ],
-        ...extraRules,
-      },
-    },
   ];
+
+  if (queryPlugin) {
+    configs.push({
+      name: "@tanstack-eslint-plugin-query/recommended",
+      files: resolvedFiles,
+      plugins: { "@tanstack/query": queryPlugin as object as ESLint.Plugin },
+      rules: queryPlugin.configs.recommended.rules as Linter.FlatConfig["rules"],
+    });
+  }
+
+  configs.push({
+    name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
+    files: resolvedFiles,
+    rules: {
+      "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "error",
+      "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn",
+      "@eslint-react/prefer-destructuring-assignment": "off",
+      "react-hooks/exhaustive-deps": [
+        "warn",
+        { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
+      ],
+      ...extraRules,
+    },
+  });
+
+  return configs;
 }
 
 /**
@@ -456,6 +475,16 @@ export interface PandellEsLintConfigSettings {
      * @default defaultTypeScriptFiles
      */
     readonly files?: "do not set" | Linter.FlatConfig["files"];
+
+    /**
+     * Should the React configuration include TanStack Query rules?
+     * (https://tanstack.com/query/latest/docs/eslint/eslint-plugin-query)
+     * When false (default), final ESLint configuration will not include
+     * TanStack Query layer at all.
+     *
+     * @default false
+     */
+    readonly includeReactQuery?: boolean;
 
     /**
      * Should the React configuration include type-checked rules?

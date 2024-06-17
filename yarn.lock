@@ -275,6 +275,7 @@ __metadata:
     "@eslint-react/eslint-plugin": "npm:^1.5.15"
     "@eslint/compat": "npm:^1.1.0"
     "@eslint/js": "npm:^9.5.0"
+    "@tanstack/eslint-plugin-query": "npm:^5.43.1"
     "@types/eslint__js": "npm:^8.42.3"
     eslint: "npm:^9.5.0"
     eslint-plugin-import-x: "npm:^0.5.1"
@@ -328,6 +329,17 @@ __metadata:
     typescript: ">= 5"
   languageName: unknown
   linkType: soft
+
+"@tanstack/eslint-plugin-query@npm:^5.43.1":
+  version: 5.43.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.43.1"
+  dependencies:
+    "@typescript-eslint/utils": "npm:8.0.0-alpha.28"
+  peerDependencies:
+    eslint: ^8 || ^9
+  checksum: 10c0/8f98eae269e498a01f300d49ca31f88e2182755546b82bcd694f6289806eda8499e83458aca9be2eba389a5e9084d35e12de0ea38b50760a45001f95e80012dc
+  languageName: node
+  linkType: hard
 
 "@types/eslint@npm:*, @types/eslint@npm:^8.56.5":
   version: 8.56.10

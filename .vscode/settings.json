@@ -45,6 +45,7 @@
     "pandell",
     "parens",
     "stylelint",
+    "tanstack",
     "tsbuildinfo",
     "vitest"
   ],
