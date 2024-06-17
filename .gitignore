@@ -14,6 +14,8 @@
 /.yarn/install-state.gz
 /node_modules/
 /build/
+dist/
 *.local
 *.log
 *.tgz
+*.tsbuildinfo
