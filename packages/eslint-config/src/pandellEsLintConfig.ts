@@ -265,8 +265,8 @@ async function createPandellReactConfig(
     configs.push({
       name: "@tanstack-eslint-plugin-query/recommended",
       files: resolvedFiles,
-      plugins: { "@tanstack/query": queryPlugin as object as ESLint.Plugin },
-      rules: queryPlugin.configs.recommended.rules as Linter.FlatConfig["rules"],
+      plugins: { "@tanstack/query": queryPlugin.default },
+      rules: (queryPlugin.default.configs.recommended as Linter.FlatConfig).rules,
     });
   }
 

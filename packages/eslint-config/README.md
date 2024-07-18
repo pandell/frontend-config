@@ -15,10 +15,10 @@ Add the following to your `package.json`:
     // ...
   },
   "resolutions": { // see note below
-    "@typescript-eslint/scope-manager": "^8.0.0-alpha.30",
-    "@typescript-eslint/type-utils": "^8.0.0-alpha.30",
-    "@typescript-eslint/types": "^8.0.0-alpha.30",
-    "@typescript-eslint/utils": "^8.0.0-alpha.30"
+    "@typescript-eslint/scope-manager": "^8.0.0-alpha.45",
+    "@typescript-eslint/type-utils": "^8.0.0-alpha.45",
+    "@typescript-eslint/types": "^8.0.0-alpha.45",
+    "@typescript-eslint/utils": "^8.0.0-alpha.45"
   },
   // ...
 }
