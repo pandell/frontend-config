@@ -16,6 +16,7 @@
   // settings for extensions below
 
   // spell checker settings
+  "cSpell.ignorePaths": [".git", ".vscode", "node_modules", "yarn.lock"],
   "cSpell.language": "en-US",
   "cSpell.enableFiletypes": [
     "asciidoc",
@@ -106,7 +107,7 @@
     "editor.formatOnSave": false // 2023-12-12, milang: -||-
   },
   "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+    "editor.defaultFormatter": "davidanson.vscode-markdownlint"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
