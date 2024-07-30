@@ -1,7 +1,7 @@
 {
   "name": "@pandell/eslint-config",
   "type": "module",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "Pandell ESLint shared config",
   "keywords": [
     "eslint",
@@ -32,12 +32,12 @@
     "@types/eslint__js": "^8.42.3",
     "eslint-plugin-import-x": "^3.1.0",
     "eslint-plugin-jest-dom": "^5.4.0",
-    "eslint-plugin-jsdoc": "^48.9.2",
-    "eslint-plugin-react-hooks": "^5.1.0-rc-941e1b4a-20240729",
+    "eslint-plugin-jsdoc": "^48.10.2",
+    "eslint-plugin-react-hooks": "^5.1.0-rc-3208e73e-20240730",
     "eslint-plugin-react-refresh": "^0.4.9",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-vitest": "^0.5.4",
-    "typescript-eslint": "^8.0.0-alpha.58"
+    "typescript-eslint": "^8.0.0-alpha.60"
   },
   "devDependencies": {
     "eslint": "^9.8.0",
@@ -50,6 +50,9 @@
   },
   "peerDependenciesMeta": {
     "eslint-plugin-testing-library": {
+      "optional": true
+    },
+    "typescript": {
       "optional": true
     }
   },
