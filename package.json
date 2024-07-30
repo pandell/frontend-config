@@ -4,15 +4,27 @@
     "packages/*"
   ],
   "scripts": {
+    "build": "tsc --build",
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
-    "verify": "run format",
-    "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[browserslist]' && browserslist --version"
+    "lint": "eslint --max-warnings 0 --cache --cache-location node_modules/.cache/eslint/eslint.cache",
+    "postinstall": "run build",
+    "verify": "echo '[format]' && run format && echo '[build]' && run build && echo '[lint]' && run lint",
+    "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
-  "packageManager": "yarn@4.2.2",
+  "packageManager": "yarn@4.3.1",
+  "resolutions": {
+    "@typescript-eslint/scope-manager": "^8.0.0-alpha.58",
+    "@typescript-eslint/type-utils": "^8.0.0-alpha.58",
+    "@typescript-eslint/types": "^8.0.0-alpha.58",
+    "@typescript-eslint/utils": "^8.0.0-alpha.58"
+  },
   "devDependencies": {
-    "browserslist": "^4.23.0",
-    "prettier": "^3.3.1"
+    "@pandell/eslint-config": "workspace:packages/eslint-config",
+    "browserslist": "^4.23.2",
+    "eslint": "^9.8.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
   },
   "prettier": "@pandell/prettier-config"
 }

@@ -1,23 +1,22 @@
-// spell-checker:words anson otbs
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
 
-  "files.exclude": {
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/.*_cache": true
+  "search.exclude": {
+    ".yalc": true,
+    ".yarn": true
   },
 
-  "search.useIgnoreFiles": false,
-
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsc.autoDetect": "off", // do not pollute tasks with auto-detected typescript tasks
   "npm.autoDetect": "off", // do not pollute tasks with auto-detected NPM tasks
 
   // settings for extensions below
 
   // spell checker settings
+  "cSpell.ignorePaths": [".git", ".vscode", "node_modules", "yarn.lock"],
   "cSpell.language": "en-US",
   "cSpell.enableFiletypes": [
     "asciidoc",
@@ -39,14 +38,27 @@
     "typescriptreact"
   ],
   "cSpell.flagWords": ["colour"],
-  "cSpell.words": ["pandell", "parens", "stylelint"],
+  "cSpell.words": [
+    "chriscoyier",
+    "compat",
+    "eslintconfig",
+    "milang",
+    "pandell",
+    "parens",
+    "stylelint",
+    "tanstack",
+    "tsbuildinfo",
+    "vitest"
+  ],
 
   // html formatting (built-in VSCode formatter)
   "html.format.wrapAttributes": "preserve",
   "html.format.wrapLineLength": 512,
 
   // eslint extension settings
+  "eslint.useFlatConfig": true,
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "html"],
+  "eslint.runtime": "node",
 
   // stylelint extension settings + disable internal css validation
   // https://github.com/stylelint/vscode-stylelint#extension-settings
@@ -95,12 +107,15 @@
     "editor.formatOnSave": false // 2023-12-12, milang: -||-
   },
   "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+    "editor.defaultFormatter": "davidanson.vscode-markdownlint"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

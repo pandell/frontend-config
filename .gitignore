@@ -13,7 +13,8 @@
 # Output and non-source directories/files
 /.yarn/install-state.gz
 /node_modules/
-/build/
+dist/
 *.local
 *.log
 *.tgz
+*.tsbuildinfo

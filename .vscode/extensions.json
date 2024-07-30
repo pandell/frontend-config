@@ -15,6 +15,7 @@
     // section of ".vscode/settings.json"); in the end I decided to go with "fwcd.kotlin"
     // because it was "less bad" for the needs of TeamCity Kotlin development
     "fwcd.kotlin",
-    "streetsidesoftware.code-spell-checker"
+    "streetsidesoftware.code-spell-checker",
+    "wallabyjs.wallaby-vscode"
   ]
 }
