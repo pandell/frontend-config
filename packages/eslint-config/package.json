@@ -51,6 +51,9 @@
   "peerDependenciesMeta": {
     "eslint-plugin-testing-library": {
       "optional": true
+    },
+    "typescript": {
+      "optional": true
     }
   },
   "publishConfig": {

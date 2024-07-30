@@ -292,6 +292,8 @@ __metadata:
   peerDependenciesMeta:
     eslint-plugin-testing-library:
       optional: true
+    typescript:
+      optional: true
   languageName: unknown
   linkType: soft
 
