@@ -1,5 +1,5 @@
 # https://editorconfig.org/
-# spell-checker:words jetbrains ktlint resx
+# spell-checker:words jetbrains ktlint
 root = true
 
 [*]
