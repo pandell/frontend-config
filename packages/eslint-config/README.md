@@ -9,16 +9,14 @@ Add the following to your `package.json`:
 ```jsonc
 {
   "devDependencies": {
-    "@pandell/eslint-config": "^9.0.1",
+    "@pandell/eslint-config": "^9.1.1",
     "eslint": "^9.8.0",
     "eslint-plugin-testing-library": "^6.2.2", // see note 1 below
     // ...
   },
   "resolutions": { // see note below
-    "@typescript-eslint/scope-manager": "^8.0.0-alpha.60",
-    "@typescript-eslint/type-utils": "^8.0.0-alpha.60",
-    "@typescript-eslint/types": "^8.0.0-alpha.60",
-    "@typescript-eslint/utils": "^8.0.0-alpha.60"
+    "@typescript-eslint/type-utils": "^8.0.1",
+    "@typescript-eslint/utils": "^8.0.1"
   },
   // ...
 }
