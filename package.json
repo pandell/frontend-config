@@ -12,10 +12,10 @@
     "verify": "echo '[format]' && run format && echo '[build]' && run build && echo '[lint]' && run lint",
     "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "yarn@4.4.0",
   "resolutions": {
-    "@typescript-eslint/type-utils": "^8.0.0",
-    "@typescript-eslint/utils": "^8.0.0"
+    "@typescript-eslint/type-utils": "^8.0.1",
+    "@typescript-eslint/utils": "^8.0.1"
   },
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
