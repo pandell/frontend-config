@@ -1,4 +1,7 @@
-# Notes on Packages
+# Notes for "package.json"
+
+NodeJS/NPM don't allow comments in `package.json`, so we keep
+notes and comments in this markdown file.
 
 - [Version](#version)
 - [Scripts](#scripts)
