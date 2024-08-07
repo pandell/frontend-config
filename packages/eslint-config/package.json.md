@@ -3,7 +3,9 @@
 NodeJS/NPM don't allow comments in `package.json`, so we keep
 notes and comments in this markdown file.
 
-## Packages
+- [Dependencies](#dependencies)
+
+## Dependencies
 
 - `eslint-plugin-testing-library`  
   2024-06-14, milang: See note 1 in [README.md](README.md). Optional peer dependency
