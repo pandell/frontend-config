@@ -10,6 +10,11 @@ declare module "eslint-plugin-testing-library" {
       react: Linter.Config;
       vue: Linter.Config;
       marko: Linter.Config;
+      ["flat/dom"]: Linter.FlatConfig;
+      ["flat/angular"]: Linter.FlatConfig;
+      ["flat/react"]: Linter.FlatConfig;
+      ["flat/vue"]: Linter.FlatConfig;
+      ["flat/marko"]: Linter.FlatConfig;
     };
     rules: ESLint.Plugin["rules"];
   };
