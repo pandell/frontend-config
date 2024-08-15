@@ -14,13 +14,13 @@
   },
   "packageManager": "yarn@4.4.0",
   "resolutions": {
-    "@typescript-eslint/type-utils": "^8.0.1",
-    "@typescript-eslint/utils": "^8.0.1"
+    "@typescript-eslint/type-utils": "^8.1.0",
+    "@typescript-eslint/utils": "^8.1.0"
   },
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
     "browserslist": "^4.23.3",
-    "eslint": "^9.8.0",
+    "eslint": "^9.9.0",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"
   },
