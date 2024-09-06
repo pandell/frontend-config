@@ -9,14 +9,10 @@ Add the following to your `package.json`:
 ```jsonc
 {
   "devDependencies": {
-    "@pandell/eslint-config": "^9.2.0",
-    "eslint": "^9.9.0",
+    "@pandell/eslint-config": "^9.3.0",
+    "eslint": "^9.9.1",
     "eslint-plugin-testing-library": "^6.3.0", // see note 1 below
     // ...
-  },
-  "resolutions": { // see note below
-    "@typescript-eslint/type-utils": "^8.1.0",
-    "@typescript-eslint/utils": "^8.1.0"
   },
   // ...
 }
@@ -26,18 +22,11 @@ Add the following to your `package.json`:
 
 > **Note 1** (`eslint-plugin-testing-library`) While all other plugins can co-exist with ESLint 9 and
 are included as direct dependencies of `@pandell/eslint-config`, `eslint-plugin-testing-library` only
-supports ESLint 8 as of June 2024. We chose to reference it as an optional peer dependency, not regular
+supports ESLint 8 as of August 2024. We chose to reference it as an optional peer dependency, not regular
 dependency, thus it has to be added to your project's `package.json`. If you do not set
 `enabledTestingLibrary` property (or set it to `false`), you do not need to include this dependency.
 This recommendation will be removed in the future after `eslint-plugin-testing-library`
 adds support for ESLint 9.
-
----
-
-> **Note 2** (`resolutions`): We are currently using TypeScript ESLint pre-release (v8),
-because the official release (v7) does not support ESLint 9 yet. Resolutions ensure that
-all plugins use consistent TypeScript ESLint version. This recommendation will be removed
-in the future after TypeScript ESLint v8 is released.
 
 ---
 
