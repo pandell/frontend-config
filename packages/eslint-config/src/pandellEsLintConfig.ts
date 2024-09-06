@@ -22,24 +22,18 @@ function createPandellBaseConfig(
   return [
     {
       ...esLintJs.configs.recommended,
-      name: "@eslint-js/recommended", // as of 2024-06-04, "@eslint/js" recommended config does not include a name; this config object adds a name
+      name: "eslint/js/recommended", // as of 2024-09-05, "@eslint/js" recommended config does not include a name
     },
+    esLintImportX.flatConfigs.recommended as Linter.FlatConfig,
     {
-      name: "eslint-plugin-import-x/recommended", // as of 2024-06-04, "eslint-plugin-import-x" isn't fully flat-config compatible, so adapt recommended config to the correct layout
-      plugins: { "import-x": esLintImportX as object as ESLint.Plugin }, // 2024-06-10, milang: shape of "eslint-plugin-import-x@0.5.1" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
-      rules: esLintImportX.configs.recommended.rules,
-      languageOptions: {
-        parserOptions: esLintImportX.configs.recommended.parserOptions,
+      name: "simple-import-sort/all", // as of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
+      plugins: { "simple-import-sort": esLintSimpleImportSort },
+      rules: {
+        "simple-import-sort/imports": "warn",
+        "simple-import-sort/exports": "warn",
       },
     },
-    {
-      name: "eslint-plugin-simple-import-sort/base", // as of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
-      plugins: { "simple-import-sort": esLintSimpleImportSort },
-    },
-    {
-      ...esLintJsDoc.configs["flat/recommended-error"],
-      name: "eslint-plugin-jsdoc/recommended-error", // as of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name; this config object adds a name
-    },
+    esLintJsDoc.configs["flat/recommended-error"],
     {
       name: "@pandell-eslint-config/base",
       rules: {
@@ -54,6 +48,7 @@ function createPandellBaseConfig(
         "no-eval": "error",
         "no-new-wrappers": "error",
         "no-restricted-globals": ["error", "$", "jQuery", "R"],
+        // "no-shadow-restricted-names": "error", // already "error" in "@eslint/js@9.9.1", "config/recommended"
         "no-shadow": ["error", { hoist: "functions" }],
         "no-template-curly-in-string": "warn",
         "no-throw-literal": "error",
@@ -62,16 +57,7 @@ function createPandellBaseConfig(
         "prefer-template": "warn",
         "radix": ["error", "as-needed"],
         "sort-imports": "off",
-
-        // already set in "@eslint/js/config/recommended" in ESLint 9+
-        // "no-shadow-restricted-names": "error",
-
-        // deprecated in ESLint 9+
-        // "spaced-comment": [
-        //   "warn",
-        //   "always",
-        //   { block: { exceptions: ["*"], balanced: true }, line: { markers: ["/"] } },
-        // ],
+        // "spaced-comment": ["warn", "always", { block: { exceptions: ["*"], balanced: true }, line: { markers: ["/"] } }], // deprecated in ESLint 9+
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // "eslint-plugin-import-x" rules
@@ -79,9 +65,11 @@ function createPandellBaseConfig(
 
         "import-x/first": "error",
         "import-x/newline-after-import": "warn",
+        // "import-x/no-commonjs": "off", // already "off" in "eslint-plugin-import-x@4.2.1", "flatConfigs.recommended"; handled by @typescript-eslint/no-require-imports
         "import-x/no-cycle": "error",
         "import-x/no-default-export": "error",
-        "import-x/no-duplicates": "error",
+        "import-x/no-deprecated": "warn",
+        // "import-x/no-duplicates": "error", // already "warn" in "eslint-plugin-import-x@4.2.1", "flatConfigs.recommended"
         "import-x/no-extraneous-dependencies": "error",
         "import-x/no-mutable-exports": "error",
         "import-x/no-named-default": "error",
@@ -91,30 +79,11 @@ function createPandellBaseConfig(
           { "allow": ["**/*.css", "@testing-library/**", "fake-indexeddb/**"] },
         ],
         "import-x/no-useless-path-segments": "warn",
-
-        // already off in "eslint-plugin-import-x@^0.5.1"
-        // "import-x/no-commonjs": "off", // handled by @typescript-eslint/no-require-imports
-
-        // 2024-06-11, milang: the following "import-x" rules require a parser.
-        // We are disabling them for now because it is very hard to configure them correctly,
-        // especially while import-x is not-yet fully flat-config compatible. The "namespace"
-        // rule is not that important anymore (we mostly use named imports now), but
-        // the "no-deprecated" rule would be nice to have in the future.
-        // The best results for the parser-dependent rules were achieved when using "eslint-import-resolver-typescript"
-        // (https://github.com/import-js/eslint-import-resolver-typescript), however
-        // it has a peer dependency on "eslint-plugin-import", not "eslint-plugin-import-x",
-        // plus "settings: { 'import-x/resolver': 'eslint-import-resolver-typescript' }".
-        // I am not sure why the documentation-recommended "settings: { 'import-x/resolver': {
-        // typescript: true, node: true }" resulted in many "parserPath or languageOptions.parser is required" errors.
-        "import-x/namespace": "off",
-        // "import-x/no-deprecated": "warn",
-
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // "eslint-plugin-simple-import-sort" rules
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-        "simple-import-sort/imports": "warn",
-        "simple-import-sort/exports": "warn",
+      },
+      languageOptions: {
+        parserOptions: {
+          ecmaVersion: "latest", // eslint-plugin-import-x@4.2.1: rules "import-x/namespace", "import-x/no-deprecated" fail without this property: "sourceType 'module' is not supported when ecmaVersion < 2015. Consider adding `{ ecmaVersion: 2015 }` to the parser options."
+        },
       },
     },
   ];
@@ -152,13 +121,10 @@ async function createPandellTypeScriptConfig(
     extends: [
       ...recommendedConfig,
       {
-        ...esLintImportX.configs.typescript,
-        name: "eslint-plugin-import-x/typescript", // as of 2024-06-04, "eslint-plugin-import-x" config does not include a name; this config object adds a name
+        ...esLintImportX.flatConfigs.typescript,
+        name: "import-x/typescript", // as of 2024-09-05, "eslint-plugin-import-x" typescript config does not include a name
       },
-      {
-        ...esLintJsDoc.configs["flat/recommended-typescript-error"],
-        name: "eslint-plugin-jsdoc/recommended-typescript-error", // as of 2024-06-04, "eslint-plugin-jsdoc" config does not include a name; this config object adds a name
-      },
+      esLintJsDoc.configs["flat/recommended-typescript-error"],
     ],
     files: resolvedFiles,
     ...(typeChecked && { languageOptions: { parserOptions } }),
@@ -178,24 +144,34 @@ async function createPandellTypeScriptConfig(
         "error",
         { accessibility: "no-public" }, // disallow "public" modifier
       ],
-      "@typescript-eslint/naming-convention": "off", // don't enforce this
+      // "@typescript-eslint/naming-convention": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; don't enforce this
       "@typescript-eslint/no-explicit-any": noExplicitAny, // TypeScript handles implicit "any"
-      "@typescript-eslint/no-require-imports": "error",
-      "no-unused-expressions": "off",
-      "@typescript-eslint/no-unused-expressions": "error", // the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
-      "@typescript-eslint/no-unused-vars": "off", // TS handles this
-      "@typescript-eslint/no-use-before-define": "off", // TS handles this for variables
-      "@typescript-eslint/no-var-requires": "off", // "no-require-imports" makes this redundant
+      // "@typescript-eslint/no-require-imports": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
+      // "no-unused-expressions": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
+      // "@typescript-eslint/no-unused-expressions": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
+      "@typescript-eslint/no-unused-vars": [
+        // https://typescript-eslint.io/rules/no-unused-vars/#benefits-over-typescript
+        "error",
+        {
+          "args": "all",
+          "argsIgnorePattern": "^_",
+          "caughtErrors": "all",
+          "caughtErrorsIgnorePattern": "^_",
+          "destructuredArrayIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+        },
+      ],
+      // "@typescript-eslint/no-use-before-define": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; TS handles this for variables
+      // "@typescript-eslint/no-var-requires": "off", // no such rule as of "typescript-eslint@8.4.0"; "no-require-imports" makes this redundant
       "@typescript-eslint/prefer-for-of": "warn",
       "@typescript-eslint/prefer-function-type": "warn",
+      // "no-redeclare": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
+      // "@typescript-eslint/no-redeclare": "error", // keep the recommended level, which is "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
       "no-shadow": "off",
       "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
 
-      // already checked by TypeScript compiler
-      // "no-redeclare": "off",
-      // "@typescript-eslint/no-redeclare": "error", // the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
-
       ...(typeChecked && {
+        "@typescript-eslint/no-deprecated": "error",
         "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
         "@typescript-eslint/prefer-readonly": "warn",
         "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
@@ -244,17 +220,17 @@ async function createPandellReactConfig(
   const configs: Linter.FlatConfig[] = [
     {
       ...recommendedConfig,
-      name: `@eslint-react-eslint-plugin/recommended${typeChecked ? "-type-checked" : ""}`,
+      name: `@eslint-react/recommended${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
     },
     {
-      name: "eslint-plugin-react-hooks/recommended",
+      name: "react-hooks/recommended",
       files: resolvedFiles,
       plugins: { "react-hooks": hooksPlugin },
       rules: hooksPlugin.configs.recommended.rules,
     },
     {
-      name: "eslint-plugin-react-refresh/recommended",
+      name: "react-refresh/recommended",
       files: resolvedFiles,
       plugins: { "react-refresh": refreshPlugin },
       rules: { "react-refresh/only-export-components": "warn" },
@@ -263,7 +239,7 @@ async function createPandellReactConfig(
 
   if (queryPlugin) {
     configs.push({
-      name: "@tanstack-eslint-plugin-query/recommended",
+      name: "@tanstack/query/recommended",
       files: resolvedFiles,
       plugins: { "@tanstack/query": queryPlugin.default as unknown as ESLint.Plugin },
       rules: (queryPlugin.default.configs.recommended as Linter.FlatConfig).rules,
@@ -274,8 +250,11 @@ async function createPandellReactConfig(
     name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
     files: resolvedFiles,
     rules: {
-      "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "error",
-      "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn",
+      "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "warn",
+      "@eslint-react/hooks-extra/no-unnecessary-use-callback": "warn",
+      "@eslint-react/hooks-extra/no-unnecessary-use-memo": "warn",
+      "@eslint-react/hooks-extra/ensure-use-memo-has-non-empty-deps": "warn",
+      // "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@1.13.0"
       "@eslint-react/prefer-destructuring-assignment": "off",
       "react-hooks/exhaustive-deps": [
         "warn",
@@ -308,19 +287,19 @@ async function createPandellTestingConfig(
     enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
     enabledTestingLibrary ? import("@eslint/compat") : null,
-    enabledVitest ? import("eslint-plugin-vitest") : null,
+    enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
   if (jsDom && testingLibrary && testingLibraryCompat) {
     const testingLibraryReactFlatConfig = testingLibrary.default.configs["flat/react"];
     configs.push(
       {
         ...jsDom.default.configs["flat/recommended"],
-        name: "eslint-plugin-jest-dom/flat-recommended",
+        name: "jest-dom/flat-recommended",
         files: resolvedFiles,
       },
       {
         ...testingLibraryReactFlatConfig,
-        name: "eslint-plugin-testing-library/react",
+        name: "testing-library/react",
         // 2024-06-15, milang: eslint-plugin-testing-library currently does not support
         // ESLint 9 API; we have to use an adapter for the time being, see
         // https://github.com/testing-library/eslint-plugin-testing-library/issues/899#issuecomment-2121272355
@@ -336,7 +315,7 @@ async function createPandellTestingConfig(
   if (vitest) {
     configs.push({
       ...vitest.default.configs.recommended,
-      name: "eslint-plugin-vitest/recommended",
+      name: "vitest/recommended",
       files: resolvedFiles,
     });
   }

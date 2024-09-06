@@ -19,7 +19,6 @@ declare module "eslint-plugin-testing-library" {
     rules: ESLint.Plugin["rules"];
   };
 
-  // eslint-disable-next-line import-x/no-default-export
   export default plugin;
 }
 
@@ -34,6 +33,5 @@ declare module "eslint-plugin-jest-dom" {
     rules: ESLint.Plugin["rules"];
   };
 
-  // eslint-disable-next-line import-x/no-default-export
   export default plugin;
 }
