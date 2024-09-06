@@ -9,7 +9,7 @@
     "jsx": "react",
     "lib": ["dom", "es2020"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
