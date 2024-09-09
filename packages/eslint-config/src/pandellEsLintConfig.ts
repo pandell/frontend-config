@@ -16,7 +16,7 @@ import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
  */
 function createPandellBaseConfig(
   settings: PandellEsLintConfigSettings,
-): ReadonlyArray<Linter.FlatConfig> {
+): ReadonlyArray<Linter.Config> {
   const { funcStyle = ["error", "declaration"] } = settings;
 
   return [
@@ -24,7 +24,7 @@ function createPandellBaseConfig(
       ...esLintJs.configs.recommended,
       name: "eslint/js/recommended", // as of 2024-09-05, "@eslint/js" recommended config does not include a name
     },
-    esLintImportX.flatConfigs.recommended as Linter.FlatConfig,
+    esLintImportX.flatConfigs.recommended as Linter.Config,
     {
       name: "simple-import-sort/all", // as of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
       plugins: { "simple-import-sort": esLintSimpleImportSort },
@@ -94,7 +94,7 @@ function createPandellBaseConfig(
  */
 async function createPandellTypeScriptConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<ReadonlyArray<Linter.FlatConfig>> {
+): Promise<ReadonlyArray<Linter.Config>> {
   const { typeScript = {} } = settings;
   const {
     enabled = true,
@@ -179,7 +179,7 @@ async function createPandellTypeScriptConfig(
 
       ...extraRules,
     },
-  }) as ReadonlyArray<object> as ReadonlyArray<Linter.FlatConfig>; // 2024-06-10, milang: "(typescript-eslint@7.12.0)/TSESLint.FlatConfig.ConfigArray" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
+  }) as ReadonlyArray<object> as ReadonlyArray<Linter.Config>; // 2024-06-10, milang: "(typescript-eslint@7.12.0)/TSESLint.FlatConfig.ConfigArray" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
 }
 
 /**
@@ -187,7 +187,7 @@ async function createPandellTypeScriptConfig(
  */
 async function createPandellReactConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<ReadonlyArray<Linter.FlatConfig>> {
+): Promise<ReadonlyArray<Linter.Config>> {
   const { react = {}, typeScript = {} } = settings;
   const {
     enabled = false,
@@ -214,10 +214,10 @@ async function createPandellReactConfig(
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.FlatConfig)
-    : (reactPlugin.default.configs.recommended as unknown as Linter.FlatConfig);
+    ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.Config)
+    : (reactPlugin.default.configs.recommended as unknown as Linter.Config);
 
-  const configs: Linter.FlatConfig[] = [
+  const configs: Linter.Config[] = [
     {
       ...recommendedConfig,
       name: `@eslint-react/recommended${typeChecked ? "-type-checked" : ""}`,
@@ -242,7 +242,7 @@ async function createPandellReactConfig(
       name: "@tanstack/query/recommended",
       files: resolvedFiles,
       plugins: { "@tanstack/query": queryPlugin.default as unknown as ESLint.Plugin },
-      rules: (queryPlugin.default.configs.recommended as Linter.FlatConfig).rules,
+      rules: (queryPlugin.default.configs.recommended as Linter.Config).rules,
     });
   }
 
@@ -272,7 +272,7 @@ async function createPandellReactConfig(
  */
 async function createPandellTestingConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<ReadonlyArray<Linter.FlatConfig>> {
+): Promise<ReadonlyArray<Linter.Config>> {
   const { testing = {} } = settings;
   const {
     enabledTestingLibrary = false,
@@ -282,7 +282,7 @@ async function createPandellTestingConfig(
   } = testing;
 
   const resolvedFiles = files === "do not set" ? undefined : files;
-  const configs = [] as Linter.FlatConfig[];
+  const configs = [] as Linter.Config[];
   const [jsDom, testingLibrary, testingLibraryCompat, vitest] = await Promise.all([
     enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
@@ -356,7 +356,7 @@ async function createPandellTestingConfig(
  */
 function createPandellViteConfig(
   settings: PandellEsLintConfigSettings,
-): ReadonlyArray<Linter.FlatConfig> {
+): ReadonlyArray<Linter.Config> {
   const { vite = {} } = settings;
   const {
     enabled = false,
@@ -404,7 +404,7 @@ export interface PandellEsLintConfigSettings {
    * List of extra configuration layers to append to the end of ESLint configuration
    * sequence returned by {@link createPandellEsLintConfig}.
    */
-  readonly extraConfigs?: ReadonlyArray<Linter.FlatConfig>;
+  readonly extraConfigs?: ReadonlyArray<Linter.Config>;
 
   /**
    * Enforce the consistent use of either function declarations (default)
@@ -425,7 +425,7 @@ export interface PandellEsLintConfigSettings {
    *
    * @default defaultGlobalIgnores
    */
-  readonly ignores?: Linter.FlatConfig["ignores"];
+  readonly ignores?: Linter.Config["ignores"];
 
   /**
    * Settings for React ESLint configuration layers (opt in, not enabled by default).
@@ -442,7 +442,7 @@ export interface PandellEsLintConfigSettings {
     /**
      * Extra rule configurations that will be appended to Pandell React configuration layer.
      */
-    readonly extraRules?: Linter.FlatConfig["rules"];
+    readonly extraRules?: Linter.Config["rules"];
 
     /**
      * List of files to apply TypeScript configuration layers to.
@@ -456,7 +456,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default defaultTypeScriptFiles
      */
-    readonly files?: "do not set" | Linter.FlatConfig["files"];
+    readonly files?: "do not set" | Linter.Config["files"];
 
     /**
      * Should the React configuration include TanStack Query rules?
@@ -501,7 +501,7 @@ export interface PandellEsLintConfigSettings {
     /**
      * Extra rule configurations that will be appended to Pandell testing configuration layer.
      */
-    readonly extraRules?: Linter.FlatConfig["rules"];
+    readonly extraRules?: Linter.Config["rules"];
 
     /**
      * List of files to apply testing configuration layers to.
@@ -515,7 +515,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default defaultTestFiles
      */
-    readonly files?: "do not set" | Linter.FlatConfig["files"];
+    readonly files?: "do not set" | Linter.Config["files"];
   };
 
   /**
@@ -533,7 +533,7 @@ export interface PandellEsLintConfigSettings {
     /**
      * Extra rule configurations that will be appended to Pandell TypeScript configuration layer.
      */
-    readonly extraRules?: Linter.FlatConfig["rules"];
+    readonly extraRules?: Linter.Config["rules"];
 
     /**
      * List of files to apply TypeScript configuration layers to.
@@ -547,7 +547,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default defaultTypeScriptFiles
      */
-    readonly files?: "do not set" | Linter.FlatConfig["files"];
+    readonly files?: "do not set" | Linter.Config["files"];
 
     /**
      * Are explicit "any" type annotations allowed in TypeScript? ("give up on type-checking")
@@ -631,7 +631,7 @@ export interface PandellEsLintConfigSettings {
  */
 export async function createPandellEsLintConfig(
   settings: PandellEsLintConfigSettings = {},
-): Promise<ReadonlyArray<Linter.FlatConfig>> {
+): Promise<ReadonlyArray<Linter.Config>> {
   const { extraConfigs = [], ignores = defaultGlobalIgnores } = settings;
 
   return [

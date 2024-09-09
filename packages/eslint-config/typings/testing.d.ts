@@ -10,11 +10,11 @@ declare module "eslint-plugin-testing-library" {
       react: Linter.Config;
       vue: Linter.Config;
       marko: Linter.Config;
-      ["flat/dom"]: Linter.FlatConfig;
-      ["flat/angular"]: Linter.FlatConfig;
-      ["flat/react"]: Linter.FlatConfig;
-      ["flat/vue"]: Linter.FlatConfig;
-      ["flat/marko"]: Linter.FlatConfig;
+      ["flat/dom"]: Linter.Config;
+      ["flat/angular"]: Linter.Config;
+      ["flat/react"]: Linter.Config;
+      ["flat/vue"]: Linter.Config;
+      ["flat/marko"]: Linter.Config;
     };
     rules: ESLint.Plugin["rules"];
   };
@@ -27,8 +27,8 @@ declare module "eslint-plugin-jest-dom" {
 
   const plugin: {
     configs: {
-      "flat/all": Linter.FlatConfig;
-      "flat/recommended": Linter.FlatConfig;
+      "flat/all": Linter.Config;
+      "flat/recommended": Linter.Config;
     };
     rules: ESLint.Plugin["rules"];
   };
