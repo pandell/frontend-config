@@ -238,8 +238,8 @@ async function createPandellReactConfig(
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? reactPlugin.default.configs["recommended-type-checked"]
-    : reactPlugin.default.configs.recommended;
+    ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.FlatConfig)
+    : (reactPlugin.default.configs.recommended as unknown as Linter.FlatConfig);
 
   const configs: Linter.FlatConfig[] = [
     {
@@ -265,7 +265,7 @@ async function createPandellReactConfig(
     configs.push({
       name: "@tanstack-eslint-plugin-query/recommended",
       files: resolvedFiles,
-      plugins: { "@tanstack/query": queryPlugin.default },
+      plugins: { "@tanstack/query": queryPlugin.default as unknown as ESLint.Plugin },
       rules: (queryPlugin.default.configs.recommended as Linter.FlatConfig).rules,
     });
   }
