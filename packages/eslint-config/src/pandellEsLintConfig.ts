@@ -26,7 +26,7 @@ function createPandellBaseConfig(
     },
     esLintImportX.flatConfigs.recommended as Linter.Config,
     {
-      name: "simple-import-sort/all", // as of 2024-06-04, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
+      name: "simple-import-sort/all", // as of 2024-09-05, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
       plugins: { "simple-import-sort": esLintSimpleImportSort },
       rules: {
         "simple-import-sort/imports": "warn",
@@ -122,7 +122,7 @@ async function createPandellTypeScriptConfig(
       ...recommendedConfig,
       {
         ...esLintImportX.flatConfigs.typescript,
-        name: "import-x/typescript", // as of 2024-09-05, "eslint-plugin-import-x" typescript config does not include a name
+        name: "import-x/typescript", // as of 2024-09-05, "eslint-plugin-import-x/flatConfigs/typescript" config does not include a name; interestingly the "eslint-plugin-import-x/flatConfigs/recommended" config does include a name
       },
       esLintJsDoc.configs["flat/recommended-typescript-error"],
     ],
@@ -150,6 +150,9 @@ async function createPandellTypeScriptConfig(
       // "no-unused-expressions": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
       // "@typescript-eslint/no-unused-expressions": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
       "@typescript-eslint/no-unused-vars": [
+        // allow unused variables whose names start with underscore; this is consistent
+        // with our C#/ReSharper/Rider and TypeScript rules; the following configuration
+        // is recommended in official typescript-eslint documentation for TypeScript compatibility:
         // https://typescript-eslint.io/rules/no-unused-vars/#benefits-over-typescript
         "error",
         {
@@ -179,7 +182,7 @@ async function createPandellTypeScriptConfig(
 
       ...extraRules,
     },
-  }) as ReadonlyArray<object> as ReadonlyArray<Linter.Config>; // 2024-06-10, milang: "(typescript-eslint@7.12.0)/TSESLint.FlatConfig.ConfigArray" is not compatible with "(eslint@9.4.0)/Linter.FlatConfig", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
+  }) as ReadonlyArray<Linter.Config>; // 2024-09-10, milang: "(typescript-eslint@8.4.0)/TSESLint.FlatConfig.ConfigArray" does not satisfy "(eslint@9.10.0)/Linter.Config", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
 }
 
 /**
@@ -214,7 +217,7 @@ async function createPandellReactConfig(
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.Config)
+    ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.Config) // 2024-09-10, milang: "(@eslint-react/eslint-plugin@1.14.0)/configs/*" configurations do not satisfy "(eslint@9.10.0)/Linter.Config", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
     : (reactPlugin.default.configs.recommended as unknown as Linter.Config);
 
   const configs: Linter.Config[] = [
@@ -283,24 +286,24 @@ async function createPandellTestingConfig(
 
   const resolvedFiles = files === "do not set" ? undefined : files;
   const configs = [] as Linter.Config[];
-  const [jsDom, testingLibrary, testingLibraryCompat, vitest] = await Promise.all([
+  const [jestDom, testingLibrary, testingLibraryCompat, vitest] = await Promise.all([
     enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
     enabledTestingLibrary ? import("@eslint/compat") : null,
     enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
-  if (jsDom && testingLibrary && testingLibraryCompat) {
+  if (jestDom && testingLibrary && testingLibraryCompat) {
     const testingLibraryReactFlatConfig = testingLibrary.default.configs["flat/react"];
     configs.push(
       {
-        ...jsDom.default.configs["flat/recommended"],
+        ...jestDom.default.configs["flat/recommended"],
         name: "jest-dom/flat-recommended",
         files: resolvedFiles,
       },
       {
         ...testingLibraryReactFlatConfig,
         name: "testing-library/react",
-        // 2024-06-15, milang: eslint-plugin-testing-library currently does not support
+        // 2024-09-05, milang: eslint-plugin-testing-library currently does not support
         // ESLint 9 API; we have to use an adapter for the time being, see
         // https://github.com/testing-library/eslint-plugin-testing-library/issues/899#issuecomment-2121272355
         plugins: {
