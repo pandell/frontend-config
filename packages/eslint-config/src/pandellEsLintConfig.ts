@@ -2,7 +2,7 @@
 
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
-import type { ESLint, Linter } from "eslint";
+import type { Linter } from "eslint";
 import esLintImportX from "eslint-plugin-import-x";
 import esLintJsDoc from "eslint-plugin-jsdoc";
 import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
@@ -241,12 +241,17 @@ async function createPandellReactConfig(
   ];
 
   if (queryPlugin) {
-    configs.push({
-      name: "@tanstack/query/recommended",
-      files: resolvedFiles,
-      plugins: { "@tanstack/query": queryPlugin.default as unknown as ESLint.Plugin },
-      rules: (queryPlugin.default.configs.recommended as Linter.Config).rules,
-    });
+    // "@tanstack/eslint-plugin-query" defines "flat/recommended" as an array of configurations,
+    // so adapt every configuration in the array and add them all to our configs collection
+    // (as of 2024-09-10 the array only has one item)
+    const namedQueryConfigs = queryPlugin.default.configs["flat/recommended"].map(
+      (queryConfig) => ({
+        ...queryConfig,
+        name: "@tanstack/query/recommended",
+        files: resolvedFiles,
+      }),
+    );
+    configs.push(...namedQueryConfigs);
   }
 
   configs.push({
