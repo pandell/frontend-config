@@ -288,14 +288,14 @@ __metadata:
     "@eslint-react/eslint-plugin": "npm:^1.14.1"
     "@eslint/compat": "npm:^1.1.1"
     "@eslint/js": "npm:^9.10.0"
-    "@tanstack/eslint-plugin-query": "npm:^5.53.0"
-    "@vitest/eslint-plugin": "npm:^1.1.0"
+    "@tanstack/eslint-plugin-query": "npm:^5.56.1"
+    "@vitest/eslint-plugin": "npm:^1.1.1"
     eslint: "npm:^9.10.0"
     eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-import-x: "npm:^4.2.1"
     eslint-plugin-jest-dom: "npm:^5.4.0"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react-hooks: "npm:5.1.0-rc-d6cb4e77-20240911"
+    eslint-plugin-react-hooks: "npm:5.1.0-rc-94e652d5-20240912"
     eslint-plugin-react-refresh: "npm:^0.4.11"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
     typescript: "npm:^5.6.2"
@@ -352,14 +352,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.53.0":
-  version: 5.53.0
-  resolution: "@tanstack/eslint-plugin-query@npm:5.53.0"
+"@tanstack/eslint-plugin-query@npm:^5.56.1":
+  version: 5.56.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.56.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.3.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/b5bbf700abeb21942289bdd1f1b337bb2387a54d766a6c294f5d6c5468be8d3186d5285520e60000cd0e3b5e09c1f88a0e88dbc6eaec441f765d83f220fac592
+  checksum: 10c0/9cca6913b63f952b3144e57d43d7abdb514b96a6d5fb8c27100115a4041a969d63695aed6541184348998b1f00a1950cafcbfd2ba0c46cacca533c1b9eeab550
   languageName: node
   linkType: hard
 
@@ -479,9 +479,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/eslint-plugin@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@vitest/eslint-plugin@npm:1.1.0"
+"@vitest/eslint-plugin@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@vitest/eslint-plugin@npm:1.1.1"
   peerDependencies:
     "@typescript-eslint/utils": ">= 8.0"
     eslint: ">= 8.57.0"
@@ -494,7 +494,7 @@ __metadata:
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/fc8247a3daa5e316da95519b08cf7d1d721c43d027a7e4dcd05584e7e367fccf6bc1261b8920d06461180ae6f3002a7abb1d8d0177bbbcd1da5fb99b324ec925
+  checksum: 10c0/d87764c08e875c25c349b5c7f6ca054cb528c4c97b958964f066bb11c725cebc0bcb1c6cbea63cdd4273ca183d13b391e9e77f2ae1339a90f48568f5fc435e4a
   languageName: node
   linkType: hard
 
@@ -717,9 +717,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.4":
-  version: 1.5.20
-  resolution: "electron-to-chromium@npm:1.5.20"
-  checksum: 10c0/d119ccebcb415dc6341072b4a2bd0c9052d94eccf93776d47f5781b9c28393407f9e30718380ee59cb2a280db6b2e36943ffe4a7cdac9e432246380a24f48fa1
+  version: 1.5.21
+  resolution: "electron-to-chromium@npm:1.5.21"
+  checksum: 10c0/c8da5f70059425fbdfd30e392653674196b2e59b06ce0d3ee094daaf26947131a1e13af72684f8b38f9d3679a6e0fdeceae2fd8a24518c851314048942f96a03
   languageName: node
   linkType: hard
 
@@ -943,12 +943,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:5.1.0-rc-d6cb4e77-20240911":
-  version: 5.1.0-rc-d6cb4e77-20240911
-  resolution: "eslint-plugin-react-hooks@npm:5.1.0-rc-d6cb4e77-20240911"
+"eslint-plugin-react-hooks@npm:5.1.0-rc-94e652d5-20240912":
+  version: 5.1.0-rc-94e652d5-20240912
+  resolution: "eslint-plugin-react-hooks@npm:5.1.0-rc-94e652d5-20240912"
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
-  checksum: 10c0/c1db853918b34c72ac07fc955a4a36723e0d58f2867eceffd2e20d2b14ef906d63e2a08a7c8951722c816f043e5791130a0cefea3f529c6d234e373e89556898
+  checksum: 10c0/ea86fb065a365f3d4f8cbfa22d9263a2f1da419a8f8667ce811216fa3561bf8ae103ffec6e33a4ba26f94471498698cbb5d6e1d8b84caa4f3a78fa9a13e37462
   languageName: node
   linkType: hard
 
@@ -1266,11 +1266,11 @@ __metadata:
   linkType: hard
 
 "get-tsconfig@npm:^4.7.3, get-tsconfig@npm:^4.7.5":
-  version: 4.8.0
-  resolution: "get-tsconfig@npm:4.8.0"
+  version: 4.8.1
+  resolution: "get-tsconfig@npm:4.8.1"
   dependencies:
     resolve-pkg-maps: "npm:^1.0.0"
-  checksum: 10c0/943721c996d9a77351aa7c07956de77baece97f997bd30f3247f46907e4b743f7b9da02c7b3692a36f0884d3724271faeb88ed1c3aca3aba2afe3f27d6c4aeb3
+  checksum: 10c0/536ee85d202f604f4b5fb6be81bcd6e6d9a96846811e83e9acc6de4a04fb49506edea0e1b8cf1d5ee7af33e469916ec2809d4c5445ab8ae015a7a51fbd1572f9
   languageName: node
   linkType: hard
 
