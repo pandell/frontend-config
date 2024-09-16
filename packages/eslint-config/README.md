@@ -10,12 +10,12 @@ Add the following to your `package.json`:
 {
   "devDependencies": {
     "@pandell/eslint-config": "^9.3.0",
-    "eslint": "^9.9.1",
+    "eslint": "^9.10.0",
     "eslint-plugin-testing-library": "^6.3.0", // only needed when using "testing: { enabledTestingLibrary: true }", see note 1 below
     // ...
   },
   "resolutions": {
-    "@typescript-eslint/utils": "^8.5.0" // only needed when including "eslint-plugin-testing-library"
+    "@typescript-eslint/utils": "^8.6.0" // only needed when including "eslint-plugin-testing-library"
   },
   // ...
 }
