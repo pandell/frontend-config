@@ -197,7 +197,7 @@ val publishConfig =
 // Top-level frontend configurations project.
 project {
     params {
-        param(name = "env.Path", value = "%env.Path%;%pandell.agent.node.v20.dir%")
+        param(name = "env.PATH", value = "%env.PATH%;%pandell.agent.node.v20.dir%")
     }
 
     buildType(buildNpmPackages)

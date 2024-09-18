@@ -12,17 +12,13 @@
     "verify": "echo '[format]' && run format && echo '[build]' && run build && echo '[lint]' && run lint",
     "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
-  "packageManager": "yarn@4.4.1",
-  "resolutions": {
-    "@typescript-eslint/type-utils": "^8.1.0",
-    "@typescript-eslint/utils": "^8.1.0"
-  },
+  "packageManager": "yarn@4.5.0",
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
     "browserslist": "^4.23.3",
-    "eslint": "^9.9.0",
+    "eslint": "^9.10.0",
     "prettier": "^3.3.3",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   },
   "prettier": "@pandell/prettier-config"
 }
