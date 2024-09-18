@@ -295,7 +295,7 @@ __metadata:
     eslint-plugin-import-x: "npm:^4.2.1"
     eslint-plugin-jest-dom: "npm:^5.4.0"
     eslint-plugin-jsdoc: "npm:^50.2.3"
-    eslint-plugin-react-hooks: "npm:5.1.0-rc-f2df5694-20240916"
+    eslint-plugin-react-hooks: "npm:5.1.0-rc-a99d8e8d-20240916"
     eslint-plugin-react-refresh: "npm:^0.4.12"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
     typescript: "npm:^5.6.2"
@@ -717,9 +717,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.4":
-  version: 1.5.23
-  resolution: "electron-to-chromium@npm:1.5.23"
-  checksum: 10c0/a2f76d3ffae24635ff13597a7e4ddd73bd7ee2124e021d34a60faafc5a1afda567e6d26c0c84abc5c2d7622d9daf9bb25ed7dd2970019dcf4b9a28c02c13cab4
+  version: 1.5.25
+  resolution: "electron-to-chromium@npm:1.5.25"
+  checksum: 10c0/2ea818d22592754b902df70d48b82c5d9e3cc2a221d3d0c39d7a7967780601a5cebd5fa10628c6d0ba918582c268a20392279e8bee93edba2e499681056ae143
   languageName: node
   linkType: hard
 
@@ -943,12 +943,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:5.1.0-rc-f2df5694-20240916":
-  version: 5.1.0-rc-f2df5694-20240916
-  resolution: "eslint-plugin-react-hooks@npm:5.1.0-rc-f2df5694-20240916"
+"eslint-plugin-react-hooks@npm:5.1.0-rc-a99d8e8d-20240916":
+  version: 5.1.0-rc-a99d8e8d-20240916
+  resolution: "eslint-plugin-react-hooks@npm:5.1.0-rc-a99d8e8d-20240916"
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
-  checksum: 10c0/b208bcf3ef8c193c44a3ca605309a9864ad0a91b99b8cab812995d7b9e779654582106e21ad01d9c759df9051b5e1ed673ef8b1363ee0b16b34743a05f026000
+  checksum: 10c0/42d2278ab5eb851a0350a340d23667f10cf7bde1cd64db283e7a8e04268f098e6540bfb09accd8b8edc05e7b40d7337cee29d9ccbbaf38bd1e8f9c7c39e133d9
   languageName: node
   linkType: hard
 
