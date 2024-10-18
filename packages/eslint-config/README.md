@@ -13,7 +13,7 @@ Add the following to your `package.json`:
   },
   "devDependencies": {
     "@pandell/eslint-config": "^9.4.0",
-    "eslint": "^9.12.0",
+    "eslint": "^9.13.0",
     // ...
   },
   // ...
