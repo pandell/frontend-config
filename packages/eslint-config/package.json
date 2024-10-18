@@ -1,7 +1,7 @@
 {
   "name": "@pandell/eslint-config",
   "type": "module",
-  "version": "9.5.0-alpha.2",
+  "version": "9.5.0-alpha.3",
   "description": "Pandell ESLint shared config",
   "keywords": [
     "eslint",
