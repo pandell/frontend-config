@@ -38,6 +38,7 @@
     "eslint-plugin-react-hooks": "5.0.0",
     "eslint-plugin-react-refresh": "^0.4.12",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-testing-library": "^6.4.0",
     "typescript-eslint": "^8.10.0"
   },
   "devDependencies": {
@@ -46,13 +47,9 @@
   },
   "peerDependencies": {
     "eslint": ">= 9",
-    "eslint-plugin-testing-library": ">= 6.3.0",
     "typescript": ">= 5"
   },
   "peerDependenciesMeta": {
-    "eslint-plugin-testing-library": {
-      "optional": true
-    },
     "typescript": {
       "optional": true
     }
