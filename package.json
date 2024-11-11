@@ -14,7 +14,7 @@
   },
   "packageManager": "yarn@4.5.1",
   "resolutions": {
-    "@typescript-eslint/utils": "^8.13.0"
+    "@typescript-eslint/utils": "^8.14.0"
   },
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
