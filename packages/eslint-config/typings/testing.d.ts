@@ -19,7 +19,7 @@ declare module "eslint-plugin-testing-library" {
     rules: ESLint.Plugin["rules"];
   };
 
-  export default plugin;
+  export default plugin; // eslint-disable-line import-x/no-default-export
 }
 
 declare module "eslint-plugin-jest-dom" {
@@ -33,5 +33,5 @@ declare module "eslint-plugin-jest-dom" {
     rules: ESLint.Plugin["rules"];
   };
 
-  export default plugin;
+  export default plugin; // eslint-disable-line import-x/no-default-export
 }

@@ -8,5 +8,5 @@ declare module "@eslint/js" {
     };
   };
 
-  export default js;
+  export default js; // eslint-disable-line import-x/no-default-export
 }
