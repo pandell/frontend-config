@@ -169,15 +169,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/compat@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "@eslint/compat@npm:1.2.2"
+"@eslint/compat@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@eslint/compat@npm:1.2.3"
   peerDependencies:
     eslint: ^9.10.0
   peerDependenciesMeta:
     eslint:
       optional: true
-  checksum: 10c0/c19e1765673520daf6f08bb82f957c6b42079389725ceda99a4387c403fccd5f9a99d142feec43ed032cb240038ea67db9748b17bf8de4ceb8b2fba382089780
+  checksum: 10c0/b7439e62f73b9a05abea3b54ad8edc171e299171fc4673fc5a2c84d97a584bb9487a7f0bee397342f6574bd53597819a8abe52f1ca72184378cf387275b84e32
   languageName: node
   linkType: hard
 
@@ -322,7 +322,7 @@ __metadata:
   resolution: "@pandell/eslint-config@workspace:packages/eslint-config"
   dependencies:
     "@eslint-react/eslint-plugin": "npm:^1.16.1"
-    "@eslint/compat": "npm:^1.2.2"
+    "@eslint/compat": "npm:^1.2.3"
     "@eslint/js": "npm:^9.14.0"
     "@tanstack/eslint-plugin-query": "npm:^5.60.1"
     "@typescript-eslint/utils": "npm:^8.14.0"
@@ -757,9 +757,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.41":
-  version: 1.5.57
-  resolution: "electron-to-chromium@npm:1.5.57"
-  checksum: 10c0/42b969681985016be6069ae68cf29e84ba3f2191fcb7f9d3355e83e81da8dbd100e4b5c9d69b88637003e06dc1860125a50332ec0caee49fd9c2c4ab62feb288
+  version: 1.5.58
+  resolution: "electron-to-chromium@npm:1.5.58"
+  checksum: 10c0/a3f5544ef12a84a7046b297195d19937f396683be8f245e1569cb9a877afd59f3630c8de9bb07f57aee1e6cda564c1a80c7d0b2fd28effb70db1558ca4669996
   languageName: node
   linkType: hard
 
