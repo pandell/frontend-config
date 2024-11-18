@@ -9,11 +9,11 @@ Add the following to your `package.json`:
 ```jsonc
 {
   "resolutions": {
-    "@typescript-eslint/utils": "^8.14.0" // see note 1
+    "@typescript-eslint/utils": "^8.15.0" // see note 1
   },
   "devDependencies": {
     "@pandell/eslint-config": "^9.6.0",
-    "eslint": "^9.14.0",
+    "eslint": "^9.15.0",
     // ...
   },
   // ...
