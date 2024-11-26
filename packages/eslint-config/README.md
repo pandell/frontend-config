@@ -8,24 +8,14 @@ Add the following to your `package.json`:
 
 ```jsonc
 {
-  "resolutions": {
-    "@typescript-eslint/utils": "^8.13.0" // see note 1
-  },
   "devDependencies": {
-    "@pandell/eslint-config": "^9.6.0",
-    "eslint": "^9.14.0",
+    "@pandell/eslint-config": "^9.7.0",
+    "eslint": "^9.15.0",
     // ...
   },
   // ...
 }
 ```
-
----
-
-> **Note 1** `eslint-plugin-testing-library` depends on a very old version of `typescript-eslint`
-library for no good reason. We recommend resolving it to the latest version, to be
-consistent with `@pandell/eslint-config`. We should be able to remove the resolution
-once testing library plugin upgrades to the latest major version of `typescript-eslint`.
 
 ---
 
