@@ -12,9 +12,6 @@
     "verify": "echo '[format]' && run format && echo '[build]' && run build && echo '[lint]' && run lint",
     "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
-  "resolutions": {
-    "@typescript-eslint/utils": "^8.15.0"
-  },
   "packageManager": "yarn@4.5.3",
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
