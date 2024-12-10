@@ -11,8 +11,8 @@ import jetbrains.buildServer.configs.kotlin.vcs.*
 fun createVcsRootFor(
     repositoryName: String,
     tokenId: String,
-): GitVcsRoot {
-    return GitVcsRoot {
+): GitVcsRoot =
+    GitVcsRoot {
         id("GitHub$repositoryName")
         name = "GitHub-$repositoryName"
         url = "https://github.com/pandell/$repositoryName"
@@ -25,7 +25,6 @@ fun createVcsRootFor(
                 this.tokenId = tokenId
             }
     }
-}
 
 fun BuildFeatures.publishCommitStatusToGitHub() {
     commitStatusPublisher {
