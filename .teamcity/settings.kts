@@ -1,3 +1,5 @@
+// spell-checker:words ktlint npmjs pwsh
+
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildSteps.*
 import jetbrains.buildServer.configs.kotlin.triggers.*
@@ -105,6 +107,10 @@ val buildNpmPackages =
             execYarnPack(NpmPackagePrefix.StyleLint)
             execYarnPack(NpmPackagePrefix.TypeScript)
         }
+
+        requirements {
+            contains("teamcity.agent.jvm.os.name", "Linux")
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -191,13 +197,17 @@ val publishConfig =
                 arguments = """publish --access public --tag "%selectedNpmTag%" "%packageBuildArtifactFullPath%" """
             }
         }
+
+        requirements {
+            contains("teamcity.agent.jvm.os.name", "Linux")
+        }
     }
 
 // -----------------------------------------------------------------------------
 // Top-level frontend configurations project.
 project {
     params {
-        param(name = "env.PATH", value = "%env.PATH%;%pandell.agent.node.v22.dir%")
+        param(name = "env.PATH", value = "%env.PATH%:%pandell.agent.node.v22.dir%/bin")
     }
 
     buildType(buildNpmPackages)
