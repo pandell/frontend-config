@@ -24,7 +24,7 @@ import lib.*
  * mvn --file .teamcity teamcity-configs:generate
  */
 
-version = "2024.03"
+version = "2024.12"
 
 // Prefixes of packages included in this monorepo.
 enum class NpmPackagePrefix {
@@ -43,10 +43,9 @@ fun packageNameFromPrefix(npmPackagePrefix: NpmPackagePrefix) = "${npmPackagePre
 fun BuildSteps.execYarnPack(npmPackagePrefix: NpmPackagePrefix) {
     val npmPackage = packageNameFromPrefix(npmPackagePrefix)
 
-    exec {
+    script {
         name = "Pack $npmPackage"
-        path = "yarn"
-        arguments = "workspace @pandell/$npmPackage pack --out ../../${npmPackage}_%%v.tgz"
+        scriptContent = "yarn workspace @pandell/$npmPackage pack --out ../../${npmPackage}_%%v.tgz"
     }
 }
 
@@ -85,20 +84,17 @@ val buildNpmPackages =
         }
 
         steps {
-            exec {
+            script {
                 name = "Install tooling"
-                path = "yarn"
-                arguments = "install --immutable"
+                scriptContent = "yarn install --immutable"
             }
-            exec {
+            script {
                 name = "Print tool versions"
-                path = "yarn"
-                arguments = "run versions"
+                scriptContent = "yarn run versions"
             }
-            exec {
+            script {
                 name = "Check format (prettier)"
-                path = "yarn"
-                arguments = "run format"
+                scriptContent = "yarn run format"
             }
             execYarnPack(NpmPackagePrefix.BrowsersList)
             execYarnPack(NpmPackagePrefix.ESLint)
@@ -174,10 +170,9 @@ val publishConfig =
         }
 
         steps {
-            exec {
+            script {
                 name = "Print tool versions"
-                path = "cmd"
-                arguments = """/c echo "[pwsh]" && pwsh --version && echo: && echo "[npm]" && npm --version"""
+                scriptContent = "echo '[pwsh]' && pwsh --version && echo -e '\n[npm]' && npm --version"
             }
             powerShell {
                 name = "Find package build artifact"
@@ -191,10 +186,9 @@ val publishConfig =
                     -SelectedNpmTag "%selectedNpmTag%"
                     """.trimIndent()
             }
-            exec {
+            script {
                 name = "Publish package build artifact"
-                path = "npm"
-                arguments = """publish --access public --tag "%selectedNpmTag%" "%packageBuildArtifactFullPath%" """
+                scriptContent = "npm publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'"
             }
         }
 
