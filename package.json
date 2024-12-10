@@ -16,8 +16,8 @@
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
     "browserslist": "^4.24.2",
-    "eslint": "^9.15.0",
-    "prettier": "^3.3.3",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2",
     "typescript": "^5.7.2"
   },
   "prettier": "@pandell/prettier-config"

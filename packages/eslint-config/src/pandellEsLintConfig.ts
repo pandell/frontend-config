@@ -219,6 +219,7 @@ async function createPandellReactConfig(
   const recommendedConfig = typeChecked
     ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.Config) // 2024-09-10, milang: "(@eslint-react/eslint-plugin@1.14.0)/configs/*" configurations do not satisfy "(eslint@9.10.0)/Linter.Config", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
     : (reactPlugin.default.configs.recommended as unknown as Linter.Config);
+  const isViteEnabled = Boolean(settings.vite?.enabled);
 
   const configs: Linter.Config[] = [
     {
@@ -232,12 +233,17 @@ async function createPandellReactConfig(
       plugins: { "react-hooks": hooksPlugin },
       rules: hooksPlugin.configs.recommended.rules,
     },
-    {
-      name: "react-refresh/recommended",
-      files: resolvedFiles,
-      plugins: { "react-refresh": refreshPlugin },
-      rules: { "react-refresh/only-export-components": "warn" },
-    },
+    isViteEnabled
+      ? {
+          ...refreshPlugin.default.configs.vite,
+          name: "react-refresh/vite",
+          files: resolvedFiles,
+        }
+      : {
+          ...refreshPlugin.default.configs.recommended,
+          name: "react-refresh/recommended",
+          files: resolvedFiles,
+        },
   ];
 
   if (queryPlugin) {

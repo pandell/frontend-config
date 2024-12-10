@@ -12,9 +12,3 @@ declare module "eslint-plugin-react-hooks" {
 
   export const rules: ESLint.Plugin["rules"];
 }
-
-declare module "eslint-plugin-react-refresh" {
-  import { ESLint } from "eslint";
-
-  export const rules: ESLint.Plugin["rules"];
-}
