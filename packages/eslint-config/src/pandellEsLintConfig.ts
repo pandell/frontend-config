@@ -53,6 +53,7 @@ function createPandellBaseConfig(
         "no-template-curly-in-string": "warn",
         "no-throw-literal": "error",
         "no-undef-init": "warn",
+        "no-unneeded-ternary": "warn",
         "no-unused-expressions": "error",
         "prefer-template": "warn",
         "radix": ["error", "as-needed"],
@@ -149,6 +150,7 @@ async function createPandellTypeScriptConfig(
       // "@typescript-eslint/no-require-imports": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
       // "no-unused-expressions": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
       // "@typescript-eslint/no-unused-expressions": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
+      "@typescript-eslint/no-unnecessary-template-expression": "warn",
       "@typescript-eslint/no-unused-vars": [
         // allow unused variables whose names start with underscore; this is consistent
         // with our C#/ReSharper/Rider and TypeScript rules; the following configuration
