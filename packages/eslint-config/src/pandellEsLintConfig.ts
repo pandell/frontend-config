@@ -311,7 +311,6 @@ async function createPandellTestingConfig(
     enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
   if (jestDom && testingLibrary && testingLibraryCompat) {
-    const testingLibraryReactFlatConfig = testingLibrary.default.configs["flat/react"];
     configs.push(
       {
         ...jestDom.default.configs["flat/recommended"],
@@ -319,16 +318,8 @@ async function createPandellTestingConfig(
         files: resolvedFiles,
       },
       {
-        ...testingLibraryReactFlatConfig,
+        ...testingLibrary.default.configs["flat/react"],
         name: "testing-library/react",
-        // 2024-09-05, milang: eslint-plugin-testing-library currently does not support
-        // ESLint 9 API; we have to use an adapter for the time being, see
-        // https://github.com/testing-library/eslint-plugin-testing-library/issues/899#issuecomment-2121272355
-        plugins: {
-          "testing-library": testingLibraryCompat.fixupPluginRules(
-            testingLibraryReactFlatConfig.plugins!["testing-library"],
-          ),
-        },
         files: resolvedFiles,
       },
     );
