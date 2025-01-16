@@ -151,7 +151,6 @@ val publishConfig =
                 display = ParameterDisplay.PROMPT,
             )
             param(name = "packageBuildArtifactFullPath", value = "")
-            param(name = "env.NPM_CONFIG_//registry.npmjs.org/:_authToken", value = "%pandell.npmToken.publish%")
         }
 
         dependencies {
@@ -188,7 +187,10 @@ val publishConfig =
             }
             script {
                 name = "Publish package build artifact"
-                scriptContent = "npm publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'"
+                scriptContent =
+                    """
+                    env "npm_config_//registry.npmjs.org/:_authToken=%pandell.npmToken.publish%" npm publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
+                    """
             }
         }
 
