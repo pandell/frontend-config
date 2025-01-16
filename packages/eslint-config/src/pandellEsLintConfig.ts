@@ -304,13 +304,12 @@ async function createPandellTestingConfig(
 
   const resolvedFiles = files === "do not set" ? undefined : files;
   const configs = [] as Linter.Config[];
-  const [jestDom, testingLibrary, testingLibraryCompat, vitest] = await Promise.all([
+  const [jestDom, testingLibrary, vitest] = await Promise.all([
     enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
-    enabledTestingLibrary ? import("@eslint/compat") : null,
     enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
-  if (jestDom && testingLibrary && testingLibraryCompat) {
+  if (jestDom && testingLibrary) {
     configs.push(
       {
         ...jestDom.default.configs["flat/recommended"],
