@@ -104,6 +104,7 @@ async function createPandellTypeScriptConfig(
     noExplicitAny = "error",
     preferNullishCoalescing = "off",
     parserOptions = { project: true },
+    strict = true,
     typeChecked = true,
   } = typeScript;
 
@@ -114,11 +115,15 @@ async function createPandellTypeScriptConfig(
   const esLintTs = await import("typescript-eslint");
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? esLintTs.configs.recommendedTypeChecked
-    : esLintTs.configs.recommended;
+    ? strict
+      ? esLintTs.configs.strictTypeChecked
+      : esLintTs.configs.recommendedTypeChecked
+    : strict
+      ? esLintTs.configs.strict
+      : esLintTs.configs.recommended;
 
   return esLintTs.config({
-    name: `@pandell-eslint-config/typescript${typeChecked ? "-type-checked" : ""}`,
+    name: `@pandell-eslint-config/typescript${strict ? "-strict" : ""}${typeChecked ? "-type-checked" : ""}`,
     extends: [
       ...recommendedConfig,
       {
@@ -603,6 +608,15 @@ export interface PandellEsLintConfigSettings {
      * @default {project:true}
      */
     readonly parserOptions?: TSESLint.ParserOptions;
+
+    /**
+     * Should the TypeScript configuration include strict rules?
+     * Strict rules contain all recommended rules, but add opinionated extra
+     * rules that can catch some bugs.
+     *
+     * @default true
+     */
+    readonly strict?: boolean;
 
     /**
      * Should the TypeScript configuration include type-checked rules?
