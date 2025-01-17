@@ -104,6 +104,7 @@ async function createPandellTypeScriptConfig(
     noExplicitAny = "error",
     preferNullishCoalescing = "off",
     parserOptions = { project: true },
+    strict = true,
     typeChecked = true,
   } = typeScript;
 
@@ -114,11 +115,15 @@ async function createPandellTypeScriptConfig(
   const esLintTs = await import("typescript-eslint");
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? esLintTs.configs.recommendedTypeChecked
-    : esLintTs.configs.recommended;
+    ? strict
+      ? esLintTs.configs.strictTypeChecked
+      : esLintTs.configs.recommendedTypeChecked
+    : strict
+      ? esLintTs.configs.strict
+      : esLintTs.configs.recommended;
 
   return esLintTs.config({
-    name: `@pandell-eslint-config/typescript${typeChecked ? "-type-checked" : ""}`,
+    name: `@pandell-eslint-config/typescript${strict ? "-strict" : ""}${typeChecked ? "-type-checked" : ""}`,
     extends: [
       ...recommendedConfig,
       {
@@ -299,14 +304,12 @@ async function createPandellTestingConfig(
 
   const resolvedFiles = files === "do not set" ? undefined : files;
   const configs = [] as Linter.Config[];
-  const [jestDom, testingLibrary, testingLibraryCompat, vitest] = await Promise.all([
+  const [jestDom, testingLibrary, vitest] = await Promise.all([
     enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
-    enabledTestingLibrary ? import("@eslint/compat") : null,
     enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
-  if (jestDom && testingLibrary && testingLibraryCompat) {
-    const testingLibraryReactFlatConfig = testingLibrary.default.configs["flat/react"];
+  if (jestDom && testingLibrary) {
     configs.push(
       {
         ...jestDom.default.configs["flat/recommended"],
@@ -314,16 +317,8 @@ async function createPandellTestingConfig(
         files: resolvedFiles,
       },
       {
-        ...testingLibraryReactFlatConfig,
+        ...testingLibrary.default.configs["flat/react"],
         name: "testing-library/react",
-        // 2024-09-05, milang: eslint-plugin-testing-library currently does not support
-        // ESLint 9 API; we have to use an adapter for the time being, see
-        // https://github.com/testing-library/eslint-plugin-testing-library/issues/899#issuecomment-2121272355
-        plugins: {
-          "testing-library": testingLibraryCompat.fixupPluginRules(
-            testingLibraryReactFlatConfig.plugins!["testing-library"],
-          ),
-        },
         files: resolvedFiles,
       },
     );
@@ -603,6 +598,15 @@ export interface PandellEsLintConfigSettings {
      * @default {project:true}
      */
     readonly parserOptions?: TSESLint.ParserOptions;
+
+    /**
+     * Should the TypeScript configuration include strict rules?
+     * Strict rules contain all recommended rules, but add opinionated extra
+     * rules that can catch some bugs.
+     *
+     * @default true
+     */
+    readonly strict?: boolean;
 
     /**
      * Should the TypeScript configuration include type-checked rules?
