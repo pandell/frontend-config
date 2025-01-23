@@ -85,7 +85,7 @@ val buildNpmPackages =
 
         steps {
             script {
-                name = "Install tooling"
+                name = "Install tooling (and build)"
                 scriptContent = "yarn install --immutable"
             }
             script {
@@ -95,6 +95,10 @@ val buildNpmPackages =
             script {
                 name = "Check format (prettier)"
                 scriptContent = "yarn run format"
+            }
+            script {
+                name = "Lint (eslint)"
+                scriptContent = "yarn run lint --format teamcity"
             }
             execYarnPack(NpmPackagePrefix.BrowsersList)
             execYarnPack(NpmPackagePrefix.ESLint)
