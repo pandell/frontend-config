@@ -1,7 +1,7 @@
 {
   "name": "@pandell/eslint-config",
   "type": "module",
-  "version": "9.7.1",
+  "version": "9.8.0",
   "description": "Pandell ESLint shared config",
   "keywords": [
     "eslint",
@@ -25,10 +25,10 @@
     "prepack": "node ../../tools/clean-package-json.mjs"
   },
   "dependencies": {
-    "@eslint-react/eslint-plugin": "^1.23.2",
+    "@eslint-react/eslint-plugin": "^1.24.1",
     "@eslint/js": "^9.18.0",
-    "@tanstack/eslint-plugin-query": "^5.62.16",
-    "@typescript-eslint/utils": "^8.20.0",
+    "@tanstack/eslint-plugin-query": "^5.64.2",
+    "@typescript-eslint/utils": "^8.21.0",
     "@vitest/eslint-plugin": "^1.1.25",
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import-x": "^4.6.1",
@@ -38,7 +38,7 @@
     "eslint-plugin-react-refresh": "^0.4.18",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-testing-library": "^7.1.1",
-    "typescript-eslint": "^8.20.0"
+    "typescript-eslint": "^8.21.0"
   },
   "devDependencies": {
     "eslint": "^9.18.0",
