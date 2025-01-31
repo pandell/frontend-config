@@ -21,5 +21,11 @@
     "prettier": "^3.4.2",
     "typescript": "^5.7.3"
   },
+  "eslint-formatter-teamcity": {
+    "error-statistics-name": "ESLint Error Count",
+    "report-name": "ESLint Violations",
+    "reporter": "inspections",
+    "warning-statistics-name": "ESLint Warning Count"
+  },
   "prettier": "@pandell/prettier-config"
 }
