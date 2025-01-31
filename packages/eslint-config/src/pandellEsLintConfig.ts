@@ -181,6 +181,8 @@ async function createPandellTypeScriptConfig(
       "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
 
       ...(typeChecked && {
+        "@typescript-eslint/consistent-type-exports": "warn",
+        "@typescript-eslint/consistent-type-imports": "warn",
         "@typescript-eslint/no-deprecated": "error",
         "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
         "@typescript-eslint/prefer-readonly": "warn",
