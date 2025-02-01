@@ -1,5 +1,5 @@
 declare module "eslint-plugin-react-hooks" {
-  import { ESLint } from "eslint";
+  import type { ESLint } from "eslint";
 
   export const configs: {
     recommended: {

@@ -1,7 +1,7 @@
 // spell-checker:word marko
 
 declare module "eslint-plugin-testing-library" {
-  import { ESLint, Linter } from "eslint";
+  import type { ESLint, Linter } from "eslint";
 
   const plugin: {
     configs: {
@@ -23,7 +23,7 @@ declare module "eslint-plugin-testing-library" {
 }
 
 declare module "eslint-plugin-jest-dom" {
-  import { ESLint, Linter } from "eslint";
+  import type { ESLint, Linter } from "eslint";
 
   const plugin: {
     configs: {
