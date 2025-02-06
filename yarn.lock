@@ -339,9 +339,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pandell/stylelint-config@workspace:packages/stylelint-config"
   peerDependencies:
-    stylelint: ">= 15"
-    stylelint-config-standard: ">= 31"
-    stylelint-no-unsupported-browser-features: ">= 7"
+    stylelint: ">= 16"
+    stylelint-config-standard: ">= 37"
+    stylelint-no-unsupported-browser-features: ">= 8"
     stylelint-order: ">= 6"
   languageName: unknown
   linkType: soft
