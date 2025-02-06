@@ -4,12 +4,13 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "tsc --build",
+    "build": "echo '[typescript]' && tsc --build",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "lint": "eslint --max-warnings 0 --cache --cache-location node_modules/.cache/eslint/eslint.cache",
+    "format:quiet": "echo '[prettier]' && run format --log-level warn",
+    "lint": "echo '[eslint]' && eslint --max-warnings 0 --cache --cache-location node_modules/.cache/eslint/eslint.cache",
     "postinstall": "run build",
-    "verify": "echo '[format]' && run format && echo '[build]' && run build && echo '[lint]' && run lint",
+    "verify": "run format:quiet && run build && run lint",
     "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
   "packageManager": "yarn@4.6.0",
