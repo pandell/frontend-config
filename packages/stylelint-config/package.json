@@ -1,6 +1,6 @@
 {
   "name": "@pandell/stylelint-config",
-  "version": "15.0.1",
+  "version": "16.0.0",
   "description": "Pandell Shared StyleLint Config",
   "keywords": [
     "pandell",
@@ -18,9 +18,9 @@
   },
   "main": "index.js",
   "peerDependencies": {
-    "stylelint": ">= 15",
-    "stylelint-config-standard": ">= 31",
-    "stylelint-no-unsupported-browser-features": ">= 7",
+    "stylelint": ">= 16",
+    "stylelint-config-standard": ">= 37",
+    "stylelint-no-unsupported-browser-features": ">= 8",
     "stylelint-order": ">= 6"
   },
   "publishConfig": {

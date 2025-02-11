@@ -9,6 +9,7 @@ module.exports = {
     "alpha-value-notation": null,
     "at-rule-no-unknown": [true, { "ignoreAtRules": ["mixin", "define-mixin"] }],
     "color-function-notation": null,
+    "color-named": "always-where-possible",
     "custom-property-pattern": null,
     "custom-property-empty-line-before": [
       "always",
