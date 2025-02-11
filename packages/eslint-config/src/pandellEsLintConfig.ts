@@ -257,14 +257,11 @@ async function createPandellReactConfig(
     // "@tanstack/eslint-plugin-query" defines "flat/recommended" as an array of configurations,
     // so adapt every configuration in the array and add them all to our configs collection
     // (as of 2024-09-10 the array only has one item)
-    const namedQueryConfigs = queryPlugin.default.configs["flat/recommended"].map(
-      (queryConfig) => ({
-        ...queryConfig,
-        name: "@tanstack/query/recommended",
-        files: resolvedFiles,
-      }),
-    );
-    configs.push(...namedQueryConfigs);
+    const queryConfigs = queryPlugin.default.configs["flat/recommended"].map((queryConfig) => ({
+      ...queryConfig,
+      files: resolvedFiles,
+    }));
+    configs.push(...queryConfigs);
   }
 
   configs.push({
