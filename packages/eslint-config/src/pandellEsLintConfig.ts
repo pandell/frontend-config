@@ -245,12 +245,10 @@ async function createPandellReactConfig(
     isViteEnabled
       ? {
           ...refreshPlugin.default.configs.vite,
-          name: "react-refresh/vite",
           files: resolvedFiles,
         }
       : {
           ...refreshPlugin.default.configs.recommended,
-          name: "react-refresh/recommended",
           files: resolvedFiles,
         },
   ];
