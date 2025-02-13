@@ -309,7 +309,7 @@ __metadata:
     "@eslint/js": "npm:^9.20.0"
     "@tanstack/eslint-plugin-query": "npm:^5.66.1"
     "@typescript-eslint/utils": "npm:^8.24.0"
-    "@vitest/eslint-plugin": "npm:^1.1.30"
+    "@vitest/eslint-plugin": "npm:^1.1.31"
     eslint: "npm:^9.20.1"
     eslint-import-resolver-typescript: "npm:^3.7.0"
     eslint-plugin-import-x: "npm:^4.6.1"
@@ -514,9 +514,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/eslint-plugin@npm:^1.1.30":
-  version: 1.1.30
-  resolution: "@vitest/eslint-plugin@npm:1.1.30"
+"@vitest/eslint-plugin@npm:^1.1.31":
+  version: 1.1.31
+  resolution: "@vitest/eslint-plugin@npm:1.1.31"
   peerDependencies:
     "@typescript-eslint/utils": ">= 8.0"
     eslint: ">= 8.57.0"
@@ -527,7 +527,7 @@ __metadata:
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/3302686121b33ec84c1d55a09b1a6ecf3048b3394403123c42bfa085b1467d80173973da8a93fe3b1a187add10e37b90539b41ce40fdcab76ea7168539c137ce
+  checksum: 10c0/c63bde5114339360b305802b7fa3da758721f7755a289ae3297d04f5c26395fff8db767ba4de1e01db25c481148b8b5d46e3b7e5d04b0338d9ee0b757d634c1d
   languageName: node
   linkType: hard
 
