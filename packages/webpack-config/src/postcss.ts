@@ -1,4 +1,4 @@
-import { AcceptedPlugin } from "postcss";
+import type { AcceptedPlugin } from "postcss";
 import postcssCalc from "postcss-calc";
 
 const postcssPresetEnv = require("postcss-preset-env");
@@ -8,24 +8,24 @@ const postcssMixins = require("postcss-mixins");
  * Settings for postcss plugins.
  */
 export interface PostcssPluginSettings {
-    /**
-     * If true, auto-prefixer will be disabled when generating CSS.
-     */
-    disableAutoPrefixer?: boolean;
+  /**
+   * If true, auto-prefixer will be disabled when generating CSS.
+   */
+  disableAutoPrefixer?: boolean;
 
-    /**
-     * Object mapping mixin names to functions.
-     *
-     * Mixins will be globally available when processing CSS files (no @import required).
-     */
-    mixins?: { [name: string]: () => any | Record<string, any> };
+  /**
+   * Object mapping mixin names to functions.
+   *
+   * Mixins will be globally available when processing CSS files (no @import required).
+   */
+  mixins?: { [name: string]: () => any | Record<string, any> };
 
-    /**
-     * Object mapping variable names to values.
-     *
-     * Variables will be globally available when processing CSS files (no @import required).
-     */
-    variables?: { [name: string]: string | number };
+  /**
+   * Object mapping variable names to values.
+   *
+   * Variables will be globally available when processing CSS files (no @import required).
+   */
+  variables?: { [name: string]: string | number };
 }
 
 /**
@@ -37,34 +37,34 @@ export interface PostcssPluginSettings {
  *     Postcss.Processor instance.
  */
 export function defaultPostcssPlugins(settings: PostcssPluginSettings): AcceptedPlugin[] {
-    const customProperties: Record<string, string | number> = {};
-    for (const key in settings.variables) {
-        // eslint-disable-next-line no-prototype-builtins
-        if (settings.variables.hasOwnProperty(key)) {
-            customProperties[key] = settings.variables[key];
-            if (!key.startsWith("--")) {
-                customProperties[`--${key}`] = settings.variables[key];
-            }
-        }
+  const customProperties: Record<string, string | number> = {};
+  for (const key in settings.variables) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (settings.variables.hasOwnProperty(key)) {
+      customProperties[key] = settings.variables[key];
+      if (!key.startsWith("--")) {
+        customProperties[`--${key}`] = settings.variables[key];
+      }
     }
+  }
 
-    return [
-        postcssMixins({ mixins: settings.mixins }),
-        postcssPresetEnv({
-            stage: 1,
-            autoprefixer: settings.disableAutoPrefixer ? false : { grid: "autoplace" },
-            features: {
-                "custom-properties": {
-                    // while `importFrom` eventually will be deprecated, the changes are still in early discussion.
-                    // see https://github.com/csstools/postcss-plugins/discussions/192 to follow along
-                    disableDeprecationNotice: true,
+  return [
+    postcssMixins({ mixins: settings.mixins }),
+    postcssPresetEnv({
+      stage: 1,
+      autoprefixer: settings.disableAutoPrefixer ? false : { grid: "autoplace" },
+      features: {
+        "custom-properties": {
+          // while `importFrom` eventually will be deprecated, the changes are still in early discussion.
+          // see https://github.com/csstools/postcss-plugins/discussions/192 to follow along
+          disableDeprecationNotice: true,
 
-                    importFrom: [{ customProperties }],
-                    preserve: false,
-                },
-                "nesting-rules": true,
-            },
-        }),
-        postcssCalc({}), // not included in preset-env
-    ];
+          importFrom: [{ customProperties }],
+          preserve: false,
+        },
+        "nesting-rules": true,
+      },
+    }),
+    postcssCalc({}), // not included in preset-env
+  ];
 }
