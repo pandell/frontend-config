@@ -20,6 +20,9 @@ Shared configuration packages for frontend tools used by Pandell engineering tea
 - [`packages/typescript-config`](packages/typescript-config/)  
   Configuration for [typescript](https://www.typescriptlang.org/): _A strongly typed programming language that builds on JavaScript, giving you better tooling at any scale_
 
+- [`packages/webpack-config`](packages/webpack-config/)  
+  Configuration for [webpack](https://webpack.js.org/): _At its core, webpack is a static module bundler for modern JavaScript applications_
+
 ## NPM registry tag management
 
 When publishing a pre-release, we typically label it with a custom tag. It is a good idea to remove this tag once the pre-release is over. Use `npm dist-tag` subcommands to manage registry tags:
