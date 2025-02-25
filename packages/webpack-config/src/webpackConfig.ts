@@ -1,8 +1,5 @@
-// spell-checker:words johng pathinfo somemodule
+// spell-checker:words animejs csspack flatbush flatqueue johng kdbush pathinfo somemodule supercluster
 
-import { mapObject, toRegExLiteral } from "@pandell/core";
-import { identity } from "@pandell/core/fp";
-import { babelWhitelist } from "@pandell/sync";
 import AssetsPlugin from "assets-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import fs from "fs";
@@ -11,11 +8,39 @@ import type { App } from "open";
 import open from "open";
 import path from "path";
 import TerserPlugin from "terser-webpack-plugin";
-import webpack from "webpack";
+import type {
+  Compiler,
+  Configuration,
+  FileCacheOptions,
+  ResolveOptions,
+  RuleSetRule,
+  StatsOptions,
+  WebpackPluginFunction,
+  WebpackPluginInstance,
+} from "webpack";
+import { BannerPlugin, DefinePlugin } from "webpack";
 
-import { compileTemplate } from "./_shared";
+// import { compileTemplate } from "./_shared";
 import type { PostcssPluginSettings } from "./postcss";
 import { defaultPostcssPlugins } from "./postcss";
+
+/**
+ * Default set of modules that should be transformed by "babel-loader" in webpack.
+ */
+const babelWhitelist = [
+  "@react-leaflet",
+  "@react-leaflet/core",
+  "abort-controller",
+  "animejs",
+  "date-fns",
+  "event-target-shim",
+  "flatbush",
+  "flatqueue",
+  "kdbush",
+  "react-leaflet",
+  "react-spring",
+  "supercluster",
+];
 
 /**
  * Default patterns for CSS module files.
@@ -32,23 +57,40 @@ const defaultCssModulePatterns = [/\.module\.css$/];
  * of "B.js"; if "B.js" depends on a new library that only exists in new version
  * of "A.js", it will crash.
  */
-const versionCheckTemplate = compileTemplate(
-  `
+function getVersionCheckScript(bundleVersion: string): string {
+  return `
 (function() {
     if (typeof window === "undefined") { return; }
     var v = window.PliAppVersion;
     if (!v) {
-        window.PliAppVersion = '{{bundleVersion}}';
-    } else if (v !== '{{bundleVersion}}') {
+        window.PliAppVersion = '${bundleVersion}';
+    } else if (v !== '${bundleVersion}') {
         location.reload(true);
     }
 }());`
     .replace(/\r?\n/g, "") // strip newlines
-    .replace(/\s{2,}/g, " "), // normalize whitespace
-);
+    .replace(/\s{2,}/g, " "); // normalize whitespace
+}
+
+// Regular expression to match regular expression special characters for escaping in toRegExLiteral
+const toLiteralRegex = new RegExp("[\\\\\\[\\]\\^\\{\\}\\<\\>\\-\\$\\.\\?\\*\\(\\)\\|\\+]", "g");
+
+/**
+ * Escape special regex characters so that they are matched literally.
+ *
+ * (E.g. a string containing "." will match dot, not any character, at that position).
+ *
+ * @param value
+ *     String to convert to literal regex.
+ * @returns
+ *     A string that can be used in a RegExp object for matching literal values.
+ */
+function toRegExLiteral(value: string | null | undefined): string {
+  return value ? value.toString().replace(toLiteralRegex, (c) => `\\${c}`) : "";
+}
 
 // based on "minimal" preset
-const statsOptions: webpack.StatsOptions = {
+const statsOptions: StatsOptions = {
   all: false,
   errorDetails: !!process.env.WEBPACK_ERROR_DETAILS,
   errors: true,
@@ -67,13 +109,13 @@ function envIsTrue(key: string): boolean {
   return value.toLowerCase() === "true" || value === "1";
 }
 
-class OpenBrowserPlugin implements webpack.WebpackPluginInstance {
+class OpenBrowserPlugin implements WebpackPluginInstance {
   constructor(
     private readonly _openPage: string,
     private readonly _openBrowser?: App | readonly App[],
   ) {}
 
-  apply(compiler: webpack.Compiler): void {
+  apply(compiler: Compiler): void {
     compiler.hooks.done.tap("OpenBrowserPlugin", () => {
       if (this._opened) {
         return;
@@ -94,7 +136,7 @@ class OpenBrowserPlugin implements webpack.WebpackPluginInstance {
 /**
  * Webpack resolve configuration.
  */
-export interface WebpackResolve extends webpack.ResolveOptions {
+export interface WebpackResolve extends ResolveOptions {
   /**
    * Array of field names in description files (e.g. package.json) that contain alias definitions.
    */
@@ -111,13 +153,13 @@ export interface WebpackResolve extends webpack.ResolveOptions {
 /**
  * Extension of Webpack configuration with the dev server field.
  */
-export interface WebpackConfigurationWithDevServer extends webpack.Configuration {
+export interface WebpackConfigurationWithDevServer extends Configuration {
   /**
    * Webpack dev server configuration.
    *
    * This is described here: https://webpack.js.org/configuration/dev-server/
    */
-  readonly devServer?: Record<string, any>;
+  readonly devServer?: Record<string, unknown>;
 }
 
 /**
@@ -163,7 +205,7 @@ export interface WebpackSettings {
   /**
    * Dictionary of values that will be inlined into output bundles.
    */
-  define?: { [definition: string]: any };
+  define?: { [definition: string]: unknown };
 
   /**
    * Enables caching the generated webpack modules and chunks to improve build speed during development.
@@ -186,7 +228,7 @@ export interface WebpackSettings {
   /**
    * Entry point configuration.
    */
-  entry: webpack.Configuration["entry"];
+  entry: Configuration["entry"];
 
   /**
    * May be used to attach more configuration to that which is generated by createWebpackConfig.
@@ -255,7 +297,7 @@ export interface WebpackSettings {
   /**
    * Array of plugins to apply with default plugins.
    */
-  plugins?: webpack.WebpackPluginFunction[];
+  plugins?: WebpackPluginFunction[];
 
   /**
    * Port to use when running the dev server.
@@ -287,7 +329,7 @@ export interface WebpackSettings {
   /**
    * Array of rules to apply with default rules.
    */
-  rules?: webpack.RuleSetRule[];
+  rules?: RuleSetRule[];
 
   /**
    * Should a browser window open with the root application page when compilation is finished?
@@ -307,7 +349,7 @@ export interface WebpackSettings {
 }
 
 function createWebpackConfigForMode(
-  mode: webpack.Configuration["mode"],
+  mode: Configuration["mode"],
   isDevServer: boolean,
   settings: WebpackSettings,
 ): WebpackConfigurationWithDevServer {
@@ -319,6 +361,7 @@ function createWebpackConfigForMode(
   if (Array.isArray(settings.entry) && !settings.outputFileName) {
     throw new Error('"settings.outputFilename" must be set when "settings.entry" is an array.');
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
   if ((settings as any).csspackConfig) {
     throw new Error(
       '"settings.csspackConfig" is no longer used. Set "settings.cssMixins" and "settings.cssVariables" instead.',
@@ -335,7 +378,7 @@ function createWebpackConfigForMode(
     appVersion = "0.0.0.0",
     define,
     entry,
-    extendWebpackConfig = identity,
+    extendWebpackConfig = (config) => config,
     clientHost: host = "localhost",
     port = 10000,
     skipOpen = envIsTrue("WEBPACK_SKIP_OPEN"),
@@ -348,11 +391,11 @@ function createWebpackConfigForMode(
     settings.enableCaching && isDevServer
       ? ({
           type: "filesystem",
-        } as webpack.FileCacheOptions)
+        } as FileCacheOptions)
       : false;
 
   // --- devServer settings ---
-  const devServerHost = `http://${host}:${port}`;
+  const devServerHost = `http://${host}:${port.toString()}`;
   const devServerPublicPath = `${devServerHost}${virtualPublicPath}`;
   const devServerOpenPage = settings.openPage ?? `http://localhost:9000${publicPathRoot}`;
   const devServer = {
@@ -387,7 +430,7 @@ function createWebpackConfigForMode(
     .concat(settings.babelWhitelist ?? [])
     .map((target) => new RegExp(`[/\\\\]node_modules[/\\\\]${toRegExLiteral(target)}`));
   const extraRules = settings.rules ?? [];
-  const rules: webpack.RuleSetRule[] = [
+  const rules: RuleSetRule[] = [
     {
       // allow `import someFileName from "someFile.png"`
       test: /\.(png|jpe?g|gif|svg)$/,
@@ -452,13 +495,18 @@ function createWebpackConfigForMode(
 
   // --- plugins settings ---
   const extraPlugins = settings.plugins ?? [];
-  const plugins: webpack.WebpackPluginInstance[] = [
+  const plugins: WebpackPluginInstance[] = [
     // values that will be defined globally in application code
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       DEBUG: JSON.stringify(!release),
       PLI_APP_VERSION: JSON.stringify(appVersion),
       // definitions must be stringified to be replaced literally in bundle output
-      ...(define && mapObject(define, (val) => JSON.stringify(val))),
+      ...(define
+        ? Object.entries(define).reduce<Record<string, string>>((obj, [key, value]) => {
+            obj[key] = JSON.stringify(value);
+            return obj;
+          }, {})
+        : {}),
     }),
 
     // extract CSS code found during compilation
@@ -478,7 +526,7 @@ function createWebpackConfigForMode(
 
   if (isDevServer && !skipOpen) {
     const openBrowserEnv = process.env["WEBPACK_OPEN_BROWSER"];
-    const openBrowser: App = openBrowserEnv ? JSON.parse(openBrowserEnv) : settings.openBrowser;
+    const openBrowser = openBrowserEnv ? (JSON.parse(openBrowserEnv) as App) : settings.openBrowser;
     plugins.push(new OpenBrowserPlugin(devServerOpenPage, openBrowser));
   }
 
@@ -486,8 +534,8 @@ function createWebpackConfigForMode(
     // if application version specified, prepend the version check code
     // to entry bundles
     plugins.push(
-      new webpack.BannerPlugin({
-        banner: versionCheckTemplate({ bundleVersion: settings.appVersion }),
+      new BannerPlugin({
+        banner: getVersionCheckScript(settings.appVersion ?? "0.0.0.0"),
         entryOnly: true,
         raw: true,
         test: "runtime.js",
@@ -527,9 +575,9 @@ function createWebpackConfigForMode(
       },
     },
     output: {
-      devtoolModuleFilenameTemplate: (info: any) => {
+      devtoolModuleFilenameTemplate: (info: { resourcePath: string }) => {
         const cleanResourcePath = info.resourcePath.replace(/^\.\//, ""); // strip leading "./"
-        return `webpack://${settings.publicPathRoot}/${cleanResourcePath}`;
+        return `webpack://${settings.publicPathRoot ?? ""}/${cleanResourcePath}`;
       },
       filename: settings.outputFileName ?? "[name].js",
       path: path.join(process.cwd(), settings.outputPath),
@@ -574,11 +622,14 @@ function createWebpackConfigForMode(
  */
 export function createWebpackConfig(
   settings: WebpackSettings,
-): (env: Record<string, any>, argv: Record<string, any>) => WebpackConfigurationWithDevServer {
+): (
+  env: Record<string, string>,
+  argv: Record<string, string>,
+) => WebpackConfigurationWithDevServer {
   const isDevServer = !!process.env.WEBPACK_SERVE;
   return (_env, argv) =>
     createWebpackConfigForMode(
-      isDevServer ? "development" : argv.mode || "production",
+      isDevServer ? "development" : (argv.mode as Configuration["mode"]) || "production",
       isDevServer,
       settings,
     );
