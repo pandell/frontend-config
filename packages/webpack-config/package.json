@@ -1,0 +1,57 @@
+{
+  "name": "@pandell/webpack-config",
+  "type": "module",
+  "version": "5.0.0",
+  "description": "Pandell webpack shared config",
+  "keywords": [
+    "webpack",
+    "pandell",
+    "pli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandell/frontend-config",
+    "directory": "packages/webpack-config"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pandell Technology Corporation",
+    "url": "https://github.com/pandell"
+  },
+  "main": "dist/webpackConfig.js",
+  "types": "dist/webpackConfig.d.ts",
+  "scripts": {
+    "prepack": "node ../../tools/clean-package-json.mjs"
+  },
+  "dependencies": {
+    "@types/assets-webpack-plugin": "^7.1.6",
+    "@types/webpack": "^5.28.5",
+    "assets-webpack-plugin": "^7.1.1",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "~4.2.2",
+    "mini-css-extract-plugin": "^2.9.2",
+    "open": "~8.4.2",
+    "postcss": "^8.5.1",
+    "postcss-calc": "^10.1.1",
+    "postcss-loader": "^8.1.1",
+    "postcss-mixins": "^11.0.3",
+    "postcss-preset-env": "~7.8.3",
+    "terser-webpack-plugin": "^5.3.11"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "webpack": "^5.97.1"
+  },
+  "peerDependencies": {
+    "typescript": ">= 5",
+    "webpack": ">= 5"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
