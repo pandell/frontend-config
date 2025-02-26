@@ -130,5 +130,10 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // file associations
+  "files.associations": {
+    "LICENSE": "plaintext"
   }
 }
