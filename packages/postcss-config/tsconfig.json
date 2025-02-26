@@ -4,8 +4,7 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "module": "Node16",
-    "moduleResolution": "node16",
+    "module": "ESNext",
     "outDir": "dist",
     "rootDir": "src",
     "tsBuildInfoFile": "../../node_modules/.cache/typescript/postcss-config.tsbuildinfo"
