@@ -1,5 +1,7 @@
 // spell-checker:words animejs csspack flatbush flatqueue johng kdbush pathinfo somemodule supercluster
 
+import type { PostcssPluginSettings } from "@pandell/postcss-config";
+import { defaultPostcssPlugins } from "@pandell/postcss-config";
 import AssetsPlugin from "assets-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import fs from "fs";
@@ -19,10 +21,6 @@ import type {
   WebpackPluginInstance,
 } from "webpack";
 import { BannerPlugin, DefinePlugin } from "webpack";
-
-// import { compileTemplate } from "./_shared";
-import type { PostcssPluginSettings } from "./postcss";
-import { defaultPostcssPlugins } from "./postcss";
 
 /**
  * Default set of modules that should be transformed by "babel-loader" in webpack.
