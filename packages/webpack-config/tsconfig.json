@@ -6,7 +6,8 @@
     "module": "ESNext",
     "outDir": "dist",
     "rootDir": "src",
-    "tsBuildInfoFile": "../../node_modules/.cache/typescript/eslint-config.tsbuildinfo"
+    "tsBuildInfoFile": "../../node_modules/.cache/typescript/webpack-config.tsbuildinfo"
   },
-  "include": ["src", "typings"]
+  "include": ["src", "typings"],
+  "references": [{ "path": "../postcss-config" }]
 }
