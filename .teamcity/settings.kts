@@ -31,9 +31,11 @@ enum class NpmPackagePrefix {
     BrowsersList,
     ESLint,
     Jest,
+    PostCss,
     Prettier,
     StyleLint,
     TypeScript,
+    WebPack,
 }
 
 // Calculates full package name from the specified prefix.
@@ -103,9 +105,11 @@ val buildNpmPackages =
             execYarnPack(NpmPackagePrefix.BrowsersList)
             execYarnPack(NpmPackagePrefix.ESLint)
             execYarnPack(NpmPackagePrefix.Jest)
+            execYarnPack(NpmPackagePrefix.PostCss)
             execYarnPack(NpmPackagePrefix.Prettier)
             execYarnPack(NpmPackagePrefix.StyleLint)
             execYarnPack(NpmPackagePrefix.TypeScript)
+            execYarnPack(NpmPackagePrefix.WebPack)
         }
 
         requirements {
@@ -143,9 +147,11 @@ val publishConfig =
                         packageNameFromPrefix(NpmPackagePrefix.BrowsersList),
                         packageNameFromPrefix(NpmPackagePrefix.ESLint),
                         packageNameFromPrefix(NpmPackagePrefix.Jest),
+                        packageNameFromPrefix(NpmPackagePrefix.PostCss),
                         packageNameFromPrefix(NpmPackagePrefix.Prettier),
                         packageNameFromPrefix(NpmPackagePrefix.StyleLint),
                         packageNameFromPrefix(NpmPackagePrefix.TypeScript),
+                        packageNameFromPrefix(NpmPackagePrefix.WebPack),
                     ),
             )
             text(
