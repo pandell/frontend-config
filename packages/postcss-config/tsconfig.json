@@ -9,6 +9,5 @@
     "outDir": "dist",
     "rootDir": "src",
     "tsBuildInfoFile": "../../node_modules/.cache/typescript/postcss-config.tsbuildinfo"
-  },
-  "include": ["src", "typings"]
+  }
 }
