@@ -586,6 +586,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@pandell/postcss-config@workspace:packages/postcss-config":
+  version: 0.0.0-use.local
+  resolution: "@pandell/postcss-config@workspace:packages/postcss-config"
+  dependencies:
+    postcss: "npm:^8.5.1"
+    postcss-calc: "npm:^10.1.1"
+    postcss-mixins: "npm:^11.0.3"
+    postcss-preset-env: "npm:~7.8.3"
+  peerDependencies:
+    postcss: ">= 8"
+    typescript: ">= 5"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@pandell/prettier-config@workspace:packages/prettier-config":
   version: 0.0.0-use.local
   resolution: "@pandell/prettier-config@workspace:packages/prettier-config"
@@ -617,6 +634,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pandell/webpack-config@workspace:packages/webpack-config"
   dependencies:
+    "@pandell/postcss-config": "workspace:packages/postcss-config"
     "@types/assets-webpack-plugin": "npm:^7.1.6"
     "@types/webpack": "npm:^5.28.5"
     assets-webpack-plugin: "npm:^7.1.1"
@@ -625,10 +643,7 @@ __metadata:
     mini-css-extract-plugin: "npm:^2.9.2"
     open: "npm:~8.4.2"
     postcss: "npm:^8.5.1"
-    postcss-calc: "npm:^10.1.1"
     postcss-loader: "npm:^8.1.1"
-    postcss-mixins: "npm:^11.0.3"
-    postcss-preset-env: "npm:~7.8.3"
     terser-webpack-plugin: "npm:^5.3.11"
     typescript: "npm:^5.7.3"
     webpack: "npm:^5.97.1"

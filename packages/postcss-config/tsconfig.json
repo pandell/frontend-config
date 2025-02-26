@@ -1,0 +1,10 @@
+{
+  "extends": "@pandell/typescript-config",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "tsBuildInfoFile": "../../node_modules/.cache/typescript/postcss-config.tsbuildinfo"
+  },
+  "include": ["src", "typings"]
+}

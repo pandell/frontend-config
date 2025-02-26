@@ -11,6 +11,9 @@ Shared configuration packages for frontend tools used by Pandell engineering tea
 - [`packages/jest-config`](packages/jest-config/)  
   Pandell-defined reusable mocks and helpers for [jest](https://jestjs.io/): _Delightful JavaScript testing framework with a focus on simplicity_
 
+- [`packages/postcss-config`](packages/postcss-config/)  
+  Configuration for [postcss](https://postcss.org/): _A tool for transforming CSS with JavaScript_
+
 - [`packages/prettier-config`](packages/prettier-config/)  
   Configuration for [prettier](https://prettier.io/): _An opinionated code formatter_
 
