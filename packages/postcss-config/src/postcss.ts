@@ -1,10 +1,10 @@
 import type { AcceptedPlugin } from "postcss";
 import postcssCalc from "postcss-calc";
+import type { Options } from "postcss-mixins";
+import postcssMixins from "postcss-mixins";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
 const postcssPresetEnv = require("postcss-preset-env");
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
-const postcssMixins = require("postcss-mixins");
 
 /**
  * Settings for postcss plugins.
@@ -20,7 +20,7 @@ export interface PostcssPluginSettings {
    *
    * Mixins will be globally available when processing CSS files (no @import required).
    */
-  mixins?: { [name: string]: () => string | Record<string, string> };
+  mixins?: Options["mixins"];
 
   /**
    * Object mapping variable names to values.
@@ -52,7 +52,6 @@ export function defaultPostcssPlugins(settings: PostcssPluginSettings): Accepted
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return [
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     postcssMixins({ mixins: settings.mixins }),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     postcssPresetEnv({
