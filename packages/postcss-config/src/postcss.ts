@@ -2,9 +2,7 @@ import type { AcceptedPlugin } from "postcss";
 import postcssCalc from "postcss-calc";
 import type { Options } from "postcss-mixins";
 import postcssMixins from "postcss-mixins";
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-require-imports
-const postcssPresetEnv = require("postcss-preset-env");
+import postcssPresetEnv from "postcss-preset-env";
 
 /**
  * Settings for postcss plugins.
@@ -41,8 +39,7 @@ export interface PostcssPluginSettings {
 export function defaultPostcssPlugins(settings: PostcssPluginSettings): AcceptedPlugin[] {
   const customProperties: Record<string, string | number> = {};
   for (const key in settings.variables) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (settings.variables.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(settings.variables, key)) {
       customProperties[key] = settings.variables[key];
       if (!key.startsWith("--")) {
         customProperties[`--${key}`] = settings.variables[key];
@@ -50,10 +47,9 @@ export function defaultPostcssPlugins(settings: PostcssPluginSettings): Accepted
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return [
     postcssMixins({ mixins: settings.mixins }),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
     postcssPresetEnv({
       stage: 1,
       autoprefixer: settings.disableAutoPrefixer ? false : { grid: "autoplace" },
@@ -69,6 +65,7 @@ export function defaultPostcssPlugins(settings: PostcssPluginSettings): Accepted
         "nesting-rules": true,
       },
     }),
+
     postcssCalc({}), // not included in preset-env
   ];
 }
