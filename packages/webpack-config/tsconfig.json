@@ -9,6 +9,5 @@
     "rootDir": "src",
     "tsBuildInfoFile": "../../node_modules/.cache/typescript/webpack-config.tsbuildinfo"
   },
-  "include": ["src", "typings"],
   "references": [{ "path": "../postcss-config" }]
 }
