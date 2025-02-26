@@ -1,6 +1,7 @@
 {
   "extends": "@pandell/typescript-config",
   "compilerOptions": {
+    "composite": true,
     "declaration": true,
     "outDir": "dist",
     "rootDir": "src",
