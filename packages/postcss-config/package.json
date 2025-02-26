@@ -1,0 +1,46 @@
+{
+  "name": "@pandell/postcss-config",
+  "type": "module",
+  "version": "8.0.0",
+  "description": "Pandell PostCSS shared config",
+  "keywords": [
+    "postcss",
+    "pandell",
+    "pli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pandell/frontend-config",
+    "directory": "packages/postcss-config"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pandell Technology Corporation",
+    "url": "https://github.com/pandell"
+  },
+  "main": "dist/postcss.js",
+  "types": "dist/postcss.d.ts",
+  "scripts": {
+    "prepack": "node ../../tools/clean-package-json.mjs"
+  },
+  "dependencies": {
+    "postcss-calc": "^10.1.1",
+    "postcss-mixins": "^11.0.3",
+    "postcss-preset-env": "~7.8.3"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.1"
+  },
+  "peerDependencies": {
+    "postcss": ">= 8",
+    "typescript": ">= 5"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
