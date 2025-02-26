@@ -1,10 +1,12 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@pandell/typescript-config",
   "compilerOptions": {
     "declaration": true,
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "outDir": "dist",
     "rootDir": "src",
     "tsBuildInfoFile": "../../node_modules/.cache/typescript/eslint-config.tsbuildinfo"
-  },
-  "include": ["src", "typings"]
+  }
 }
