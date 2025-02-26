@@ -18,8 +18,12 @@
     "name": "Pandell Technology Corporation",
     "url": "https://github.com/pandell"
   },
-  "main": "dist/postcss.js",
-  "types": "dist/postcss.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/postcss.d.ts",
+      "default": "./dist/postcss.js"
+    }
+  },
   "scripts": {
     "prepack": "node ../../tools/clean-package-json.mjs"
   },
