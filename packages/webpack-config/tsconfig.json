@@ -4,7 +4,7 @@
     "declaration": true,
     "outDir": "dist",
     "rootDir": "src",
-    "tsBuildInfoFile": "../../node_modules/.cache/typescript/eslint-config.tsbuildinfo"
+    "tsBuildInfoFile": "../../node_modules/.cache/typescript/webpack-config.tsbuildinfo"
   },
   "include": ["src", "typings"]
 }
