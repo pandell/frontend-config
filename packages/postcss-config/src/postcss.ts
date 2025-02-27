@@ -29,7 +29,8 @@ export interface PostcssPluginSettings {
 }
 
 /**
- * Create an array of Postcss plugins for the given settings.
+ * Create an array of PostCSS plugins with the given settings.
+ * The default plugins are "postcss-mixins", "postcss-preset-env", and "postcss-calc".
  *
  * @param settings
  *     Settings controlling CSS file processing.
