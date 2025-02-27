@@ -5,7 +5,7 @@ import postcssMixins from "postcss-mixins";
 import postcssPresetEnv from "postcss-preset-env";
 
 /**
- * Settings for postcss plugins.
+ * Settings for PostCSS plugins.
  */
 export interface PostcssPluginSettings {
   /**
