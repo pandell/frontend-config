@@ -26,16 +26,22 @@ export interface PostcssPluginSettings {
    * Variables will be globally available when processing CSS files (no @import required).
    */
   readonly variables?: { [name: string]: string | number };
+
+  /**
+   * List of extra plugins to append to the end of the array returned from {@link defaultPostcssPlugins}.
+   */
+  readonly extraPlugins?: AcceptedPlugin[];
 }
 
 /**
- * Create an array of PostCSS plugins with the given settings.
- * The default plugins are "postcss-mixins", "postcss-preset-env", and "postcss-calc".
+ * Creates an array of PostCSS plugins with the given settings.
+ * The default plugins are `postcss-mixins`, `postcss-preset-env`, and `postcss-calc`.
  *
  * @param settings
  *     Settings controlling CSS file processing.
  * @returns
- *     Postcss.Processor instance.
+ *     An array of PostCSS plugins. This array can be used anywhere PostCSS configuration can
+ *     be specified - e.g. `postcss.config.mjs` file, Webpack configuration, Vite configuration.
  */
 export function defaultPostcssPlugins(settings: PostcssPluginSettings): AcceptedPlugin[] {
   const customProperties: Record<string, string | number> = {};
@@ -48,7 +54,7 @@ export function defaultPostcssPlugins(settings: PostcssPluginSettings): Accepted
     }
   }
 
-  return [
+  const plugins: AcceptedPlugin[] = [
     postcssMixins({ mixins: settings.mixins }),
 
     postcssPresetEnv({
@@ -69,4 +75,8 @@ export function defaultPostcssPlugins(settings: PostcssPluginSettings): Accepted
 
     postcssCalc({}), // not included in preset-env
   ];
+
+  return settings.extraPlugins && settings.extraPlugins.length
+    ? plugins.concat(settings.extraPlugins)
+    : plugins;
 }
