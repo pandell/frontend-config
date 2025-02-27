@@ -1,4 +1,9 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "files": [],
-  "references": [{ "path": "packages/eslint-config/tsconfig.json" }]
+  "references": [
+    { "path": "packages/eslint-config/tsconfig.json" },
+    { "path": "packages/postcss-config/tsconfig.json" },
+    { "path": "packages/webpack-config/tsconfig.json" }
+  ]
 }
