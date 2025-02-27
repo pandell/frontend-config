@@ -26,11 +26,16 @@ export interface PostcssPluginSettings {
    * Variables will be globally available when processing CSS files (no @import required).
    */
   readonly variables?: { [name: string]: string | number };
+
+  /**
+   * List of extra plugins to be appended to the end of an array returned by {@link defaultPostcssPlugins}.
+   */
+  readonly extraPlugins?: AcceptedPlugin[];
 }
 
 /**
  * Create an array of PostCSS plugins with the given settings.
- * The default plugins are "postcss-mixins", "postcss-preset-env", and "postcss-calc".
+ * The default plugins are `postcss-mixins`, `postcss-preset-env`, and `postcss-calc`.
  *
  * @param settings
  *     Settings controlling CSS file processing.
@@ -48,7 +53,7 @@ export function defaultPostcssPlugins(settings: PostcssPluginSettings): Accepted
     }
   }
 
-  return [
+  const plugins: AcceptedPlugin[] = [
     postcssMixins({ mixins: settings.mixins }),
 
     postcssPresetEnv({
@@ -69,4 +74,8 @@ export function defaultPostcssPlugins(settings: PostcssPluginSettings): Accepted
 
     postcssCalc({}), // not included in preset-env
   ];
+
+  return settings.extraPlugins && settings.extraPlugins.length
+    ? plugins.concat(settings.extraPlugins)
+    : plugins;
 }
