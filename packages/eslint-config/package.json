@@ -19,11 +19,10 @@
     "name": "Pandell Technology Corporation",
     "url": "https://github.com/pandell"
   },
+  "module": "./dist/pandellEsLintConfig.js",
   "exports": {
-    ".": {
-      "types": "./dist/pandellEsLintConfig.d.ts",
-      "default": "./dist/pandellEsLintConfig.js"
-    }
+    "types": "./dist/pandellEsLintConfig.d.ts",
+    "default": "./dist/pandellEsLintConfig.js"
   },
   "scripts": {
     "prepack": "node ../../tools/clean-package-json.mjs"
