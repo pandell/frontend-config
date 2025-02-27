@@ -35,13 +35,7 @@
     "postcss": "^8.5.3"
   },
   "peerDependencies": {
-    "postcss": ">= 8",
-    "typescript": ">= 5"
-  },
-  "peerDependenciesMeta": {
-    "typescript": {
-      "optional": true
-    }
+    "postcss": ">= 8"
   },
   "publishConfig": {
     "access": "public"
