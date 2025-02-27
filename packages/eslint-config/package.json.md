@@ -1,13 +1,15 @@
-# Notes for "package.json"
+# Notes for "eslint-config/package.json"
 
 NodeJS/NPM don't allow comments in `package.json`, so we keep
 notes and comments in this markdown file.
 
 - [Dependencies](#dependencies)
+- [Resolutions](#resolutions)
 
 ## Dependencies
 
-- `eslint-plugin-testing-library`  
-  2024-06-14, milang: See note 1 in [README.md](README.md). Optional peer dependency
-  should be deleted and `eslint-plugin-testing-library` should be converted to regular
-  `dependency` when it adds support for ESLint 9 (version 7?).
+All dependencies are up-to-date at this time.
+
+## Resolutions
+
+No resolutions are needed at this time.
