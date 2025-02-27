@@ -11,21 +11,21 @@ export interface PostcssPluginSettings {
   /**
    * If true, auto-prefixer will be disabled when generating CSS.
    */
-  disableAutoPrefixer?: boolean;
+  readonly disableAutoPrefixer?: boolean;
 
   /**
    * Object mapping mixin names to functions.
    *
    * Mixins will be globally available when processing CSS files (no @import required).
    */
-  mixins?: Options["mixins"];
+  readonly mixins?: Options["mixins"];
 
   /**
    * Object mapping variable names to values.
    *
    * Variables will be globally available when processing CSS files (no @import required).
    */
-  variables?: { [name: string]: string | number };
+  readonly variables?: { [name: string]: string | number };
 }
 
 /**
