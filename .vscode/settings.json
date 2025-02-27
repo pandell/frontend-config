@@ -1,12 +1,18 @@
+// spell-checker:ignore anson colour esbenp fwcd ktfmt otbs yalc
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
 
+  "files.exclude": {
+    "**/.DS_Store": true
+  },
+
   "search.exclude": {
     ".yalc": true,
-    ".yarn": true
+    ".yarn": true,
+    "**/dist": true
   },
 
   "typescript.tsdk": "node_modules/typescript/lib",
@@ -16,27 +22,28 @@
   // settings for extensions below
 
   // spell checker settings
-  "cSpell.ignorePaths": [".git", ".vscode", "node_modules", "yarn.lock"],
+  "cSpell.ignorePaths": [".git", "node_modules", "yarn.lock"],
   "cSpell.language": "en-US",
-  "cSpell.enableFiletypes": [
-    "asciidoc",
-    "csharp",
-    "editorconfig",
-    "git-commit",
-    "ignore",
-    "javascript",
-    "javascriptreact",
-    "json",
-    "jsonc",
-    "log",
-    "markdown",
-    "plaintext",
-    "powershell",
-    "properties",
-    "text",
-    "typescript",
-    "typescriptreact"
-  ],
+  "cSpell.enabledFileTypes": {
+    "asciidoc": true,
+    "csharp": true,
+    "css": true,
+    "editorconfig": true,
+    "git-commit": true,
+    "html": true,
+    "ignore": true,
+    "javascript": true,
+    "javascriptreact": true,
+    "json": true,
+    "jsonc": true,
+    "markdown": true,
+    "plaintext": true,
+    "powershell": true,
+    "properties": true,
+    "text": true,
+    "typescript": true,
+    "typescriptreact": true
+  },
   "cSpell.flagWords": ["colour"],
   "cSpell.words": [
     "chriscoyier",
@@ -107,7 +114,10 @@
     "editor.formatOnSave": false // 2023-12-12, milang: -||-
   },
   "[markdown]": {
-    "editor.defaultFormatter": "davidanson.vscode-markdownlint"
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "[svg]": {
+    "editor.formatOnSave": false
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
