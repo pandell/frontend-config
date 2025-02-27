@@ -19,10 +19,8 @@
     "url": "https://github.com/pandell"
   },
   "exports": {
-    ".": {
-      "types": "./dist/postcss.d.ts",
-      "default": "./dist/postcss.js"
-    }
+    "types": "./dist/postcss.d.ts",
+    "default": "./dist/postcss.js"
   },
   "scripts": {
     "prepack": "node ../../tools/clean-package-json.mjs"

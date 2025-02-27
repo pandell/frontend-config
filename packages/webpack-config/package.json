@@ -19,10 +19,8 @@
     "url": "https://github.com/pandell"
   },
   "exports": {
-    ".": {
-      "types": "./dist/webpackConfig.d.ts",
-      "default": "./dist/webpackConfig.js"
-    }
+    "types": "./dist/webpackConfig.d.ts",
+    "default": "./dist/webpackConfig.js"
   },
   "scripts": {
     "prepack": "node ../../tools/clean-package-json.mjs"
