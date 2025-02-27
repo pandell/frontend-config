@@ -366,11 +366,7 @@ function createPandellViteConfig(
   settings: PandellEsLintConfigSettings,
 ): ReadonlyArray<Linter.Config> {
   const { vite = {} } = settings;
-  const {
-    enabled = false,
-    tsConfigPath = "tsconfig.node.json",
-    viteConfigPath = "vite.config.ts",
-  } = vite;
+  const { enabled = false, tsConfigPath = "tsconfig.node.json", files = ["vite.config.ts"] } = vite;
 
   if (!enabled) {
     return [];
@@ -379,7 +375,7 @@ function createPandellViteConfig(
   return [
     {
       name: "@pandell-eslint-config/vite",
-      files: [viteConfigPath],
+      files,
       languageOptions: { parserOptions: { project: tsConfigPath } },
     },
   ];
@@ -635,11 +631,11 @@ export interface PandellEsLintConfigSettings {
     readonly tsConfigPath?: string;
 
     /**
-     * Sets the Vite configuration file path (used to set "files" for the configuration layer).
+     * Sets the files that will be analyzed with Vite's "tsConfigPath".
      *
-     * @default "vite.config.ts"
+     * @default ["vite.config.ts"]
      */
-    readonly viteConfigPath?: string;
+    readonly files?: string[];
   };
 }
 
