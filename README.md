@@ -11,6 +11,9 @@ Shared configuration packages for frontend tools used by Pandell engineering tea
 - [`packages/jest-config`](packages/jest-config/)  
   Pandell-defined reusable mocks and helpers for [jest](https://jestjs.io/): _Delightful JavaScript testing framework with a focus on simplicity_
 
+- [`packages/postcss-config`](packages/postcss-config/)  
+  Configuration for [postcss](https://postcss.org/): _A tool for transforming CSS with JavaScript_
+
 - [`packages/prettier-config`](packages/prettier-config/)  
   Configuration for [prettier](https://prettier.io/): _An opinionated code formatter_
 
@@ -19,6 +22,9 @@ Shared configuration packages for frontend tools used by Pandell engineering tea
 
 - [`packages/typescript-config`](packages/typescript-config/)  
   Configuration for [typescript](https://www.typescriptlang.org/): _A strongly typed programming language that builds on JavaScript, giving you better tooling at any scale_
+
+- [`packages/webpack-config`](packages/webpack-config/) _Legacy: not recommended for new projects_  
+  Configuration for [webpack](https://webpack.js.org/): _At its core, webpack is a static module bundler for modern JavaScript applications_
 
 ## NPM registry tag management
 

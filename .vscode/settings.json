@@ -15,9 +15,11 @@
     "**/dist": true
   },
 
+  "typescript.enablePromptUseWorkspaceTsdk": true, // https://stackoverflow.com/a/75357623, "How do I force Visual Studio Code to always use my workspace's version of TypeScript for all projects?"
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.tsc.autoDetect": "off", // do not pollute tasks with auto-detected typescript tasks
+
   "npm.autoDetect": "off", // do not pollute tasks with auto-detected NPM tasks
+  "typescript.tsc.autoDetect": "off", // do not pollute tasks with auto-detected typescript tasks
 
   // settings for extensions below
 
@@ -46,12 +48,15 @@
   },
   "cSpell.flagWords": ["colour"],
   "cSpell.words": [
+    "autoplace",
     "chriscoyier",
     "compat",
     "eslintconfig",
     "milang",
+    "nodenext",
     "pandell",
     "parens",
+    "prefixer",
     "stylelint",
     "tanstack",
     "tsbuildinfo",
@@ -127,5 +132,10 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // file associations
+  "files.associations": {
+    "LICENSE": "plaintext"
   }
 }
