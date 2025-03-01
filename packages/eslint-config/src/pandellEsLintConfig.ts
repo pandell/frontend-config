@@ -237,10 +237,8 @@ async function createPandellReactConfig(
       files: resolvedFiles,
     },
     {
-      name: "react-hooks/recommended",
+      ...hooksPlugin.configs["recommended-latest"],
       files: resolvedFiles,
-      plugins: { "react-hooks": hooksPlugin },
-      rules: hooksPlugin.configs.recommended.rules,
     },
     isViteEnabled
       ? {
