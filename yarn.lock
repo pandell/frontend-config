@@ -565,11 +565,11 @@ __metadata:
     eslint-plugin-import-x: "npm:^4.6.1"
     eslint-plugin-jest-dom: "npm:^5.5.0"
     eslint-plugin-jsdoc: "npm:^50.6.3"
-    eslint-plugin-react-hooks: "npm:5.1.0"
+    eslint-plugin-react-hooks: "npm:~5.1.0"
     eslint-plugin-react-refresh: "npm:^0.4.19"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
     eslint-plugin-testing-library: "npm:^7.1.1"
-    typescript: "npm:^5.7.3"
+    typescript: "npm:~5.7.3"
     typescript-eslint: "npm:^8.25.0"
   peerDependencies:
     eslint: ">= 9"
@@ -594,9 +594,7 @@ __metadata:
     postcss: "npm:^8.5.3"
     postcss-calc: "npm:^10.1.1"
     postcss-mixins: "npm:^11.0.3"
-    postcss-preset-env: "npm:~7.8.3"
-  peerDependencies:
-    postcss: ">= 8"
+    postcss-preset-env: "npm:^7.8.3"
   languageName: unknown
   linkType: soft
 
@@ -641,8 +639,8 @@ __metadata:
     open: "npm:^10.1.0"
     postcss: "npm:^8.5.3"
     postcss-loader: "npm:^8.1.1"
-    terser-webpack-plugin: "npm:^5.3.11"
-    typescript: "npm:^5.7.3"
+    terser-webpack-plugin: "npm:^5.3.12"
+    typescript: "npm:~5.7.3"
     webpack: "npm:^5.98.0"
   peerDependencies:
     typescript: ">= 5"
@@ -2022,7 +2020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:5.1.0":
+"eslint-plugin-react-hooks@npm:~5.1.0":
   version: 5.1.0
   resolution: "eslint-plugin-react-hooks@npm:5.1.0"
   peerDependencies:
@@ -3695,7 +3693,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-preset-env@npm:~7.8.3":
+"postcss-preset-env@npm:^7.8.3":
   version: 7.8.3
   resolution: "postcss-preset-env@npm:7.8.3"
   dependencies:
@@ -3994,7 +3992,7 @@ __metadata:
     eslint: "npm:^9.21.0"
     eslint-formatter-teamcity: "npm:^1.0.0"
     prettier: "npm:^3.5.2"
-    typescript: "npm:^5.7.3"
+    typescript: "npm:~5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -4223,7 +4221,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"terser-webpack-plugin@npm:^5.3.11":
+"terser-webpack-plugin@npm:^5.3.11, terser-webpack-plugin@npm:^5.3.12":
   version: 5.3.12
   resolution: "terser-webpack-plugin@npm:5.3.12"
   dependencies:
@@ -4335,7 +4333,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.7.3":
+"typescript@npm:~5.7.3":
   version: 5.7.3
   resolution: "typescript@npm:5.7.3"
   bin:
@@ -4345,7 +4343,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.7.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A~5.7.3#optional!builtin<compat/typescript>":
   version: 5.7.3
   resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"
   bin:

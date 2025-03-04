@@ -35,11 +35,11 @@
     "mini-css-extract-plugin": "^2.9.2",
     "open": "^10.1.0",
     "postcss-loader": "^8.1.1",
-    "terser-webpack-plugin": "^5.3.11"
+    "terser-webpack-plugin": "^5.3.12"
   },
   "devDependencies": {
     "postcss": "^8.5.3",
-    "typescript": "^5.7.3",
+    "typescript": "~5.7.3",
     "webpack": "^5.98.0"
   },
   "peerDependencies": {
