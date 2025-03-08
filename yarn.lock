@@ -564,7 +564,7 @@ __metadata:
   dependencies:
     "@eslint-react/eslint-plugin": "npm:^1.31.0"
     "@eslint/js": "npm:^9.22.0"
-    "@tanstack/eslint-plugin-query": "npm:^5.66.1"
+    "@tanstack/eslint-plugin-query": "npm:^5.67.2"
     "@typescript-eslint/utils": "npm:^8.26.0"
     "@vitest/eslint-plugin": "npm:^1.1.36"
     eslint: "npm:^9.22.0"
@@ -672,14 +672,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.66.1":
-  version: 5.66.1
-  resolution: "@tanstack/eslint-plugin-query@npm:5.66.1"
+"@tanstack/eslint-plugin-query@npm:^5.67.2":
+  version: 5.67.2
+  resolution: "@tanstack/eslint-plugin-query@npm:5.67.2"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.18.1"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/15f0b5a15c08bf65952add24fd8d2e7322c3725b9d3c855e43db3362355afd2ca38abcb61fe2932fecda85524fdbf5bc45d31b8c16b0952995e282a8e63dd6d0
+  checksum: 10c0/646d6c8621d53c6eb171aea263c104a0d46eff5578da12d2fe009d6831a94e2d611e861a3d59d34b717a87b7768daa4e70fa00d7d8336441385ff9afb47e737c
   languageName: node
   linkType: hard
 
@@ -2902,11 +2902,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^3.3.8":
-  version: 3.3.8
-  resolution: "nanoid@npm:3.3.8"
+  version: 3.3.9
+  resolution: "nanoid@npm:3.3.9"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 10c0/4b1bb29f6cfebf3be3bc4ad1f1296fb0a10a3043a79f34fbffe75d1621b4318319211cd420549459018ea3592f0d2f159247a6f874911d6d26eaaadda2478120
+  checksum: 10c0/4515abe53db7b150cf77074558efc20d8e916d6910d557b5ce72e8bbf6f8e7554d3d7a0d180bfa65e5d8e99aa51b207aa8a3bf5f3b56233897b146d592e30b24
   languageName: node
   linkType: hard
 
