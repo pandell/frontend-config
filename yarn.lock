@@ -571,7 +571,7 @@ __metadata:
     eslint-import-resolver-typescript: "npm:^3.8.3"
     eslint-plugin-import-x: "npm:^4.6.1"
     eslint-plugin-jest-dom: "npm:^5.5.0"
-    eslint-plugin-jsdoc: "npm:^50.6.3"
+    eslint-plugin-jsdoc: "npm:^50.6.6"
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.19"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
@@ -1922,7 +1922,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:^50.6.3":
+"eslint-plugin-jsdoc@npm:^50.6.6":
   version: 50.6.6
   resolution: "eslint-plugin-jsdoc@npm:50.6.6"
   dependencies:
