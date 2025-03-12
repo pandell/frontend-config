@@ -320,8 +320,7 @@ async function createPandellTestingConfig(
   }
   if (vitest) {
     configs.push({
-      ...(vitest.default.configs.recommended as unknown as Linter.Config),
-      name: "vitest/recommended",
+      ...vitest.default.configs.recommended,
       files: resolvedFiles,
     });
   }
