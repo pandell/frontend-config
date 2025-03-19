@@ -601,7 +601,7 @@ __metadata:
     "@vitest/eslint-plugin": "npm:^1.1.38"
     eslint: "npm:^9.22.0"
     eslint-import-resolver-typescript: "npm:^4.2.2"
-    eslint-plugin-import-x: "npm:^4.8.1"
+    eslint-plugin-import-x: "npm:^4.9.0"
     eslint-plugin-jest-dom: "npm:^5.5.0"
     eslint-plugin-jsdoc: "npm:^50.6.8"
     eslint-plugin-react-hooks: "npm:^5.2.0"
@@ -2004,9 +2004,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.8.1":
-  version: 4.8.1
-  resolution: "eslint-plugin-import-x@npm:4.8.1"
+"eslint-plugin-import-x@npm:^4.9.0":
+  version: 4.9.0
+  resolution: "eslint-plugin-import-x@npm:4.9.0"
   dependencies:
     "@types/doctrine": "npm:^0.0.9"
     "@typescript-eslint/utils": "npm:^8.26.1"
@@ -2021,7 +2021,7 @@ __metadata:
     tslib: "npm:^2.8.1"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/53de7c1ac0ade79473f46506b9175e652d552c52df2a36df255518853ad44b8786f568613f3a7b60549a67dcf497543b38a813d7be70c7518ba00e5f28d9ebc6
+  checksum: 10c0/bc0241fd956383474a16b9e366784c861e5ebe5b956d66b5f1c3d7cfe493e5863b90d3fe306e7065b11745853ea898e4232346472928bcc4c9ecc77bac3df13f
   languageName: node
   linkType: hard
 
@@ -3012,11 +3012,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^3.3.8":
-  version: 3.3.10
-  resolution: "nanoid@npm:3.3.10"
+  version: 3.3.11
+  resolution: "nanoid@npm:3.3.11"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 10c0/34eca53d4d95cb538b05a9fa07e4b2ab941906852202edb00824c8004d71d34592704e40b0ae608bf756b1ffd91ff9359d2ea59f8d92e1a7b769e0ca46368e84
+  checksum: 10c0/40e7f70b3d15f725ca072dfc4f74e81fcf1fbb02e491cf58ac0c79093adc9b0a73b152bcde57df4b79cd097e13023d7504acb38404a4da7bc1cd8e887b82fe0b
   languageName: node
   linkType: hard
 
