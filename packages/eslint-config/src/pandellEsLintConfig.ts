@@ -103,13 +103,17 @@ async function createPandellTypeScriptConfig(
     files = defaultTypeScriptFiles,
     noExplicitAny = "error",
     preferNullishCoalescing = "off",
-    parserOptions = { project: true },
+    parserOptions = { projectService: true },
     strict = true,
+    tsconfigRootDir,
     typeChecked = true,
   } = typeScript;
 
   if (!enabled) {
     return [];
+  }
+  if (tsconfigRootDir) {
+    parserOptions.tsconfigRootDir = tsconfigRootDir;
   }
 
   const esLintTs = await import("typescript-eslint");
@@ -585,7 +589,7 @@ export interface PandellEsLintConfigSettings {
      * https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-9.html#support-for-importmeta,
      * for example "interface ImportMeta { dirname: string; }".
      *
-     * @default {project:true}
+     * @default {projectService:true}
      */
     readonly parserOptions?: TSESLint.ParserOptions;
 
@@ -597,6 +601,15 @@ export interface PandellEsLintConfigSettings {
      * @default true
      */
     readonly strict?: boolean;
+
+    /**
+     * When a truthy string, will set "languageOptions.parserOptions.tsconfigRootDir".
+     *
+     * For more information see https://typescript-eslint.io/blog/typed-linting/#enabling-typed-linting.
+     * Note that documentation page https://typescript-eslint.io/troubleshooting/typed-linting/performance/#project-service-issues
+     * does not include "tsconfigRootDir" property.
+     */
+    readonly tsconfigRootDir?: string | null;
 
     /**
      * Should the TypeScript configuration include type-checked rules?
