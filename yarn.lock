@@ -615,7 +615,7 @@ __metadata:
     "@vitest/eslint-plugin": "npm:^1.1.38"
     eslint: "npm:^9.23.0"
     eslint-import-resolver-typescript: "npm:^4.2.3"
-    eslint-plugin-import-x: "npm:^4.9.1"
+    eslint-plugin-import-x: "npm:^4.9.2"
     eslint-plugin-jest-dom: "npm:^5.5.0"
     eslint-plugin-jsdoc: "npm:^50.6.9"
     eslint-plugin-react-hooks: "npm:^5.2.0"
@@ -2016,9 +2016,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.9.1":
-  version: 4.9.1
-  resolution: "eslint-plugin-import-x@npm:4.9.1"
+"eslint-plugin-import-x@npm:^4.9.2":
+  version: 4.9.2
+  resolution: "eslint-plugin-import-x@npm:4.9.2"
   dependencies:
     "@types/doctrine": "npm:^0.0.9"
     "@typescript-eslint/utils": "npm:^8.27.0"
@@ -2034,7 +2034,7 @@ __metadata:
     tslib: "npm:^2.8.1"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/07c433b70d264c757c1b8b337bd6c3146df61095bd3e290b07e3feb5b38e2f11aa0ecbe9633229cd942998b2bdeb40a47736128c017682befc030d4b5367c6ff
+  checksum: 10c0/a9731d0aa4e8b5c7798dc394ef0a87e60211c811d5d8c29647fe1b5b0afc786c68dbe3ec4228c31c2167577613651c89bb932078d1139321a53f86ea9fad3aa2
   languageName: node
   linkType: hard
 
