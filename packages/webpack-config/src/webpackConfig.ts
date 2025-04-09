@@ -20,7 +20,10 @@ import type {
   WebpackPluginFunction,
   WebpackPluginInstance,
 } from "webpack";
-import { BannerPlugin, DefinePlugin } from "webpack";
+// eslint-disable-next-line import-x/no-named-as-default
+import webpack from "webpack";
+
+const { BannerPlugin, DefinePlugin } = webpack;
 
 /**
  * Default set of modules that should be transformed by "babel-loader" in webpack.
