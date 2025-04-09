@@ -241,6 +241,11 @@ export interface WebpackSettings {
   ) => WebpackConfigurationWithDevServer;
 
   /**
+   * The location of extra node_modules folders to check.
+   */
+  modulesDirectories?: string[];
+
+  /**
    * Name to give webpack compiler instance.
    */
   name?: string;
@@ -608,14 +613,7 @@ function createWebpackConfigForMode(
       symlinks: false,
     },
     resolveLoader: {
-      modules: [
-        // resolve loaders from local node_modules to ensure loaders
-        // are found when this package is linked
-        path.join(__dirname, "..", "node_modules"),
-        // resolve loaders from web-pli root node_modules
-        path.join(__dirname, "..", "..", "..", "node_modules"),
-        "node_modules",
-      ],
+      modules: ["node_modules", ...(settings.modulesDirectories ?? [])],
     },
   } as WebpackConfigurationWithDevServer);
 }
