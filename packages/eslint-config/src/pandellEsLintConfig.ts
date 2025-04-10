@@ -3,7 +3,7 @@
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
 import type { Linter } from "eslint";
-import esLintImportX from "eslint-plugin-import-x";
+import { flatConfigs as importXFlatConfigs } from "eslint-plugin-import-x";
 import esLintJsDoc from "eslint-plugin-jsdoc";
 import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
 
@@ -24,7 +24,7 @@ function createPandellBaseConfig(
       ...esLintJs.configs.recommended,
       name: "eslint/js/recommended", // as of 2024-09-05, "@eslint/js" recommended config does not include a name
     },
-    esLintImportX.flatConfigs.recommended as Linter.Config,
+    importXFlatConfigs.recommended as Linter.Config,
     {
       name: "simple-import-sort/all", // as of 2024-09-05, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
       plugins: { "simple-import-sort": esLintSimpleImportSort },
@@ -130,10 +130,7 @@ async function createPandellTypeScriptConfig(
     name: `@pandell-eslint-config/typescript${strict ? "-strict" : ""}${typeChecked ? "-type-checked" : ""}`,
     extends: [
       ...recommendedConfig,
-      {
-        ...esLintImportX.flatConfigs.typescript,
-        name: "import-x/typescript", // as of 2024-09-05, "eslint-plugin-import-x/flatConfigs/typescript" config does not include a name; interestingly the "eslint-plugin-import-x/flatConfigs/recommended" config does include a name
-      },
+      importXFlatConfigs.typescript,
       esLintJsDoc.configs["flat/recommended-typescript-error"],
     ],
     files: resolvedFiles,
