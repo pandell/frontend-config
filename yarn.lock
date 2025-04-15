@@ -611,7 +611,7 @@ __metadata:
     "@vitest/eslint-plugin": "npm:^1.1.42"
     eslint: "npm:^9.24.0"
     eslint-import-resolver-typescript: "npm:^4.3.2"
-    eslint-plugin-import-x: "npm:^4.10.3"
+    eslint-plugin-import-x: "npm:^4.10.5"
     eslint-plugin-jest-dom: "npm:^5.5.0"
     eslint-plugin-jsdoc: "npm:^50.6.9"
     eslint-plugin-react-hooks: "npm:^5.2.0"
@@ -710,10 +710,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pkgr/core@npm:^0.2.2":
-  version: 0.2.3
-  resolution: "@pkgr/core@npm:0.2.3"
-  checksum: 10c0/697c548226c9c5bc934c32bd9b142bf28f7d2b066295e3cb527eabb84a115ffa8c561c346e8dcb291710f9e0cc8054fbb761f65440d851e92f184fdb360b5c33
+"@pkgr/core@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "@pkgr/core@npm:0.2.4"
+  checksum: 10c0/2528a443bbbef5d4686614e1d73f834f19ccbc975f62b2a64974a6b97bcdf677b9c5e8948e04808ac4f0d853e2f422adfaae2a06e9e9f4f5cf8af76f1adf8dc1
   languageName: node
   linkType: hard
 
@@ -958,7 +958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.30.1, @typescript-eslint/utils@npm:^8.15.0, @typescript-eslint/utils@npm:^8.18.1, @typescript-eslint/utils@npm:^8.29.1, @typescript-eslint/utils@npm:^8.30.1":
+"@typescript-eslint/utils@npm:8.30.1, @typescript-eslint/utils@npm:^8.15.0, @typescript-eslint/utils@npm:^8.18.1, @typescript-eslint/utils@npm:^8.30.1":
   version: 8.30.1
   resolution: "@typescript-eslint/utils@npm:8.30.1"
   dependencies:
@@ -2071,13 +2071,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.10.3":
-  version: 4.10.3
-  resolution: "eslint-plugin-import-x@npm:4.10.3"
+"eslint-plugin-import-x@npm:^4.10.5":
+  version: 4.10.5
+  resolution: "eslint-plugin-import-x@npm:4.10.5"
   dependencies:
-    "@pkgr/core": "npm:^0.2.2"
+    "@pkgr/core": "npm:^0.2.4"
     "@types/doctrine": "npm:^0.0.9"
-    "@typescript-eslint/utils": "npm:^8.29.1"
+    "@typescript-eslint/utils": "npm:^8.30.1"
     debug: "npm:^4.4.0"
     doctrine: "npm:^3.0.0"
     eslint-import-resolver-node: "npm:^0.3.9"
@@ -2090,7 +2090,7 @@ __metadata:
     unrs-resolver: "npm:^1.5.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/d53bb7552ce4117fa2ce92884d225a92d2b18914dab9cf6a5d8c59ce92990587a8b04bf41ac0180e5133a27f3938242781707141d2b41d38fada65ef7a7f3adb
+  checksum: 10c0/956df89003c97b9fcc2632754495944905195da27ef050efc9a7e0e9670ef220dbc9dc6f689322fb6cb2e29bc7395b5452b83df0beb95f7432aaf052e43db129
   languageName: node
   linkType: hard
 
