@@ -34,6 +34,14 @@
     "@types/postcss-mixins": "^9.0.6",
     "postcss": "^8.5.3"
   },
+  "peerDependencies": {
+    "postcss": ">= 8"
+  },
+  "peerDependenciesMeta": {
+    "postcss": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   }
