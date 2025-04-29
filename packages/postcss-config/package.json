@@ -1,7 +1,7 @@
 {
   "name": "@pandell/postcss-config",
   "type": "module",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "description": "Pandell PostCSS shared config",
   "keywords": [
     "postcss",
@@ -33,6 +33,14 @@
   "devDependencies": {
     "@types/postcss-mixins": "^9.0.6",
     "postcss": "^8.5.3"
+  },
+  "peerDependencies": {
+    "postcss": ">= 8"
+  },
+  "peerDependenciesMeta": {
+    "postcss": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"

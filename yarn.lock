@@ -636,6 +636,11 @@ __metadata:
     postcss-calc: "npm:^10.1.1"
     postcss-mixins: "npm:^11.0.3"
     postcss-preset-env: "npm:^7.8.3"
+  peerDependencies:
+    postcss: ">= 8"
+  peerDependenciesMeta:
+    postcss:
+      optional: true
   languageName: unknown
   linkType: soft
 
