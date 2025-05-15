@@ -6,10 +6,13 @@
     "importHelpers": true,
     "incremental": true,
     "jsx": "react-jsx",
-    "lib": ["DOM", "ES2020"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "moduleDetection": "force",
     "moduleResolution": "bundler",
+    "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
+    "noUncheckedSideEffectImports": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
@@ -17,6 +20,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ES2020"
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "verbatimModuleSyntax": true
   }
 }
