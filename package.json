@@ -16,8 +16,8 @@
   "packageManager": "yarn@4.9.1",
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
-    "browserslist": "^4.24.4",
-    "eslint": "^9.25.1",
+    "browserslist": "^4.24.5",
+    "eslint": "^9.27.0",
     "eslint-formatter-teamcity": "^1.0.0",
     "prettier": "^3.5.3",
     "typescript": "~5.8.3"
