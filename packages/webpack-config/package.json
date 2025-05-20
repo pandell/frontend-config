@@ -33,14 +33,14 @@
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.2",
     "mini-css-extract-plugin": "^2.9.2",
-    "open": "^10.1.1",
+    "open": "^10.1.2",
     "postcss-loader": "^8.1.1",
     "terser-webpack-plugin": "^5.3.14"
   },
   "devDependencies": {
     "postcss": "^8.5.3",
     "typescript": "~5.8.3",
-    "webpack": "^5.99.6"
+    "webpack": "^5.99.9"
   },
   "peerDependencies": {
     "typescript": ">= 5",
