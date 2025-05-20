@@ -225,16 +225,15 @@ __metadata:
   linkType: hard
 
 "@es-joy/jsdoccomment@npm:~0.50.1":
-  version: 0.50.1
-  resolution: "@es-joy/jsdoccomment@npm:0.50.1"
+  version: 0.50.2
+  resolution: "@es-joy/jsdoccomment@npm:0.50.2"
   dependencies:
-    "@types/eslint": "npm:^9.6.1"
     "@types/estree": "npm:^1.0.6"
     "@typescript-eslint/types": "npm:^8.11.0"
     comment-parser: "npm:1.4.1"
     esquery: "npm:^1.6.0"
     jsdoc-type-pratt-parser: "npm:~4.1.0"
-  checksum: 10c0/45152672acb866b30b47e1b6d97e0a1e8d40d522e60d5acc1d1c5eb24190426d49f8aa51da903433b64cba583d92e238b0394bcc609938211c2519bcfe623203
+  checksum: 10c0/a5fa480066e38678e8a2cd8656fc5529f1f7ba6deef08f698e55a1b1582968e9b2d3126d9349684811bb1391370292937bc4390fb8dee1a2f36393ded8f95dab
   languageName: node
   linkType: hard
 
@@ -607,7 +606,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
-    eslint-plugin-testing-library: "npm:^7.2.0"
+    eslint-plugin-testing-library: "npm:^7.2.1"
     typescript: "npm:~5.8.3"
     typescript-eslint: "npm:^8.32.1"
   peerDependencies:
@@ -751,7 +750,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^9.6.1":
+"@types/eslint@npm:*":
   version: 9.6.1
   resolution: "@types/eslint@npm:9.6.1"
   dependencies:
@@ -801,11 +800,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 22.15.18
-  resolution: "@types/node@npm:22.15.18"
+  version: 22.15.19
+  resolution: "@types/node@npm:22.15.19"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/e23178c568e2dc6b93b6aa3b8dfb45f9556e527918c947fe7406a4c92d2184c7396558912400c3b1b8d0fa952ec63819aca2b8e4d3545455fc6f1e9623e09ca6
+  checksum: 10c0/8ef52fa1a91b1c8891616d46f3921a9f3c65ad1c6bb62db7899c8c28643c13bf9d607a2403b1e5aceb3e6fa6749efc9e0ba5c39618a4872da6946437b0edbfbe
   languageName: node
   linkType: hard
 
@@ -2302,15 +2301,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "eslint-plugin-testing-library@npm:7.2.0"
+"eslint-plugin-testing-library@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "eslint-plugin-testing-library@npm:7.2.1"
   dependencies:
     "@typescript-eslint/scope-manager": "npm:^8.15.0"
     "@typescript-eslint/utils": "npm:^8.15.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/424e4ecc3f6b6bbf033be5b48f27b66a4e34ccb4bb673117deb51ebb7ab16a4a788e3212f0d8b6632f55103ca56c0ce6d209c903c5c7a3cf2012f07b2d4c3dd9
+  checksum: 10c0/118a1e0047e554d491be781407a4fba7abee7d7d153ffaad8448840815b47ef2b7b0bb0800d0dbbbbf3a739c29aba1ef816788948f601561afd5b5344e7af931
   languageName: node
   linkType: hard
 
@@ -4382,9 +4381,9 @@ __metadata:
   linkType: hard
 
 "tapable@npm:^2.1.1, tapable@npm:^2.2.0, tapable@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "tapable@npm:2.2.1"
-  checksum: 10c0/bc40e6efe1e554d075469cedaba69a30eeb373552aaf41caeaaa45bf56ffacc2674261b106245bd566b35d8f3329b52d838e851ee0a852120acae26e622925c9
+  version: 2.2.2
+  resolution: "tapable@npm:2.2.2"
+  checksum: 10c0/8ad130aa705cab6486ad89e42233569a1fb1ff21af115f59cebe9f2b45e9e7995efceaa9cc5062510cdb4ec673b527924b2ab812e3579c55ad659ae92117011e
   languageName: node
   linkType: hard
 
@@ -4464,9 +4463,9 @@ __metadata:
   linkType: hard
 
 "ts-pattern@npm:^5.7.0":
-  version: 5.7.0
-  resolution: "ts-pattern@npm:5.7.0"
-  checksum: 10c0/6a49d2b502a916def7b07ed66d5675aaf5159dd09b9dbdb334ebfc464af6307e33ae9fbec8ece9182f7ae6a9b2589087da5924d35a74bd52323c3f3745b15d1e
+  version: 5.7.1
+  resolution: "ts-pattern@npm:5.7.1"
+  checksum: 10c0/815592dcc8058c90f2329ca88ab4377eb89d794520055fb9a937424babeb87be29f60ad51505206e4ac130b7cbc70ae7c0b3c615469e7f379b7c749c0911265f
   languageName: node
   linkType: hard
 
@@ -4626,12 +4625,12 @@ __metadata:
   linkType: hard
 
 "watchpack@npm:^2.4.1":
-  version: 2.4.2
-  resolution: "watchpack@npm:2.4.2"
+  version: 2.4.3
+  resolution: "watchpack@npm:2.4.3"
   dependencies:
     glob-to-regexp: "npm:^0.4.1"
     graceful-fs: "npm:^4.1.2"
-  checksum: 10c0/ec60a5f0e9efaeca0102fd9126346b3b2d523e01c34030d3fddf5813a7125765121ebdc2552981136dcd2c852deb1af0b39340f2fcc235f292db5399d0283577
+  checksum: 10c0/212c645311d6c3a920ccca5b5d27233e8477be4352a20ae30c207e1bc71691154f1179316d31fb1135e56cc948bae8590a648fa9c05f088741c18ef613203475
   languageName: node
   linkType: hard
 
