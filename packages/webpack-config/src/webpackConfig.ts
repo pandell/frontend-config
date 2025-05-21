@@ -108,10 +108,10 @@ function envIsTrue(key: string): boolean {
 }
 
 class OpenBrowserPlugin implements WebpackPluginInstance {
-  constructor(
-    private readonly _openPage: string,
-    private readonly _openBrowser?: App | readonly App[],
-  ) {}
+  constructor(openPage: string, openBrowser?: App | readonly App[]) {
+    this._openPage = openPage;
+    this._openBrowser = openBrowser;
+  }
 
   apply(compiler: Compiler): void {
     compiler.hooks.done.tap("OpenBrowserPlugin", () => {
@@ -129,6 +129,8 @@ class OpenBrowserPlugin implements WebpackPluginInstance {
   }
 
   private _opened = false;
+  private readonly _openPage: string;
+  private readonly _openBrowser?: App | readonly App[];
 }
 
 /**
