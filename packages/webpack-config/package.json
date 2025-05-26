@@ -26,34 +26,26 @@
     "prepack": "node ../../tools/clean-package-json.mjs"
   },
   "dependencies": {
-    "@babel/core": "^7.27.1",
-    "@pandell/postcss-config": "^8.0.0",
+    "@pandell/postcss-config": "workspace:^",
     "@types/assets-webpack-plugin": "^7.1.6",
     "@types/webpack": "^5.28.5",
     "assets-webpack-plugin": "^7.1.1",
-    "babel-loader": "^10.0.0",
-    "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.2",
     "mini-css-extract-plugin": "^2.9.2",
     "open": "^10.1.2",
-    "postcss-loader": "^8.1.1",
-    "terser-webpack-plugin": "^5.3.14",
-    "ts-loader": "^9.5.2"
+    "terser-webpack-plugin": "^5.3.14"
   },
   "devDependencies": {
-    "@types/babel__core": "^7.20.5",
     "postcss": "^8.5.3",
     "typescript": "~5.8.3",
     "webpack": "^5.99.9"
   },
   "peerDependencies": {
-    "typescript": ">= 5",
+    "babel-loader": ">= 10",
+    "css-loader": ">= 7",
+    "postcss-loader": ">= 8",
+    "ts-loader": ">= 9",
     "webpack": ">= 5"
-  },
-  "peerDependenciesMeta": {
-    "typescript": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"
