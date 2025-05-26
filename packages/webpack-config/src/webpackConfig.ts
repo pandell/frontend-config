@@ -23,6 +23,8 @@ import type {
 // eslint-disable-next-line import-x/no-named-as-default
 import webpack from "webpack";
 
+// Ths following is used as importing these directly causes an issue due to
+// some issue with the boundary between CJS and ESM.
 const { BannerPlugin, DefinePlugin } = webpack;
 
 /**
