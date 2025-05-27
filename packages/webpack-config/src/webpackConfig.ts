@@ -20,7 +20,12 @@ import type {
   WebpackPluginFunction,
   WebpackPluginInstance,
 } from "webpack";
-import { BannerPlugin, DefinePlugin } from "webpack";
+// eslint-disable-next-line import-x/no-named-as-default
+import webpack from "webpack";
+
+// The following is used as importing these directly causes an issue due to
+// some issue with the boundary between CJS and ESM.
+const { BannerPlugin, DefinePlugin } = webpack;
 
 /**
  * Default set of modules that should be transformed by "babel-loader" in webpack.
@@ -236,6 +241,11 @@ export interface WebpackSettings {
   extendWebpackConfig?: (
     config: WebpackConfigurationWithDevServer,
   ) => WebpackConfigurationWithDevServer;
+
+  /**
+   * The location of extra node_modules folders to check.
+   */
+  modulesDirectories?: string[];
 
   /**
    * Name to give webpack compiler instance.
@@ -605,14 +615,7 @@ function createWebpackConfigForMode(
       symlinks: false,
     },
     resolveLoader: {
-      modules: [
-        // resolve loaders from local node_modules to ensure loaders
-        // are found when this package is linked
-        path.join(__dirname, "..", "node_modules"),
-        // resolve loaders from web-pli root node_modules
-        path.join(__dirname, "..", "..", "..", "node_modules"),
-        "node_modules",
-      ],
+      modules: ["node_modules", ...(settings.modulesDirectories ?? [])],
     },
   } as WebpackConfigurationWithDevServer);
 }
