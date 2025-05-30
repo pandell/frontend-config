@@ -6,9 +6,9 @@ __metadata:
   cacheKey: 10c0
 
 "@babel/runtime@npm:^7.16.3":
-  version: 7.27.3
-  resolution: "@babel/runtime@npm:7.27.3"
-  checksum: 10c0/b860fe374a36fddbeeb238e52e59443abcacc046eebda1bf278bffbc67b5c8f713b939e09c126b086ca5f97cba1987ea17fd1737568bc50fedb1f6ef1cf46f69
+  version: 7.27.4
+  resolution: "@babel/runtime@npm:7.27.4"
+  checksum: 10c0/ca99e964179c31615e1352e058cc9024df7111c829631c90eec84caba6703cc32acc81503771847c306b3c70b815609fe82dde8682936debe295b0b283b2dc6e
   languageName: node
   linkType: hard
 
@@ -582,7 +582,7 @@ __metadata:
     "@vitest/eslint-plugin": "npm:^1.2.1"
     eslint: "npm:^9.28.0"
     eslint-import-resolver-typescript: "npm:^4.4.1"
-    eslint-plugin-import-x: "npm:^4.14.0"
+    eslint-plugin-import-x: "npm:^4.14.1"
     eslint-plugin-jest-dom: "npm:^5.5.0"
     eslint-plugin-jsdoc: "npm:^50.6.17"
     eslint-plugin-react-hooks: "npm:^5.2.0"
@@ -780,11 +780,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 22.15.27
-  resolution: "@types/node@npm:22.15.27"
+  version: 22.15.29
+  resolution: "@types/node@npm:22.15.29"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/1057dfabd9dc1a9c0de35b057341f0b22e4b54082d432cca6c30209e16bd67668cdb41a794ea753deaaf15f6d6fdc1e1cb2551afe21a78952e0b82386697b133
+  checksum: 10c0/602cc88c6150780cd9b5b44604754e0ce13983ae876a538861d6ecfb1511dff289e5576fffd26c841cde2142418d4bb76e2a72a382b81c04557ccb17cff29e1d
   languageName: node
   linkType: hard
 
@@ -1970,9 +1970,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.14.0":
-  version: 4.14.0
-  resolution: "eslint-plugin-import-x@npm:4.14.0"
+"eslint-plugin-import-x@npm:^4.14.1":
+  version: 4.14.1
+  resolution: "eslint-plugin-import-x@npm:4.14.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.32.1"
     comment-parser: "npm:^1.4.1"
@@ -1982,7 +1982,6 @@ __metadata:
     minimatch: "npm:^9.0.3 || ^10.0.1"
     semver: "npm:^7.7.2"
     stable-hash: "npm:^0.0.5"
-    tslib: "npm:^2.8.1"
     unrs-resolver: "npm:^1.7.5"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
@@ -1990,7 +1989,7 @@ __metadata:
   peerDependenciesMeta:
     eslint-import-resolver-node:
       optional: true
-  checksum: 10c0/0c9135cd71a9900a5b7c34dd2fc009cc06e8bdcba2fbeb3ceaa96abdd013d7785feb2ffc61e25163a0ec2d4cf92e2f3220dd07bfd420ec3b93b1b520ed003349
+  checksum: 10c0/0f6bef63f1049ead1a5de6b77deac3918a0a5fbec8e8f13e5723e8740914c605b7dc8d7de94efb2be27a0d55b61b66c5ca0ab4be7aa4c73276c434350523aad5
   languageName: node
   linkType: hard
 
@@ -4217,7 +4216,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.4.0, tslib@npm:^2.8.1":
+"tslib@npm:^2.4.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
