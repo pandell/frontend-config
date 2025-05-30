@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/postcss-mixins": "^9.0.6",
-    "postcss": "^8.5.3"
+    "postcss": "^8.5.4"
   },
   "peerDependencies": {
     "postcss": ">= 8"
