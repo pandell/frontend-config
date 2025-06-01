@@ -582,7 +582,7 @@ __metadata:
     "@vitest/eslint-plugin": "npm:^1.2.1"
     eslint: "npm:^9.28.0"
     eslint-import-resolver-typescript: "npm:^4.4.2"
-    eslint-plugin-import-x: "npm:^4.14.1"
+    eslint-plugin-import-x: "npm:^4.15.0"
     eslint-plugin-jest-dom: "npm:^5.5.0"
     eslint-plugin-jsdoc: "npm:^50.6.17"
     eslint-plugin-react-hooks: "npm:^5.2.0"
@@ -1970,11 +1970,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.14.1":
-  version: 4.14.1
-  resolution: "eslint-plugin-import-x@npm:4.14.1"
+"eslint-plugin-import-x@npm:^4.15.0":
+  version: 4.15.0
+  resolution: "eslint-plugin-import-x@npm:4.15.0"
   dependencies:
-    "@typescript-eslint/utils": "npm:^8.32.1"
+    "@typescript-eslint/types": "npm:^8.33.0"
     comment-parser: "npm:^1.4.1"
     debug: "npm:^4.4.1"
     eslint-import-context: "npm:^0.1.6"
@@ -1982,14 +1982,17 @@ __metadata:
     minimatch: "npm:^9.0.3 || ^10.0.1"
     semver: "npm:^7.7.2"
     stable-hash: "npm:^0.0.5"
-    unrs-resolver: "npm:^1.7.5"
+    unrs-resolver: "npm:^1.7.8"
   peerDependencies:
+    "@typescript-eslint/utils": ^8.0.0
     eslint: ^8.57.0 || ^9.0.0
     eslint-import-resolver-node: "*"
   peerDependenciesMeta:
+    "@typescript-eslint/utils":
+      optional: true
     eslint-import-resolver-node:
       optional: true
-  checksum: 10c0/0f6bef63f1049ead1a5de6b77deac3918a0a5fbec8e8f13e5723e8740914c605b7dc8d7de94efb2be27a0d55b61b66c5ca0ab4be7aa4c73276c434350523aad5
+  checksum: 10c0/62bfa9b273a6cc0109f7407c229cd6e0dfba6b6cea69cb0fabd23eb749904a8009a1a466edf3225176103e1ea8a211fc28f29b32fedbe24c8f2812e7e22f3a31
   languageName: node
   linkType: hard
 
@@ -4280,7 +4283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unrs-resolver@npm:^1.7.2, unrs-resolver@npm:^1.7.5":
+"unrs-resolver@npm:^1.7.2, unrs-resolver@npm:^1.7.8":
   version: 1.7.8
   resolution: "unrs-resolver@npm:1.7.8"
   dependencies:
