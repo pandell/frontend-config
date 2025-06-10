@@ -267,6 +267,7 @@ async function createPandellReactConfig(
     name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
     files: resolvedFiles,
     rules: {
+      "@eslint-react/avoid-shorthand-fragment": "error",
       "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "warn",
       "@eslint-react/hooks-extra/no-unnecessary-use-callback": "warn",
       "@eslint-react/hooks-extra/no-unnecessary-use-memo": "warn",
