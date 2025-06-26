@@ -9,8 +9,8 @@ Add the following to your `package.json`:
 ```jsonc
 {
   "devDependencies": {
-    "@pandell/eslint-config": "^9.17.0",
-    "eslint": "^9.28.0",
+    "@pandell/eslint-config": "^9.18.0",
+    "eslint": "^9.29.0",
     // ...
   },
   // ...
