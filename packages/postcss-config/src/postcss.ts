@@ -1,7 +1,7 @@
 import type { AcceptedPlugin } from "postcss";
 import postcssCalc from "postcss-calc";
 import type { Options } from "postcss-mixins";
-import postcssMixins from "postcss-mixins";
+import postcssMixins from "postcss-mixins"; // eslint-disable-line import-x/no-cycle -- false positive
 import postcssPresetEnv from "postcss-preset-env";
 
 /**
