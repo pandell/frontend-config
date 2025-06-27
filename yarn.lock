@@ -607,7 +607,7 @@ __metadata:
     "@vitest/eslint-plugin": "npm:^1.3.3"
     eslint: "npm:^9.29.0"
     eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-import-x: "npm:^4.16.0"
+    eslint-plugin-import-x: "npm:^4.16.1"
     eslint-plugin-jest-dom: "npm:^5.5.0"
     eslint-plugin-jsdoc: "npm:^51.2.3"
     eslint-plugin-react-hooks: "npm:^5.2.0"
@@ -1972,7 +1972,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-context@npm:^0.1.8":
+"eslint-import-context@npm:^0.1.8, eslint-import-context@npm:^0.1.9":
   version: 0.1.9
   resolution: "eslint-import-context@npm:0.1.9"
   dependencies:
@@ -2011,19 +2011,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.16.0":
-  version: 4.16.0
-  resolution: "eslint-plugin-import-x@npm:4.16.0"
+"eslint-plugin-import-x@npm:^4.16.1":
+  version: 4.16.1
+  resolution: "eslint-plugin-import-x@npm:4.16.1"
   dependencies:
-    "@typescript-eslint/types": "npm:^8.34.0"
+    "@typescript-eslint/types": "npm:^8.35.0"
     comment-parser: "npm:^1.4.1"
     debug: "npm:^4.4.1"
-    eslint-import-context: "npm:^0.1.8"
+    eslint-import-context: "npm:^0.1.9"
     is-glob: "npm:^4.0.3"
     minimatch: "npm:^9.0.3 || ^10.0.1"
     semver: "npm:^7.7.2"
-    stable-hash-x: "npm:^0.1.1"
-    unrs-resolver: "npm:^1.9.0"
+    stable-hash-x: "npm:^0.2.0"
+    unrs-resolver: "npm:^1.9.2"
   peerDependencies:
     "@typescript-eslint/utils": ^8.0.0
     eslint: ^8.57.0 || ^9.0.0
@@ -2033,7 +2033,7 @@ __metadata:
       optional: true
     eslint-import-resolver-node:
       optional: true
-  checksum: 10c0/ab8b97f75d1ece5e6e47711ae7f135cf2e009c3cb483b1def9155de38f55379f426c45a35174dcf6fcb4f08a3ea963d6718db81ccaa6c5ac128ce9caa01a9555
+  checksum: 10c0/19cae9bf7b0e457747d5a5846b4198d83b02be43c02d2d49190ba3887ff019a307e3c486b5fc6feec7e9ed24a15e321012742fbbcbe96ad7e3bd24a31ee1450c
   languageName: node
   linkType: hard
 
@@ -3897,12 +3897,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.6.1":
-  version: 3.6.1
-  resolution: "prettier@npm:3.6.1"
+"prettier@npm:^3.6.2":
+  version: 3.6.2
+  resolution: "prettier@npm:3.6.2"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10c0/cf54254b9ddf1a8dff12f84bf0089e6aef3eeb9d0ce9d0344e39549ddc4f5c290fc5060d7d5a597848b9617e53e05b33a4118e37cd560f9e132ecc19c211300a
+  checksum: 10c0/488cb2f2b99ec13da1e50074912870217c11edaddedeadc649b1244c749d15ba94e846423d062e2c4c9ae683e2d65f754de28889ba06e697ac4f988d44f45812
   languageName: node
   linkType: hard
 
@@ -3972,7 +3972,7 @@ __metadata:
     browserslist: "npm:^4.25.1"
     eslint: "npm:^9.29.0"
     eslint-formatter-teamcity: "npm:^1.0.0"
-    prettier: "npm:^3.6.1"
+    prettier: "npm:^3.6.2"
     typescript: "npm:~5.8.3"
   languageName: unknown
   linkType: soft
@@ -4091,13 +4091,6 @@ __metadata:
   version: 3.0.21
   resolution: "spdx-license-ids@npm:3.0.21"
   checksum: 10c0/ecb24c698d8496aa9efe23e0b1f751f8a7a89faedcdfcbfabae772b546c2db46ccde8f3bc447a238eb86bbcd4f73fea88720ef3b8394f7896381bec3d7736411
-  languageName: node
-  linkType: hard
-
-"stable-hash-x@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "stable-hash-x@npm:0.1.1"
-  checksum: 10c0/38744f4755026f2a2aa842c7d8c92c5a2cd708aac455faf8575cee7ce4218b5ffacf278797fed97d8240b956b687efb31ca92955280d07e7d6e16a8e58497daf
   languageName: node
   linkType: hard
 
@@ -4331,7 +4324,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unrs-resolver@npm:^1.7.11, unrs-resolver@npm:^1.9.0":
+"unrs-resolver@npm:^1.7.11, unrs-resolver@npm:^1.9.2":
   version: 1.9.2
   resolution: "unrs-resolver@npm:1.9.2"
   dependencies:
