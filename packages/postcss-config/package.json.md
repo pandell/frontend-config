@@ -20,7 +20,7 @@ see [the discussion](https://github.com/csstools/postcss-plugins/discussions/192
 
 ```sh
 Package                      Current         Latest
-postcss-preset-env           7.8.3           10.1.5
+postcss-preset-env           7.8.3           10.2.4
 ```
 
 ## Resolutions
