@@ -624,7 +624,7 @@ __metadata:
     "@types/postcss-mixins": "npm:^9.0.6"
     postcss: "npm:^8.5.6"
     postcss-calc: "npm:^10.1.1"
-    postcss-mixins: "npm:^11.0.3"
+    postcss-mixins: "npm:^12.0.0"
     postcss-preset-env: "npm:^7.8.3"
   peerDependencies:
     postcss: ">= 8"
@@ -3517,17 +3517,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-mixins@npm:^11.0.3":
-  version: 11.0.3
-  resolution: "postcss-mixins@npm:11.0.3"
+"postcss-mixins@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "postcss-mixins@npm:12.0.0"
   dependencies:
     postcss-js: "npm:^4.0.1"
     postcss-simple-vars: "npm:^7.0.1"
-    sugarss: "npm:^4.0.1"
-    tinyglobby: "npm:^0.2.7"
+    sugarss: "npm:^5.0.0"
+    tinyglobby: "npm:^0.2.14"
   peerDependencies:
     postcss: ^8.2.14
-  checksum: 10c0/dc19aafb4ae7de4a4f1a496e3cd35d33e97e6b3175799b8a2337335bb29c8dea5d474a89a0da44a7d5966cbee070b8bc333b4dd4e907ceb8734e983316aab862
+  checksum: 10c0/e5314488c143e3786f5fdec5da9002d914ef57cc51a261035fe342163a86a6f9e36e369da008f21c68691d0bd349aef3e10266ceb7e210da4a6a1296e782d214
   languageName: node
   linkType: hard
 
@@ -4120,12 +4120,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sugarss@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "sugarss@npm:4.0.1"
+"sugarss@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "sugarss@npm:5.0.0"
   peerDependencies:
     postcss: ^8.3.3
-  checksum: 10c0/18b78c8839ab9eea9681366223277e10adf6b1dd54e7b64fbdae3a1234eedcc16a772bb62c8f3dc9665acc07496981e24bf773c8c362b5f294b9b1e12fbe58aa
+  checksum: 10c0/a7815f8e6e21bf1602ce2231c3fa4f32e3ac921d04bf25b834f99c97948ed681845573fc55b36c96c7330952ccb5213ff7a3af5ed5f277c5398dc0fd45ef5863
   languageName: node
   linkType: hard
 
@@ -4207,7 +4207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.14, tinyglobby@npm:^0.2.7":
+"tinyglobby@npm:^0.2.14":
   version: 0.2.14
   resolution: "tinyglobby@npm:0.2.14"
   dependencies:
