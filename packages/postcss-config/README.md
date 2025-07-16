@@ -31,7 +31,7 @@ export default defineConfig({
 });
 ```
 
-Note: As of February 2025, there is no typing information for `@pandell/components/css`,
+_Note_: `web-pli` prior to version 14 has no typing information for `@pandell/components/css`,
 so TypeScript/ESLint will not be happy with the code above. To fix the issue,
 add the following typings file and include it in `tsconfig.node.json`:
 
