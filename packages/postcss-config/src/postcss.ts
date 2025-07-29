@@ -1,8 +1,9 @@
 import type { AcceptedPlugin } from "postcss";
 import postcssCalc from "postcss-calc";
-import type { Options } from "postcss-mixins";
 import postcssMixins from "postcss-mixins";
 import postcssPresetEnv from "postcss-preset-env";
+
+type PostcssMixinsOptions = NonNullable<Parameters<typeof postcssMixins>[0]>;
 
 /**
  * Settings for PostCSS plugins.
@@ -18,7 +19,7 @@ export interface PostcssPluginSettings {
    *
    * Mixins will be globally available when processing CSS files (no @import required).
    */
-  readonly mixins?: Options["mixins"];
+  readonly mixins?: PostcssMixinsOptions["mixins"];
 
   /**
    * Object mapping variable names to values.
