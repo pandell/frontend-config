@@ -1,7 +1,7 @@
 {
   "name": "@pandell/postcss-config",
   "type": "module",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "description": "Pandell PostCSS shared config",
   "keywords": [
     "postcss",
@@ -27,11 +27,10 @@
   },
   "dependencies": {
     "postcss-calc": "^10.1.1",
-    "postcss-mixins": "~12.0.0",
+    "postcss-mixins": "^12.1.2",
     "postcss-preset-env": "^7.8.3"
   },
   "devDependencies": {
-    "@types/postcss-mixins": "^9.0.6",
     "postcss": "^8.5.6"
   },
   "peerDependencies": {
