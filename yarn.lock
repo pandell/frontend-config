@@ -621,10 +621,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pandell/postcss-config@workspace:packages/postcss-config"
   dependencies:
-    "@types/postcss-mixins": "npm:^9.0.6"
     postcss: "npm:^8.5.6"
     postcss-calc: "npm:^10.1.1"
-    postcss-mixins: "npm:~12.0.0"
+    postcss-mixins: "npm:^12.1.2"
     postcss-preset-env: "npm:^7.8.3"
   peerDependencies:
     postcss: ">= 8"
@@ -786,15 +785,6 @@ __metadata:
   dependencies:
     undici-types: "npm:~7.8.0"
   checksum: 10c0/6c4686bc144f6ce7bffd4cadc3e1196e2217c1da4c639c637213719c8a3ee58b6c596b994befcbffeacd9d9eb0c3bff6529d2bc27da5d1cb9d58b1da0056f9f4
-  languageName: node
-  linkType: hard
-
-"@types/postcss-mixins@npm:^9.0.6":
-  version: 9.0.6
-  resolution: "@types/postcss-mixins@npm:9.0.6"
-  dependencies:
-    postcss: "npm:^8.2.14"
-  checksum: 10c0/d75adf56f4d871b83b47223bcca470150016ea337a04893d3ba3a67cdff5017d2edea44912ad65f676aa84f5265545bb09debf0b5a42f84c5379f9c3eb6a560d
   languageName: node
   linkType: hard
 
@@ -3517,9 +3507,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-mixins@npm:~12.0.0":
-  version: 12.0.0
-  resolution: "postcss-mixins@npm:12.0.0"
+"postcss-mixins@npm:^12.1.2":
+  version: 12.1.2
+  resolution: "postcss-mixins@npm:12.1.2"
   dependencies:
     postcss-js: "npm:^4.0.1"
     postcss-simple-vars: "npm:^7.0.1"
@@ -3527,7 +3517,7 @@ __metadata:
     tinyglobby: "npm:^0.2.14"
   peerDependencies:
     postcss: ^8.2.14
-  checksum: 10c0/e5314488c143e3786f5fdec5da9002d914ef57cc51a261035fe342163a86a6f9e36e369da008f21c68691d0bd349aef3e10266ceb7e210da4a6a1296e782d214
+  checksum: 10c0/cbd33a40545ebcaa08acc9126a6cbffc48db968ea5a555c397b3c5b30e0f805fb2de3381556b36efe3dc9eb935d51c6056b86d6367fb6204f6c1ae492017524d
   languageName: node
   linkType: hard
 
@@ -3865,7 +3855,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.2.14, postcss@npm:^8.4.40, postcss@npm:^8.5.6":
+"postcss@npm:^8.4.40, postcss@npm:^8.5.6":
   version: 8.5.6
   resolution: "postcss@npm:8.5.6"
   dependencies:
