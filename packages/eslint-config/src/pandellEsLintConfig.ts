@@ -312,7 +312,12 @@ async function pandellTestingConfig(
           files: resolvedFiles,
         })
       : [],
-    vitest ? configWithFiles(vitest.default.configs.recommended, resolvedFiles) : [],
+    vitest
+      ? configWithFiles(
+          vitest.default.configs.recommended as unknown as Linter.Config, // 2025-09-17, milang: "@vitest/eslint-plugin@1.3.12" configurations do not satisfy types from "eslint@9.35.0", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
+          resolvedFiles,
+        )
+      : [],
     extraRules || enabledVitest
       ? defineConfig({
           name: "@pandell-eslint-config/testing",
