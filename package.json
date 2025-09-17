@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
-    "browserslist": "^4.25.1",
+    "browserslist": "^4.26.2",
     "eslint": "^9.35.0",
     "eslint-formatter-teamcity": "^1.0.0",
     "prettier": "^3.6.2",
