@@ -238,8 +238,8 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.Config) // 2025-09-15, milang: "(@eslint-react/eslint-plugin@1.53.1)/configs/*" configurations do not satisfy "(eslint@9.35.0)/Linter.Config", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
-    : (reactPlugin.default.configs.recommended as unknown as Linter.Config);
+    ? reactPlugin.default.configs["recommended-type-checked"]
+    : reactPlugin.default.configs.recommended;
   const isViteEnabled = Boolean(settings.vite?.enabled);
 
   return defineConfig(
