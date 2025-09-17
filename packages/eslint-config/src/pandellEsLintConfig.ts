@@ -5,7 +5,7 @@ import type { TSESLint } from "@typescript-eslint/utils";
 import type { Linter } from "eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import { flatConfigs as importXFlatConfigs } from "eslint-plugin-import-x";
-import esLintJsDoc from "eslint-plugin-jsdoc";
+import { jsdoc } from "eslint-plugin-jsdoc";
 import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
 
 type ConfigWithExtendsArray = Parameters<typeof defineConfig>[0];
@@ -46,7 +46,7 @@ function pandellBaseConfig(settings: PandellEsLintConfigSettings): Linter.Config
         "simple-import-sort/exports": "warn",
       },
     },
-    esLintJsDoc.configs["flat/recommended-error"],
+    jsdoc({ config: "flat/recommended-error" }),
     {
       name: "@pandell-eslint-config/base",
       rules: {
@@ -142,7 +142,7 @@ async function pandellTypeScriptConfig(
   return defineConfig(
     configWithFiles(recommendedConfig, resolvedFiles),
     configWithFiles(importXFlatConfigs.typescript as Linter.Config, resolvedFiles),
-    configWithFiles(esLintJsDoc.configs["flat/recommended-typescript-error"], resolvedFiles),
+    configWithFiles(jsdoc({ config: "flat/recommended-typescript-error" }), resolvedFiles),
     {
       name: `@pandell-eslint-config/typescript${strict ? "-strict" : ""}${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
