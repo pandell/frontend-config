@@ -1,3 +1,5 @@
+/* global module, process */
+
 module.exports = {
   moduleNameMapper: {
     // mock out image assets: https://jestjs.io/docs/en/webpack#handling-static-assets

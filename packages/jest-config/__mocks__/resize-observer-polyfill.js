@@ -1,4 +1,5 @@
 /* eslint-env jest,node */
+/* global jest, module */
 
 /**
  * Defer loading ResizeObserver until it is first used.
