@@ -234,7 +234,7 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     import("@eslint-react/eslint-plugin"),
     import("eslint-plugin-react-hooks"),
     import("eslint-plugin-react-refresh"),
-    includeReactQuery ? import("@tanstack/eslint-plugin-query") : null, // eslint-disable-line @typescript-eslint/await-thenable
+    includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
@@ -292,9 +292,9 @@ async function pandellTestingConfig(
 
   const resolvedFiles = files === "do not set" ? undefined : files;
   const [jestDom, testingLibrary, vitest] = await Promise.all([
-    enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null, // eslint-disable-line @typescript-eslint/await-thenable
-    enabledTestingLibrary ? import("eslint-plugin-testing-library") : null, // eslint-disable-line @typescript-eslint/await-thenable
-    enabledVitest ? import("@vitest/eslint-plugin") : null, // eslint-disable-line @typescript-eslint/await-thenable
+    enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
+    enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
+    enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
 
   return defineConfig(
