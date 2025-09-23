@@ -3964,6 +3964,9 @@ __metadata:
     eslint-formatter-teamcity: "npm:^1.0.0"
     prettier: "npm:^3.6.2"
     typescript: "npm:~5.9.2"
+  dependenciesMeta:
+    unrs-resolver:
+      built: false
   languageName: unknown
   linkType: soft
 

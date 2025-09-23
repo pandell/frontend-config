@@ -25,6 +25,11 @@
     "prettier": "^3.6.2",
     "typescript": "~5.9.2"
   },
+  "dependenciesMeta": {
+    "unrs-resolver": {
+      "built": false
+    }
+  },
   "eslint-formatter-teamcity": {
     "error-statistics-name": "ESLint Error Count",
     "report-name": "ESLint Violations",
