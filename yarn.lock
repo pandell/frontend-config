@@ -585,7 +585,7 @@ __metadata:
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.1"
     eslint-plugin-jest-dom: "npm:^5.5.0"
-    eslint-plugin-jsdoc: "npm:^60.1.1"
+    eslint-plugin-jsdoc: "npm:^60.2.0"
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.21"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
@@ -1899,9 +1899,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.218":
-  version: 1.5.222
-  resolution: "electron-to-chromium@npm:1.5.222"
-  checksum: 10c0/a81eb8d2b171236884faf9b5dd382c66d9250283032cb89a3e555d788bf3956f7f4f6bf7bf30b3daf9e5c945ef837bfcd1be21b3f41cfe186ed2f25da13c9af3
+  version: 1.5.223
+  resolution: "electron-to-chromium@npm:1.5.223"
+  checksum: 10c0/1c07c34b6d8eca9b5a587e9a7ffdb4502d9cd346cf7a0446b5bbf9056395b06f3d95774c7b221b8060184771ac536f4653a06811dd4ea5c20a1a071349e84120
   languageName: node
   linkType: hard
 
@@ -2033,9 +2033,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:^60.1.1":
-  version: 60.1.1
-  resolution: "eslint-plugin-jsdoc@npm:60.1.1"
+"eslint-plugin-jsdoc@npm:^60.2.0":
+  version: 60.2.0
+  resolution: "eslint-plugin-jsdoc@npm:60.2.0"
   dependencies:
     "@es-joy/jsdoccomment": "npm:~0.58.0"
     are-docs-informative: "npm:^0.0.2"
@@ -2050,7 +2050,7 @@ __metadata:
     spdx-expression-parse: "npm:^4.0.0"
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
-  checksum: 10c0/0761bcfc8c04fd21adacac9fd8c2151401f0ebc97fc628a521361134019eeeb2a2edda1c49b63d8f074d5453676dc8130b425d85782039c837fb7a4baae2d39a
+  checksum: 10c0/5d8c84ae6eacc35fc71a4bbc9946a37ff4db10b4de32962e441e1994308eafdd1b343c8436efcdcd73e6bd774b1791ac835fd8b1709e669c4e707e1f0ee18653
   languageName: node
   linkType: hard
 
