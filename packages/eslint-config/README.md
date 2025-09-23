@@ -9,8 +9,8 @@ Add the following to your `package.json`:
 ```jsonc
 {
   "devDependencies": {
-    "@pandell/eslint-config": "^9.20.0",
-    "eslint": "^9.32.0",
+    "@pandell/eslint-config": "^9.21.0",
+    "eslint": "^9.36.0",
     // ...
   },
   // ...
@@ -26,9 +26,9 @@ in `node_modules/@pandell/eslint-config/dist/pandellEsLintConfig.d.ts`). Example
 ```js
 // @ts-check
 
-import { createPandellEsLintConfig } from "@pandell/eslint-config";
+import { definePandellEsLintConfig } from "@pandell/eslint-config";
 
-export default createPandellEsLintConfig({
+export default definePandellEsLintConfig({
     typescript: {
         // type-checked typescript is enabled by default; uncomment the following line to disable:
         // typeChecked: false,

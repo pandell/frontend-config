@@ -1,4 +1,5 @@
 /* eslint-env node,browser */
+/* global document, global, module, DOMException */
 
 module.exports = function setup() {
   if (typeof window !== "undefined") {

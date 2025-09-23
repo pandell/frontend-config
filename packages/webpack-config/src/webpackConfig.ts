@@ -89,7 +89,7 @@ const toLiteralRegex = new RegExp("[\\\\\\[\\]\\^\\{\\}\\<\\>\\-\\$\\.\\?\\*\\(\
  *     A string that can be used in a RegExp object for matching literal values.
  */
 function toRegExLiteral(value: string | null | undefined): string {
-  return value ? value.toString().replace(toLiteralRegex, (c) => `\\${c}`) : "";
+  return value ? value.replace(toLiteralRegex, (c) => `\\${c}`) : "";
 }
 
 // based on "minimal" preset

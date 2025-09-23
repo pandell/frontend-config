@@ -3,9 +3,24 @@
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
 import type { Linter } from "eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
 import { flatConfigs as importXFlatConfigs } from "eslint-plugin-import-x";
-import esLintJsDoc from "eslint-plugin-jsdoc";
+import { jsdoc } from "eslint-plugin-jsdoc";
 import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
+
+type ConfigWithExtendsArray = Parameters<typeof defineConfig>[0];
+
+/**
+ * Recursively sets "files" property of all the specified config objects to the specified value.
+ */
+function configWithFiles(
+  config: ConfigWithExtendsArray,
+  files: Linter.Config["files"],
+): ConfigWithExtendsArray {
+  return Array.isArray(config)
+    ? config.map((innerConfig) => configWithFiles(innerConfig, files))
+    : { ...config, files };
+}
 
 // =============================================================================
 // Pandell configurations
@@ -14,26 +29,24 @@ import esLintSimpleImportSort from "eslint-plugin-simple-import-sort";
 /**
  * Pandell's non-language/framework-specific overrides of ESLint rules.
  */
-function createPandellBaseConfig(
-  settings: PandellEsLintConfigSettings,
-): ReadonlyArray<Linter.Config> {
+function pandellBaseConfig(settings: PandellEsLintConfigSettings): Linter.Config[] {
   const { funcStyle = ["error", "declaration"] } = settings;
 
-  return [
+  return defineConfig(
     {
       ...esLintJs.configs.recommended,
       name: "eslint/js/recommended", // as of 2024-09-05, "@eslint/js" recommended config does not include a name
     },
     importXFlatConfigs.recommended as Linter.Config,
     {
-      name: "simple-import-sort/all", // as of 2024-09-05, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
+      name: "simple-import-sort/all", // as of 2025-09-15, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
       plugins: { "simple-import-sort": esLintSimpleImportSort },
       rules: {
         "simple-import-sort/imports": "warn",
         "simple-import-sort/exports": "warn",
       },
     },
-    esLintJsDoc.configs["flat/recommended-error"],
+    jsdoc({ config: "flat/recommended-error" }),
     {
       name: "@pandell-eslint-config/base",
       rules: {
@@ -87,15 +100,15 @@ function createPandellBaseConfig(
         },
       },
     },
-  ];
+  );
 }
 
 /**
  * Pandell's TypeScript-specific overrides of ESLint rules.
  */
-async function createPandellTypeScriptConfig(
+async function pandellTypeScriptConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<ReadonlyArray<Linter.Config>> {
+): Promise<Linter.Config[]> {
   const { typeScript = {} } = settings;
   const {
     enabled = true,
@@ -126,81 +139,79 @@ async function createPandellTypeScriptConfig(
       ? esLintTs.configs.strict
       : esLintTs.configs.recommended;
 
-  return esLintTs.config({
-    name: `@pandell-eslint-config/typescript${strict ? "-strict" : ""}${typeChecked ? "-type-checked" : ""}`,
-    extends: [
-      ...recommendedConfig,
-      importXFlatConfigs.typescript,
-      esLintJsDoc.configs["flat/recommended-typescript-error"],
-    ],
-    files: resolvedFiles,
-    ...(typeChecked && { languageOptions: { parserOptions } }),
-    rules: {
-      "@typescript-eslint/consistent-type-assertions": "warn",
-      "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-      "@typescript-eslint/explicit-function-return-type": [
-        "warn",
-        // be more tolerant of missing return types
-        {
-          allowExpressions: true,
-          allowTypedFunctionExpressions: true,
-          allowHigherOrderFunctions: true,
-        },
-      ],
-      "@typescript-eslint/explicit-member-accessibility": [
-        "error",
-        { accessibility: "no-public" }, // disallow "public" modifier
-      ],
-      // "@typescript-eslint/naming-convention": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; don't enforce this
-      "@typescript-eslint/no-explicit-any": noExplicitAny, // TypeScript handles implicit "any"
-      // "@typescript-eslint/no-require-imports": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
-      // "no-unused-expressions": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
-      // "@typescript-eslint/no-unused-expressions": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
-      "@typescript-eslint/no-unnecessary-template-expression": "warn",
-      "@typescript-eslint/no-unused-vars": [
-        // allow unused variables whose names start with underscore; this is consistent
-        // with our C#/ReSharper/Rider and TypeScript rules; the following configuration
-        // is recommended in official typescript-eslint documentation for TypeScript compatibility:
-        // https://typescript-eslint.io/rules/no-unused-vars/#benefits-over-typescript
-        "error",
-        {
-          "args": "all",
-          "argsIgnorePattern": "^_",
-          "caughtErrors": "all",
-          "caughtErrorsIgnorePattern": "^_",
-          "destructuredArrayIgnorePattern": "^_",
-          "varsIgnorePattern": "^_",
-        },
-      ],
-      // "@typescript-eslint/no-use-before-define": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; TS handles this for variables
-      // "@typescript-eslint/no-var-requires": "off", // no such rule as of "typescript-eslint@8.4.0"; "no-require-imports" makes this redundant
-      "@typescript-eslint/prefer-for-of": "warn",
-      "@typescript-eslint/prefer-function-type": "warn",
-      // "no-redeclare": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
-      // "@typescript-eslint/no-redeclare": "error", // keep the recommended level, which is "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
+  return defineConfig(
+    configWithFiles(recommendedConfig, resolvedFiles),
+    configWithFiles(importXFlatConfigs.typescript as Linter.Config, resolvedFiles),
+    configWithFiles(jsdoc({ config: "flat/recommended-typescript-error" }), resolvedFiles),
+    {
+      name: `@pandell-eslint-config/typescript${strict ? "-strict" : ""}${typeChecked ? "-type-checked" : ""}`,
+      files: resolvedFiles,
+      ...(typeChecked && { languageOptions: { parserOptions } }),
+      rules: {
+        "@typescript-eslint/consistent-type-assertions": "warn",
+        "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
+        "@typescript-eslint/explicit-function-return-type": [
+          "warn",
+          // be more tolerant of missing return types
+          {
+            allowExpressions: true,
+            allowTypedFunctionExpressions: true,
+            allowHigherOrderFunctions: true,
+          },
+        ],
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          { accessibility: "no-public" }, // disallow "public" modifier
+        ],
+        // "@typescript-eslint/naming-convention": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; don't enforce this
+        "@typescript-eslint/no-explicit-any": noExplicitAny, // TypeScript handles implicit "any"
+        // "@typescript-eslint/no-require-imports": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
+        // "no-unused-expressions": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
+        // "@typescript-eslint/no-unused-expressions": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
+        "@typescript-eslint/no-unnecessary-template-expression": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          // allow unused variables whose names start with underscore; this is consistent
+          // with our C#/ReSharper/Rider and TypeScript rules; the following configuration
+          // is recommended in official typescript-eslint documentation for TypeScript compatibility:
+          // https://typescript-eslint.io/rules/no-unused-vars/#benefits-over-typescript
+          "error",
+          {
+            "args": "all",
+            "argsIgnorePattern": "^_",
+            "caughtErrors": "all",
+            "caughtErrorsIgnorePattern": "^_",
+            "destructuredArrayIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+          },
+        ],
+        // "@typescript-eslint/no-use-before-define": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; TS handles this for variables
+        // "@typescript-eslint/no-var-requires": "off", // no such rule as of "typescript-eslint@8.4.0"; "no-require-imports" makes this redundant
+        "@typescript-eslint/prefer-for-of": "warn",
+        "@typescript-eslint/prefer-function-type": "warn",
+        // "no-redeclare": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
+        // "@typescript-eslint/no-redeclare": "error", // keep the recommended level, which is "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
 
-      ...(typeChecked && {
-        "@typescript-eslint/consistent-type-exports": "warn",
-        "@typescript-eslint/consistent-type-imports": "warn",
-        "@typescript-eslint/no-deprecated": "error",
-        "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
-        "@typescript-eslint/prefer-readonly": "warn",
-        "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
-      }),
+        ...(typeChecked && {
+          "@typescript-eslint/consistent-type-exports": "warn",
+          "@typescript-eslint/consistent-type-imports": "warn",
+          "@typescript-eslint/no-deprecated": "error",
+          "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
+          "@typescript-eslint/prefer-readonly": "warn",
+          "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
+        }),
 
-      ...extraRules,
+        ...extraRules,
+      },
     },
-  }) as ReadonlyArray<Linter.Config>; // 2024-09-10, milang: "(typescript-eslint@8.4.0)/TSESLint.FlatConfig.ConfigArray" does not satisfy "(eslint@9.10.0)/Linter.Config", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
+  );
 }
 
 /**
  * Pandell's React-specific overrides of ESLint rules.
  */
-async function createPandellReactConfig(
-  settings: PandellEsLintConfigSettings,
-): Promise<ReadonlyArray<Linter.Config>> {
+async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promise<Linter.Config[]> {
   const { react = {}, typeScript = {} } = settings;
   const {
     enabled = false,
@@ -227,70 +238,50 @@ async function createPandellReactConfig(
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
   const recommendedConfig = typeChecked
-    ? (reactPlugin.default.configs["recommended-type-checked"] as unknown as Linter.Config) // 2024-09-10, milang: "(@eslint-react/eslint-plugin@1.14.0)/configs/*" configurations do not satisfy "(eslint@9.10.0)/Linter.Config", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
-    : (reactPlugin.default.configs.recommended as unknown as Linter.Config);
+    ? reactPlugin.default.configs["recommended-type-checked"]
+    : reactPlugin.default.configs.recommended;
   const isViteEnabled = Boolean(settings.vite?.enabled);
 
-  const configs: Linter.Config[] = [
+  return defineConfig(
     {
       ...recommendedConfig,
       name: `@eslint-react/recommended${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
     },
-    {
-      ...hooksPlugin.configs["recommended-latest"],
-      files: resolvedFiles,
-    },
+    configWithFiles(hooksPlugin.configs["recommended-latest"], resolvedFiles),
     isViteEnabled
-      ? {
-          ...refreshPlugin.default.configs.vite,
-          files: resolvedFiles,
-        }
-      : {
-          ...refreshPlugin.default.configs.recommended,
-          files: resolvedFiles,
-        },
-  ];
-
-  if (queryPlugin) {
-    // "@tanstack/eslint-plugin-query" defines "flat/recommended" as an array of configurations,
-    // so adapt every configuration in the array and add them all to our configs collection
-    // (as of 2024-09-10 the array only has one item)
-    const queryConfigs = queryPlugin.default.configs["flat/recommended"].map((queryConfig) => ({
-      ...queryConfig,
+      ? configWithFiles(refreshPlugin.default.configs.vite, resolvedFiles)
+      : configWithFiles(refreshPlugin.default.configs.recommended, resolvedFiles),
+    queryPlugin
+      ? configWithFiles(queryPlugin.default.configs["flat/recommended"], resolvedFiles)
+      : [],
+    {
+      name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
-    }));
-    configs.push(...queryConfigs);
-  }
-
-  configs.push({
-    name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
-    files: resolvedFiles,
-    rules: {
-      "@eslint-react/avoid-shorthand-fragment": "error",
-      "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "warn",
-      "@eslint-react/hooks-extra/no-unnecessary-use-callback": "warn",
-      "@eslint-react/hooks-extra/no-unnecessary-use-memo": "warn",
-      "@eslint-react/hooks-extra/ensure-use-memo-has-non-empty-deps": "warn",
-      // "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@1.13.0"
-      "@eslint-react/prefer-destructuring-assignment": "off",
-      "react-hooks/exhaustive-deps": [
-        "warn",
-        { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
-      ],
-      ...extraRules,
+      rules: {
+        "@eslint-react/avoid-shorthand-fragment": "error",
+        "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "warn",
+        "@eslint-react/hooks-extra/no-unnecessary-use-callback": "warn",
+        "@eslint-react/hooks-extra/no-unnecessary-use-memo": "warn",
+        "@eslint-react/hooks-extra/ensure-use-memo-has-non-empty-deps": "warn",
+        // "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@1.13.0"
+        "@eslint-react/prefer-destructuring-assignment": "off",
+        "react-hooks/exhaustive-deps": [
+          "warn",
+          { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
+        ],
+        ...extraRules,
+      },
     },
-  });
-
-  return configs;
+  );
 }
 
 /**
  * Pandell's testing-specific overrides of ESLint rules.
  */
-async function createPandellTestingConfig(
+async function pandellTestingConfig(
   settings: PandellEsLintConfigSettings,
-): Promise<ReadonlyArray<Linter.Config>> {
+): Promise<Linter.Config[]> {
   const { testing = {} } = settings;
   const {
     enabledTestingLibrary = false,
@@ -300,70 +291,67 @@ async function createPandellTestingConfig(
   } = testing;
 
   const resolvedFiles = files === "do not set" ? undefined : files;
-  const configs = [] as Linter.Config[];
   const [jestDom, testingLibrary, vitest] = await Promise.all([
     enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
     enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
-  if (jestDom && testingLibrary) {
-    configs.push(
-      {
-        ...jestDom.default.configs["flat/recommended"],
-        name: "jest-dom/flat-recommended",
-        files: resolvedFiles,
-      },
-      {
-        ...testingLibrary.default.configs["flat/react"],
-        name: "testing-library/react",
-        files: resolvedFiles,
-      },
-    );
-  }
-  if (vitest) {
-    configs.push({
-      ...vitest.default.configs.recommended,
-      files: resolvedFiles,
-    });
-  }
 
-  if (extraRules || enabledVitest) {
-    configs.push({
-      name: "@pandell-eslint-config/testing",
-      files: resolvedFiles,
-      rules: {
-        ...(enabledVitest && {
-          "vitest/consistent-test-it": "warn",
-          "vitest/no-alias-methods": "warn",
-          "vitest/no-conditional-tests": "error",
-          "vitest/no-duplicate-hooks": "warn",
-          "vitest/no-focused-tests": "error",
-          "vitest/no-standalone-expect": "error",
-          "vitest/prefer-each": "error",
-          "vitest/prefer-hooks-in-order": "error",
-          "vitest/prefer-hooks-on-top": "error",
-          "vitest/prefer-lowercase-title": ["error", { "ignore": ["describe"] }],
-          "vitest/prefer-spy-on": "warn",
-          "vitest/prefer-strict-equal": "warn",
-          "vitest/prefer-to-be": "warn",
-          "vitest/prefer-to-contain": "warn",
-          "vitest/prefer-todo": "warn",
-          "vitest/require-hook": "error",
-        }),
-        ...extraRules,
-      },
-    });
-  }
-
-  return configs;
+  return defineConfig(
+    jestDom
+      ? defineConfig({
+          ...jestDom.default.configs["flat/recommended"],
+          name: "jest-dom/flat-recommended",
+          files: resolvedFiles,
+        })
+      : [],
+    testingLibrary
+      ? defineConfig({
+          ...testingLibrary.default.configs["flat/react"],
+          name: "testing-library/flat-react",
+          files: resolvedFiles,
+        })
+      : [],
+    vitest
+      ? configWithFiles(
+          vitest.default.configs.recommended as unknown as Linter.Config, // 2025-09-17, milang: "@vitest/eslint-plugin@1.3.12" configurations do not satisfy types from "eslint@9.35.0", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
+          resolvedFiles,
+        )
+      : [],
+    extraRules || enabledVitest
+      ? defineConfig({
+          name: "@pandell-eslint-config/testing",
+          files: resolvedFiles,
+          rules: {
+            ...(enabledVitest && {
+              "vitest/consistent-test-it": "warn",
+              "vitest/no-alias-methods": "warn",
+              "vitest/no-conditional-tests": "error",
+              "vitest/no-duplicate-hooks": "warn",
+              "vitest/no-focused-tests": "error",
+              "vitest/no-standalone-expect": "error",
+              "vitest/prefer-each": "error",
+              "vitest/prefer-hooks-in-order": "error",
+              "vitest/prefer-hooks-on-top": "error",
+              "vitest/prefer-lowercase-title": ["error", { "ignore": ["describe"] }],
+              "vitest/prefer-spy-on": "warn",
+              "vitest/prefer-strict-equal": "warn",
+              "vitest/prefer-to-be": "warn",
+              "vitest/prefer-to-contain": "warn",
+              "vitest/prefer-todo": "warn",
+              "vitest/require-hook": "error",
+            }),
+            ...extraRules,
+          },
+        })
+      : [],
+  );
 }
 
 /**
  * Pandell's ViteJS-specific overrides of ESLint rules.
  */
-function createPandellViteConfig(
-  settings: PandellEsLintConfigSettings,
-): ReadonlyArray<Linter.Config> {
+function pandellViteConfig(settings: PandellEsLintConfigSettings): Linter.Config[] {
   const { vite = {} } = settings;
   const { enabled = false, tsConfigPath = "tsconfig.node.json", files = ["vite.*.ts"] } = vite;
 
@@ -371,13 +359,11 @@ function createPandellViteConfig(
     return [];
   }
 
-  return [
-    {
-      name: "@pandell-eslint-config/vite",
-      files,
-      languageOptions: { parserOptions: { project: tsConfigPath } },
-    },
-  ];
+  return defineConfig({
+    name: "@pandell-eslint-config/vite",
+    files,
+    languageOptions: { parserOptions: { project: tsConfigPath } },
+  });
 }
 
 // =============================================================================
@@ -407,7 +393,7 @@ export interface PandellEsLintConfigSettings {
    * List of extra configuration layers to append to the end of ESLint configuration
    * sequence returned by {@link createPandellEsLintConfig}.
    */
-  readonly extraConfigs?: ReadonlyArray<Linter.Config>;
+  readonly extraConfigs?: ConfigWithExtendsArray;
 
   /**
    * Enforce the consistent use of either function declarations (default)
@@ -648,20 +634,20 @@ export interface PandellEsLintConfigSettings {
 }
 
 /**
- * Creates Pandell ESLint configuration, applying specified customizations ("settings").
+ * Defines Pandell ESLint configuration, applying specified customizations ("settings").
  */
-export async function createPandellEsLintConfig(
+export async function definePandellEsLintConfig(
   settings: PandellEsLintConfigSettings = {},
 ): Promise<ReadonlyArray<Linter.Config>> {
   const { extraConfigs = [], ignores = defaultGlobalIgnores } = settings;
 
-  return [
-    { name: "@pandell-eslint-config/ignores", ignores },
-    ...createPandellBaseConfig(settings),
-    ...(await createPandellTypeScriptConfig(settings)),
-    ...(await createPandellReactConfig(settings)),
-    ...(await createPandellTestingConfig(settings)),
-    ...createPandellViteConfig(settings),
+  return defineConfig(
+    globalIgnores(ignores, "@pandell-eslint-config/ignores"),
+    pandellBaseConfig(settings),
+    await pandellTypeScriptConfig(settings),
+    await pandellReactConfig(settings),
+    await pandellTestingConfig(settings),
+    pandellViteConfig(settings),
     {
       name: "@pandell-eslint-config/root-config-files",
       files: ["*.config.{js,mjs,cjs,ts,mts,cts}"],
@@ -686,6 +672,6 @@ export async function createPandellEsLintConfig(
         "jsdoc/tag-lines": ["error", "any", { "startLines": 1 }],
       },
     },
-    ...extraConfigs,
-  ];
+    extraConfigs,
+  );
 }
