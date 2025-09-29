@@ -163,12 +163,13 @@ async function pandellTypeScriptConfig(
           "error",
           { accessibility: "no-public" }, // disallow "public" modifier
         ],
-        // "@typescript-eslint/naming-convention": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; don't enforce this
+        // "@typescript-eslint/naming-convention": "off", // already "off" in "typescript-eslint@8.45.0", both "recommended" and "recommendedTypeChecked"; don't enforce this
         "@typescript-eslint/no-explicit-any": noExplicitAny, // TypeScript handles implicit "any"
-        // "@typescript-eslint/no-require-imports": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
-        // "no-unused-expressions": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
-        // "@typescript-eslint/no-unused-expressions": "error", // already "error" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
-        "@typescript-eslint/no-unnecessary-template-expression": "warn",
+        // "no-redeclare": "off", // already "off" in "typescript-eslint@8.45.0", both "recommended" and "recommendedTypeChecked"
+        // "@typescript-eslint/no-redeclare": "off", // already "off" in "typescript-eslint@8.45.0"
+        // "@typescript-eslint/no-require-imports": "error", // already "error" in "typescript-eslint@8.45.0", both "recommended" and "recommendedTypeChecked"
+        // "no-unused-expressions": "off", // already "off" in "typescript-eslint@8.45.0", both "recommended" and "recommendedTypeChecked"
+        // "@typescript-eslint/no-unused-expressions": "error", // already "error" in "typescript-eslint@8.45.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version accounts for optional call expressions `?.()` and directives in module declarations
         "@typescript-eslint/no-unused-vars": [
           // allow unused variables whose names start with underscore; this is consistent
           // with our C#/ReSharper/Rider and TypeScript rules; the following configuration
@@ -184,19 +185,17 @@ async function pandellTypeScriptConfig(
             "varsIgnorePattern": "^_",
           },
         ],
-        // "@typescript-eslint/no-use-before-define": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; TS handles this for variables
-        // "@typescript-eslint/no-var-requires": "off", // no such rule as of "typescript-eslint@8.4.0"; "no-require-imports" makes this redundant
+        // "@typescript-eslint/no-use-before-define": "off", // already "off" in "typescript-eslint@8.45.0", both "recommended" and "recommendedTypeChecked"; TS handles this for variables
         "@typescript-eslint/prefer-for-of": "warn",
         "@typescript-eslint/prefer-function-type": "warn",
-        // "no-redeclare": "off", // already "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"
-        // "@typescript-eslint/no-redeclare": "error", // keep the recommended level, which is "off" in "typescript-eslint@8.4.0", both "recommended" and "recommendedTypeChecked"; the typescript-eslint version of "no-redeclare" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }], // the typescript-eslint version of "no-shadow" uses TypeScript's scope analysis, which reduces false positives that were likely when using the default ESLint version
 
         ...(typeChecked && {
           "@typescript-eslint/consistent-type-exports": "warn",
           "@typescript-eslint/consistent-type-imports": "warn",
-          "@typescript-eslint/no-deprecated": "error",
+          // "@typescript-eslint/no-deprecated": "error", // already "error" in "typescript-eslint@8.45.0"
+          // "@typescript-eslint/no-unnecessary-template-expression": "error", // already "error" in "typescript-eslint@8.45.0"
           "@typescript-eslint/prefer-nullish-coalescing": preferNullishCoalescing,
           "@typescript-eslint/prefer-readonly": "warn",
           "@typescript-eslint/unbound-method": "off", // seems to be more annoying than helpful
