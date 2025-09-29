@@ -259,13 +259,12 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
       rules: {
-        "@eslint-react/avoid-shorthand-fragment": "error",
-        "@eslint-react/hooks-extra/ensure-custom-hooks-using-other-hooks": "warn",
-        "@eslint-react/hooks-extra/no-unnecessary-use-callback": "warn",
-        "@eslint-react/hooks-extra/no-unnecessary-use-memo": "warn",
-        "@eslint-react/hooks-extra/ensure-use-memo-has-non-empty-deps": "warn",
-        // "@eslint-react/hooks-extra/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@1.13.0"
-        "@eslint-react/prefer-destructuring-assignment": "off",
+        "@eslint-react/hooks-extra/no-direct-set-state-in-use-effect": "warn", // should be "warn" in "@eslint-react/eslint-plugin@2.0.2/recommended-type-checked", but currently isn't
+        "@eslint-react/jsx-shorthand-fragment": ["error", -1],
+        "@eslint-react/no-unnecessary-use-callback": "warn",
+        "@eslint-react/no-unnecessary-use-memo": "warn",
+        // "@eslint-react/prefer-destructuring-assignment": "off", // already "off" in "@eslint-react/eslint-plugin@2.0.2"
+        // "@eslint-react/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@2.0.2"
         "react-hooks/exhaustive-deps": [
           "warn",
           { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
