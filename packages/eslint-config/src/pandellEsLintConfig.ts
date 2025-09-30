@@ -258,7 +258,6 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
       rules: {
-        "@eslint-react/hooks-extra/no-direct-set-state-in-use-effect": "warn", // should be "warn" in "@eslint-react/eslint-plugin@2.0.2/recommended-type-checked", but currently isn't
         "@eslint-react/jsx-shorthand-fragment": ["error", -1],
         "@eslint-react/no-unnecessary-use-callback": "warn",
         "@eslint-react/no-unnecessary-use-memo": "warn",
