@@ -17,14 +17,14 @@ export interface PostcssPluginSettings {
   /**
    * Object mapping mixin names to functions.
    *
-   * Mixins will be globally available when processing CSS files (no @import required).
+   * Mixins will be globally available when processing CSS files (no "@import" required).
    */
   readonly mixins?: PostcssMixinsOptions["mixins"];
 
   /**
    * Object mapping variable names to values.
    *
-   * Variables will be globally available when processing CSS files (no @import required).
+   * Variables will be globally available when processing CSS files (no "@import" required).
    */
   readonly variables?: { [name: string]: string | number };
 

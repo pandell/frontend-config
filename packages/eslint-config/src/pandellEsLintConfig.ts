@@ -396,7 +396,7 @@ export interface PandellEsLintConfigSettings {
    * Enforce the consistent use of either function declarations (default)
    * or expressions assigned to variables ("arrow functions").
    *
-   * Rule "func-style", @see https://eslint.org/docs/latest/rules/func-style
+   * Rule "func-style", {@link https://eslint.org/docs/latest/rules/func-style}
    *
    * @default ["error","declaration"]
    */
@@ -405,7 +405,7 @@ export interface PandellEsLintConfigSettings {
   /**
    * List of ESLint global ignores.
    *
-   * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+   * From ESLint documentation, {@link https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores}:
    * "Patterns specified in files and ignores use minimatch syntax and are evaluated
    * relative to the location of the eslint.config.js file."
    *
@@ -436,7 +436,7 @@ export interface PandellEsLintConfigSettings {
      * "do not set" indicates "files" property will not be set, i.e. the configuration
      * layers will apply to all files matched by ESLint.
      *
-     * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+     * From ESLint documentation, {@link https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores}:
      * "Patterns specified in files and ignores use minimatch syntax and are evaluated
      * relative to the location of the eslint.config.js file."
      *
@@ -495,7 +495,7 @@ export interface PandellEsLintConfigSettings {
      * "do not set" indicates "files" property will not be set, i.e. the configuration
      * layers will apply to all files matched by ESLint.
      *
-     * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+     * From ESLint documentation, {@link https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores}:
      * "Patterns specified in files and ignores use minimatch syntax and are evaluated
      * relative to the location of the eslint.config.js file."
      *
@@ -527,7 +527,7 @@ export interface PandellEsLintConfigSettings {
      * "do not set" indicates "files" property will not be set, i.e. the configuration
      * layers will apply to all files matched by ESLint.
      *
-     * From ESLint documentation, @see https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores:
+     * From ESLint documentation, {@link https://eslint.org/docs/latest/use/configure/configuration-files#specifying-files-and-ignores}:
      * "Patterns specified in files and ignores use minimatch syntax and are evaluated
      * relative to the location of the eslint.config.js file."
      *
@@ -538,7 +538,7 @@ export interface PandellEsLintConfigSettings {
     /**
      * Are explicit "any" type annotations allowed in TypeScript? ("give up on type-checking")
      *
-     * Rule "@typescript-eslint/no-explicit-any", @see https://typescript-eslint.io/rules/no-explicit-any/
+     * Rule "@typescript-eslint/no-explicit-any", {@link https://typescript-eslint.io/rules/no-explicit-any/}
      *
      * @default "error"
      */
@@ -547,14 +547,14 @@ export interface PandellEsLintConfigSettings {
     /**
      * Custom entry for "@typescript-eslint/prefer-nullish-coalescing" rule.
      *
-     * Rule "@typescript-eslint/prefer-nullish-coalescing", @see https://typescript-eslint.io/rules/prefer-nullish-coalescing/
+     * Rule "@typescript-eslint/prefer-nullish-coalescing", {@link https://typescript-eslint.io/rules/prefer-nullish-coalescing/}
      *
      * @default "off"
      */
     readonly preferNullishCoalescing?: Linter.RuleEntry;
 
     /**
-     * Custom value for "parserOptions" of "typescript-eslint", @see https://typescript-eslint.io/packages/parser/#configuration.
+     * Custom value for "parserOptions" of "typescript-eslint", {@link https://typescript-eslint.io/packages/parser/#configuration}.
      *
      * Anthony Fu configuration https://github.com/antfu/eslint-config/blob/v2.20.0/src/configs/typescript.ts#L70
      * uses "process.cwd()" for "parserOptions.tsconfigRootDir", but this makes configuration
