@@ -61,6 +61,7 @@
     "stylelint",
     "tanstack",
     "tsbuildinfo",
+    "unrs",
     "vitest"
   ],
 
