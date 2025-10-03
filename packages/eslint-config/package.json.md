@@ -30,7 +30,21 @@ Remove this property when `import-x` no longer reports this resolution error.
 
 ## Dependencies
 
-All dependencies are up-to-date at this time.
+### [eslint-plugin-react-hooks](https://github.com/facebook/react)
+
+Major version 6 is a very disappointing release. Meta didn't even bother
+publishing release notes for it. The plugin went from 0 dependencies
+to 6 dependencies (including Babel). Size of the plugin went from 0.1 MB
+to 2.1 MB. The included TypeScript definitions are incorrect, breaking
+our build (v5 type definitions are significantly better).
+
+As of October 2025, we are ignoring this major version. Unless Meta gets its
+act together, we will stay on v5.
+
+```sh
+Package                      Current         Latest
+eslint-plugin-react-hooks    5.2.0           6.1.0
+```
 
 ## Resolutions
 
