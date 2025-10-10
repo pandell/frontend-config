@@ -263,10 +263,11 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         : reactPlugin.default.configs.strict,
       resolvedFiles,
     ),
-    configWithFiles(
-      hooksPlugin.configs["recommended-latest"],
-      resolvedFiles, // do not collapse to single line
-    ),
+    {
+      ...hooksPlugin.default.configs.flat["recommended-latest"],
+      name: "eslint-plugin-react-hooks/recommended-latest", // version 7 removed config name (was included in 5.2.x)
+      files: resolvedFiles,
+    },
     configWithFiles(
       settings.vite?.enabled
         ? refreshPlugin.default.configs.vite
