@@ -242,8 +242,8 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
   return defineConfig(
     configWithFiles(
       typeChecked
-        ? reactPlugin.default.configs["recommended-type-checked"]
-        : reactPlugin.default.configs.recommended,
+        ? reactPlugin.default.configs["strict-type-checked"]
+        : reactPlugin.default.configs.strict,
       resolvedFiles,
     ),
     configWithFiles(
