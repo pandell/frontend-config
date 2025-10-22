@@ -267,7 +267,7 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         "@eslint-react/jsx-shorthand-fragment": ["error", -1],
         "@eslint-react/no-unnecessary-use-callback": "warn",
         "@eslint-react/no-unnecessary-use-memo": "warn",
-        // "@eslint-react/prefer-destructuring-assignment": "off", // already "off" in "@eslint-react/eslint-plugin@2.0.2"
+        "@eslint-react/prefer-destructuring-assignment": "off", // set to "warn" in "strict*" presets in "@eslint-react/eslint-plugin@2.2.2"
         // "@eslint-react/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@2.0.2"
         "react-hooks/exhaustive-deps": [
           "warn",
