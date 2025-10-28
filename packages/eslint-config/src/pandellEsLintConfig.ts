@@ -14,12 +14,14 @@ type ConfigWithExtendsArray = Parameters<typeof defineConfig>[0];
  * Recursively sets "files" property of all the specified config objects to the specified value.
  */
 function configWithFiles(
-  config: ConfigWithExtendsArray,
+  config: ConfigWithExtendsArray | null,
   files: Linter.Config["files"],
 ): ConfigWithExtendsArray {
-  return Array.isArray(config)
-    ? config.map((innerConfig) => configWithFiles(innerConfig, files))
-    : { ...config, files };
+  return !config
+    ? []
+    : Array.isArray(config)
+      ? config.map((innerConfig) => configWithFiles(innerConfig, files))
+      : { ...config, files };
 }
 
 // =============================================================================
@@ -236,24 +238,28 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
-  const recommendedConfig = typeChecked
-    ? reactPlugin.default.configs["recommended-type-checked"]
-    : reactPlugin.default.configs.recommended;
-  const isViteEnabled = Boolean(settings.vite?.enabled);
 
   return defineConfig(
-    {
-      ...recommendedConfig,
-      name: `@eslint-react/recommended${typeChecked ? "-type-checked" : ""}`,
-      files: resolvedFiles,
-    },
-    configWithFiles(hooksPlugin.configs["recommended-latest"], resolvedFiles),
-    isViteEnabled
-      ? configWithFiles(refreshPlugin.default.configs.vite, resolvedFiles)
-      : configWithFiles(refreshPlugin.default.configs.recommended, resolvedFiles),
-    queryPlugin
-      ? configWithFiles(queryPlugin.default.configs["flat/recommended"], resolvedFiles)
-      : [],
+    configWithFiles(
+      typeChecked
+        ? reactPlugin.default.configs["strict-type-checked"]
+        : reactPlugin.default.configs.strict,
+      resolvedFiles,
+    ),
+    configWithFiles(
+      hooksPlugin.configs["recommended-latest"],
+      resolvedFiles, // do not collapse to single line
+    ),
+    configWithFiles(
+      settings.vite?.enabled
+        ? refreshPlugin.default.configs.vite
+        : refreshPlugin.default.configs.recommended,
+      resolvedFiles,
+    ),
+    configWithFiles(
+      queryPlugin && queryPlugin.default.configs["flat/recommended"],
+      resolvedFiles, // do not collapse to single line
+    ),
     {
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
@@ -261,7 +267,7 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         "@eslint-react/jsx-shorthand-fragment": ["error", -1],
         "@eslint-react/no-unnecessary-use-callback": "warn",
         "@eslint-react/no-unnecessary-use-memo": "warn",
-        // "@eslint-react/prefer-destructuring-assignment": "off", // already "off" in "@eslint-react/eslint-plugin@2.0.2"
+        "@eslint-react/prefer-destructuring-assignment": "off", // set to "warn" in "strict*" presets in "@eslint-react/eslint-plugin@2.2.2"
         // "@eslint-react/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@2.0.2"
         "react-hooks/exhaustive-deps": [
           "warn",
