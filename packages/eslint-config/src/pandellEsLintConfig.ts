@@ -1,5 +1,6 @@
 // spell-checker:words indexeddb milang tses yalc
 
+import type { ConfigObject as Config, Plugin, RuleConfig } from "@eslint/core";
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
 import type { Linter } from "eslint";
@@ -14,14 +15,23 @@ type ConfigWithExtendsArray = Parameters<typeof defineConfig>[0];
  * Recursively sets "files" property of all the specified config objects to the specified value.
  */
 function configWithFiles(
-  config: ConfigWithExtendsArray | null,
-  files: Linter.Config["files"],
+  config:
+    | ConfigWithExtendsArray // current "@eslint/core"-based config
+    | Linter.Config // Legacy "eslint" config
+    | TSESLint.FlatConfig.Config // Legacy "typescript-eslint" config
+    | null
+    | undefined
+    | false,
+  files: Config["files"],
+  name?: string,
 ): ConfigWithExtendsArray {
   return !config
     ? []
     : Array.isArray(config)
       ? config.map((innerConfig) => configWithFiles(innerConfig, files))
-      : { ...config, files };
+      : name
+        ? { ...(config as Config), files, name }
+        : { ...(config as Config), files };
 }
 
 // =============================================================================
@@ -31,24 +41,24 @@ function configWithFiles(
 /**
  * Pandell's non-language/framework-specific overrides of ESLint rules.
  */
-function pandellBaseConfig(settings: PandellEsLintConfigSettings): Linter.Config[] {
+function pandellBaseConfig(settings: PandellEsLintConfigSettings): Config[] {
   const { funcStyle = ["error", "declaration"] } = settings;
 
   return defineConfig(
     {
       ...esLintJs.configs.recommended,
-      name: "eslint/js/recommended", // as of 2024-09-05, "@eslint/js" recommended config does not include a name
+      name: "eslint/js/recommended", // as of 2024-10-29, "@eslint/js" recommended config does not include a name
     },
-    importXFlatConfigs.recommended as Linter.Config,
+    importXFlatConfigs.recommended as Config,
     {
-      name: "simple-import-sort/all", // as of 2025-09-15, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
-      plugins: { "simple-import-sort": esLintSimpleImportSort },
+      name: "simple-import-sort/all", // as of 2025-10-29, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
+      plugins: { "simple-import-sort": esLintSimpleImportSort as Plugin },
       rules: {
         "simple-import-sort/imports": "warn",
         "simple-import-sort/exports": "warn",
       },
     },
-    jsdoc({ config: "flat/recommended-error" }),
+    jsdoc({ config: "flat/recommended-error" }) as Config,
     {
       name: "@pandell-eslint-config/base",
       rules: {
@@ -108,9 +118,7 @@ function pandellBaseConfig(settings: PandellEsLintConfigSettings): Linter.Config
 /**
  * Pandell's TypeScript-specific overrides of ESLint rules.
  */
-async function pandellTypeScriptConfig(
-  settings: PandellEsLintConfigSettings,
-): Promise<Linter.Config[]> {
+async function pandellTypeScriptConfig(settings: PandellEsLintConfigSettings): Promise<Config[]> {
   const { typeScript = {} } = settings;
   const {
     enabled = true,
@@ -142,9 +150,18 @@ async function pandellTypeScriptConfig(
       : esLintTs.configs.recommended;
 
   return defineConfig(
-    configWithFiles(recommendedConfig, resolvedFiles),
-    configWithFiles(importXFlatConfigs.typescript as Linter.Config, resolvedFiles),
-    configWithFiles(jsdoc({ config: "flat/recommended-typescript-error" }), resolvedFiles),
+    configWithFiles(
+      recommendedConfig,
+      resolvedFiles, // do not collapse to single line
+    ),
+    configWithFiles(
+      importXFlatConfigs.typescript,
+      resolvedFiles, // do not collapse to single line
+    ),
+    configWithFiles(
+      jsdoc({ config: "flat/recommended-typescript-error" }),
+      resolvedFiles, // do not collapse to single line
+    ),
     {
       name: `@pandell-eslint-config/typescript${strict ? "-strict" : ""}${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
@@ -212,7 +229,7 @@ async function pandellTypeScriptConfig(
 /**
  * Pandell's React-specific overrides of ESLint rules.
  */
-async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promise<Linter.Config[]> {
+async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promise<Config[]> {
   const { react = {}, typeScript = {} } = settings;
   const {
     enabled = false,
@@ -282,9 +299,7 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
 /**
  * Pandell's testing-specific overrides of ESLint rules.
  */
-async function pandellTestingConfig(
-  settings: PandellEsLintConfigSettings,
-): Promise<Linter.Config[]> {
+async function pandellTestingConfig(settings: PandellEsLintConfigSettings): Promise<Config[]> {
   const { testing = {} } = settings;
   const {
     enabledTestingLibrary = false,
@@ -301,72 +316,64 @@ async function pandellTestingConfig(
   ]);
 
   return defineConfig(
-    jestDom
-      ? defineConfig({
-          ...jestDom.default.configs["flat/recommended"],
-          name: "jest-dom/flat-recommended",
-          files: resolvedFiles,
-        })
-      : [],
-    testingLibrary
-      ? defineConfig({
-          ...testingLibrary.default.configs["flat/react"],
-          name: "testing-library/flat-react",
-          files: resolvedFiles,
-        })
-      : [],
-    vitest
-      ? configWithFiles(
-          vitest.default.configs.recommended as unknown as Linter.Config, // 2025-09-17, milang: "@vitest/eslint-plugin@1.3.12" configurations do not satisfy types from "eslint@9.35.0", so use TypeScript type-cast to keep it happy (this can hopefully be deleted in the future)
-          resolvedFiles,
-        )
-      : [],
-    extraRules || enabledVitest
-      ? defineConfig({
-          name: "@pandell-eslint-config/testing",
-          files: resolvedFiles,
-          rules: {
-            ...(enabledVitest && {
-              "vitest/consistent-test-it": "warn",
-              "vitest/no-alias-methods": "warn",
-              "vitest/no-conditional-tests": "error",
-              "vitest/no-duplicate-hooks": "warn",
-              "vitest/no-focused-tests": "error",
-              "vitest/no-standalone-expect": "error",
-              "vitest/prefer-each": "error",
-              "vitest/prefer-hooks-in-order": "error",
-              "vitest/prefer-hooks-on-top": "error",
-              "vitest/prefer-lowercase-title": ["error", { "ignore": ["describe"] }],
-              "vitest/prefer-spy-on": "warn",
-              "vitest/prefer-strict-equal": "warn",
-              "vitest/prefer-to-be": "warn",
-              "vitest/prefer-to-contain": "warn",
-              "vitest/prefer-todo": "warn",
-              "vitest/require-hook": "error",
-            }),
-            ...extraRules,
-          },
-        })
-      : [],
+    configWithFiles(
+      jestDom && jestDom.default.configs["flat/recommended"],
+      resolvedFiles,
+      "jest-dom/flat-recommended",
+    ),
+    configWithFiles(
+      testingLibrary && testingLibrary.default.configs["flat/react"],
+      resolvedFiles,
+      "testing-library/flat-react",
+    ),
+    configWithFiles(
+      vitest && vitest.default.configs.recommended,
+      resolvedFiles, // do not collapse to single line
+    ),
+    configWithFiles(
+      (extraRules || enabledVitest) && {
+        rules: {
+          ...(enabledVitest && {
+            "vitest/consistent-test-it": "warn",
+            "vitest/no-alias-methods": "warn",
+            "vitest/no-conditional-tests": "error",
+            "vitest/no-duplicate-hooks": "warn",
+            "vitest/no-focused-tests": "error",
+            "vitest/no-standalone-expect": "error",
+            "vitest/prefer-each": "error",
+            "vitest/prefer-hooks-in-order": "error",
+            "vitest/prefer-hooks-on-top": "error",
+            "vitest/prefer-lowercase-title": ["error", { "ignore": ["describe"] }],
+            "vitest/prefer-spy-on": "warn",
+            "vitest/prefer-strict-equal": "warn",
+            "vitest/prefer-to-be": "warn",
+            "vitest/prefer-to-contain": "warn",
+            "vitest/prefer-todo": "warn",
+            "vitest/require-hook": "error",
+          }),
+          ...extraRules,
+        },
+      },
+      resolvedFiles,
+      "@pandell-eslint-config/testing",
+    ),
   );
 }
 
 /**
  * Pandell's ViteJS-specific overrides of ESLint rules.
  */
-function pandellViteConfig(settings: PandellEsLintConfigSettings): Linter.Config[] {
+function pandellViteConfig(settings: PandellEsLintConfigSettings): Config[] {
   const { vite = {} } = settings;
   const { enabled = false, tsConfigPath = "tsconfig.node.json", files = ["vite.*.ts"] } = vite;
 
-  if (!enabled) {
-    return [];
-  }
-
-  return defineConfig({
-    name: "@pandell-eslint-config/vite",
-    files,
-    languageOptions: { parserOptions: { project: tsConfigPath } },
-  });
+  return defineConfig(
+    configWithFiles(
+      enabled && { languageOptions: { parserOptions: { project: tsConfigPath } } },
+      files,
+      "@pandell-eslint-config/vite",
+    ),
+  );
 }
 
 // =============================================================================
@@ -406,7 +413,7 @@ export interface PandellEsLintConfigSettings {
    *
    * @default ["error","declaration"]
    */
-  readonly funcStyle?: Linter.RuleEntry;
+  readonly funcStyle?: RuleConfig;
 
   /**
    * List of ESLint global ignores.
@@ -417,7 +424,7 @@ export interface PandellEsLintConfigSettings {
    *
    * @default defaultGlobalIgnores
    */
-  readonly ignores?: Linter.Config["ignores"];
+  readonly ignores?: Config["ignores"];
 
   /**
    * Settings for React ESLint configuration layers (opt in, not enabled by default).
@@ -434,7 +441,7 @@ export interface PandellEsLintConfigSettings {
     /**
      * Extra rule configurations that will be appended to Pandell React configuration layer.
      */
-    readonly extraRules?: Linter.Config["rules"];
+    readonly extraRules?: Config["rules"];
 
     /**
      * List of files to apply TypeScript configuration layers to.
@@ -448,7 +455,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default defaultTypeScriptFiles
      */
-    readonly files?: "do not set" | Linter.Config["files"];
+    readonly files?: "do not set" | Config["files"];
 
     /**
      * Should the React configuration include TanStack Query rules?
@@ -493,7 +500,7 @@ export interface PandellEsLintConfigSettings {
     /**
      * Extra rule configurations that will be appended to Pandell testing configuration layer.
      */
-    readonly extraRules?: Linter.Config["rules"];
+    readonly extraRules?: Config["rules"];
 
     /**
      * List of files to apply testing configuration layers to.
@@ -507,7 +514,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default defaultTestFiles
      */
-    readonly files?: "do not set" | Linter.Config["files"];
+    readonly files?: "do not set" | Config["files"];
   };
 
   /**
@@ -525,7 +532,7 @@ export interface PandellEsLintConfigSettings {
     /**
      * Extra rule configurations that will be appended to Pandell TypeScript configuration layer.
      */
-    readonly extraRules?: Linter.Config["rules"];
+    readonly extraRules?: Config["rules"];
 
     /**
      * List of files to apply TypeScript configuration layers to.
@@ -539,7 +546,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default defaultTypeScriptFiles
      */
-    readonly files?: "do not set" | Linter.Config["files"];
+    readonly files?: "do not set" | Config["files"];
 
     /**
      * Are explicit "any" type annotations allowed in TypeScript? ("give up on type-checking")
@@ -548,7 +555,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default "error"
      */
-    readonly noExplicitAny?: Linter.RuleEntry;
+    readonly noExplicitAny?: RuleConfig;
 
     /**
      * Custom entry for "@typescript-eslint/prefer-nullish-coalescing" rule.
@@ -557,7 +564,7 @@ export interface PandellEsLintConfigSettings {
      *
      * @default "off"
      */
-    readonly preferNullishCoalescing?: Linter.RuleEntry;
+    readonly preferNullishCoalescing?: RuleConfig;
 
     /**
      * Custom value for "parserOptions" of "typescript-eslint", {@link https://typescript-eslint.io/packages/parser/#configuration}.
@@ -641,7 +648,7 @@ export interface PandellEsLintConfigSettings {
  */
 export async function definePandellEsLintConfig(
   settings: PandellEsLintConfigSettings = {},
-): Promise<ReadonlyArray<Linter.Config>> {
+): Promise<ReadonlyArray<Config>> {
   const { extraConfigs = [], ignores = defaultGlobalIgnores } = settings;
 
   return defineConfig(
