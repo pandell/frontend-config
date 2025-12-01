@@ -5,8 +5,8 @@
   ],
   "scripts": {
     "build": "echo '[typescript]' && tsc --build",
-    "format": "prettier --check .",
-    "format:fix": "prettier --write .",
+    "format": "prettier --experimental-cli --check .",
+    "format-fix": "prettier --experimental-cli --write .",
     "format:quiet": "echo '[prettier]' && run format --log-level warn",
     "lint": "echo '[eslint]' && eslint --max-warnings 0 --cache --cache-location node_modules/.cache/eslint/eslint.cache",
     "postinstall": "run build",
