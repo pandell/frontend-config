@@ -24,7 +24,7 @@ import lib.*
  * mvn --file .teamcity teamcity-configs:generate
  */
 
-version = "2025.07"
+version = "2025.11"
 
 // Prefixes of packages included in this monorepo.
 enum class NpmPackagePrefix {
