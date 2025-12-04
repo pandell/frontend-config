@@ -160,10 +160,11 @@ val publishConfig =
                 label = """NPM tag for the published package (defaults to "latest")""",
                 display = ParameterDisplay.PROMPT,
             )
-            text(
+            password(
                 name = "npmPublishToken",
                 value = "",
-                label = """NPM token that grants permission to publish this package""",
+                label = "NPM publish token",
+                description = "Enter token that grants permission to publish this package to NPM registry",
                 display = ParameterDisplay.PROMPT,
             )
             param(name = "packageBuildArtifactFullPath", value = "")
