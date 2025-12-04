@@ -160,6 +160,12 @@ val publishConfig =
                 label = """NPM tag for the published package (defaults to "latest")""",
                 display = ParameterDisplay.PROMPT,
             )
+            text(
+                name = "npmPublishToken",
+                value = "",
+                label = """NPM token that grants permission to publish this package""",
+                display = ParameterDisplay.PROMPT,
+            )
             param(name = "packageBuildArtifactFullPath", value = "")
         }
 
@@ -199,7 +205,7 @@ val publishConfig =
                 name = "Publish package build artifact"
                 scriptContent =
                     """
-                    env "npm_config_//registry.npmjs.org/:_authToken=%pandell.npmToken.publish%" npm publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
+                    env "npm_config_//registry.npmjs.org/:_authToken=%npmPublishToken%" npm publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
                     """
             }
         }
