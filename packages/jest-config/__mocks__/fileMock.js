@@ -1,4 +1,3 @@
-/* eslint-env jest,node */
 /* global module */
 
 // This file is referenced by "jest.config.js/moduleNameMapper".
