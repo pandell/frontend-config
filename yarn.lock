@@ -571,7 +571,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.26"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
-    eslint-plugin-testing-library: "npm:^7.15.1"
+    eslint-plugin-testing-library: "npm:^7.15.4"
     typescript: "npm:~5.9.3"
     typescript-eslint: "npm:^8.53.0"
   peerDependencies:
@@ -846,7 +846,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/scope-manager@npm:8.53.0, @typescript-eslint/scope-manager@npm:^8.15.0, @typescript-eslint/scope-manager@npm:^8.46.1, @typescript-eslint/scope-manager@npm:^8.49.0":
+"@typescript-eslint/scope-manager@npm:8.53.0, @typescript-eslint/scope-manager@npm:^8.46.1, @typescript-eslint/scope-manager@npm:^8.49.0, @typescript-eslint/scope-manager@npm:^8.51.0":
   version: 8.53.0
   resolution: "@typescript-eslint/scope-manager@npm:8.53.0"
   dependencies:
@@ -907,7 +907,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.53.0, @typescript-eslint/utils@npm:^8.15.0, @typescript-eslint/utils@npm:^8.44.1, @typescript-eslint/utils@npm:^8.46.1, @typescript-eslint/utils@npm:^8.49.0, @typescript-eslint/utils@npm:^8.53.0":
+"@typescript-eslint/utils@npm:8.53.0, @typescript-eslint/utils@npm:^8.44.1, @typescript-eslint/utils@npm:^8.46.1, @typescript-eslint/utils@npm:^8.49.0, @typescript-eslint/utils@npm:^8.51.0, @typescript-eslint/utils@npm:^8.53.0":
   version: 8.53.0
   resolution: "@typescript-eslint/utils@npm:8.53.0"
   dependencies:
@@ -2180,15 +2180,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:^7.15.1":
-  version: 7.15.1
-  resolution: "eslint-plugin-testing-library@npm:7.15.1"
+"eslint-plugin-testing-library@npm:^7.15.4":
+  version: 7.15.4
+  resolution: "eslint-plugin-testing-library@npm:7.15.4"
   dependencies:
-    "@typescript-eslint/scope-manager": "npm:^8.15.0"
-    "@typescript-eslint/utils": "npm:^8.15.0"
+    "@typescript-eslint/scope-manager": "npm:^8.51.0"
+    "@typescript-eslint/utils": "npm:^8.51.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/af7443f14380286ec63effd4c98cbda171b451d05fec4fb27f33ccc0706c1c3df1447451bdbe2a311e56b791b74c10cb206769b3d878e9819c97a1707e41a9aa
+  checksum: 10c0/5c35dd1c0dbb6bbbae5f379c4508d0efd377fd99ba75ee63607650a7c695ae88240984d547329a18a5d0ba3126d51c1cdf4b904856242214dcfac3f13835f051
   languageName: node
   linkType: hard
 
