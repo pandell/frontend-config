@@ -1,4 +1,3 @@
-/* eslint-env jest,node,browser,es6 */
 /* global global, jest, module */
 
 import React from "react"; // eslint-disable-line import-x/no-unresolved

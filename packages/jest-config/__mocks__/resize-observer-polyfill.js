@@ -1,4 +1,3 @@
-/* eslint-env jest,node */
 /* global jest, module */
 
 /**

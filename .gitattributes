@@ -1,11 +1,10 @@
-# For detailed discussion of line-endings and .gitattributes see
-# http://stackoverflow.com/questions/170961/whats-the-best-crlf-handling-strategy-with-git
-# spell-checker:words autocrlf gitattr asax ashx bmml datasource rdlc resx xlsb
+# spell-checker:words gitattr asax ashx bmml datasource rdlc resx slnx xlsb
 
-# Set default behavior, in case users don't have core.autocrlf set.
+# Set default behavior, use UNIX-style newlines everywhere (Windows, Linux, macOS).
 *             text eol=lf
 
 # Text files that should be normalized (convert crlf => lf)
+# (see https://github.com/git/git/blob/master/userdiff.c for a list of diff drivers available in Git for Windows)
 .gitignore    text
 .gitattr*     text
 *.asax        text
@@ -30,6 +29,8 @@
 *.jsx         text
 *.json        text
 *.jsonc       text
+*.kt          text diff=kotlin
+*.kts         text diff=kotlin
 *.Master      text
 *.md          text diff=markdown
 *.mrt         text
@@ -39,6 +40,7 @@
 *.resx        text
 *.settings    text
 *.sln         text
+*.slnx        text
 *.sql         text
 *.targets     text
 *.ts          text

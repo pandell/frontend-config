@@ -1,4 +1,3 @@
-/* eslint-env node,browser */
 /* global document, global, module, DOMException */
 
 module.exports = function setup() {
