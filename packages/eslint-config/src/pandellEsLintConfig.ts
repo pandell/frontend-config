@@ -269,8 +269,8 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     ),
     configWithFiles(
       settings.vite?.enabled
-        ? refreshPlugin.default.configs.vite
-        : refreshPlugin.default.configs.recommended,
+        ? refreshPlugin.reactRefresh.configs.vite()
+        : refreshPlugin.reactRefresh.configs.recommended(),
       resolvedFiles,
     ),
     configWithFiles(
