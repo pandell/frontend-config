@@ -21,7 +21,7 @@
     "@pandell/eslint-config": "workspace:packages/eslint-config",
     "browserslist": "^4.28.1",
     "eslint": "^9.39.2",
-    "eslint-formatter-teamcity": "^1.0.0",
+    "eslint-formatter-teamcity": "^2.0.1",
     "prettier": "^3.8.1",
     "typescript": "~5.9.3"
   },
