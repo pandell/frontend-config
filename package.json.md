@@ -13,7 +13,14 @@ No extra properties are needed at this time.
 
 ## Dependencies
 
-All dependencies are up-to-date at this time.
+### [eslint](https://eslint.org/)
+
+Migration to ESLint 10 is on hold until the plugins we use add support for v10.
+
+```sh
+Package                      Current         Latest
+eslint                       9.39.2          10.0.0
+```
 
 ## Resolutions
 
