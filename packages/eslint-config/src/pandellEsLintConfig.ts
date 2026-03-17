@@ -299,18 +299,12 @@ async function pandellTestingConfig(settings: PandellEsLintConfigSettings): Prom
   } = testing;
 
   const resolvedFiles = files === "do not set" ? undefined : files;
-  const [jestDom, testingLibrary, vitest] = await Promise.all([
-    enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
+  const [testingLibrary, vitest] = await Promise.all([
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
     enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
 
   return defineConfig(
-    configWithFiles(
-      jestDom && jestDom.default.configs["flat/recommended"],
-      resolvedFiles,
-      "jest-dom/flat-recommended",
-    ),
     configWithFiles(
       testingLibrary && testingLibrary.default.configs["flat/react"],
       resolvedFiles,
