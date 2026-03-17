@@ -10,7 +10,7 @@ Add the following to your `package.json`:
 {
   "devDependencies": {
     "@pandell/eslint-config": "^9.26.0-alpha.1",
-    "eslint": "^9.39.4",
+    "eslint": "^10.0.3",
     // ...
   },
   // ...
