@@ -231,13 +231,7 @@ async function pandellTypeScriptConfig(settings: PandellEsLintConfigSettings): P
  */
 async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promise<Config[]> {
   const { react = {}, typeScript = {} } = settings;
-  const {
-    enabled = false,
-    extraRules,
-    files = defaultTypeScriptFiles,
-    includeReactQuery = false,
-    typeChecked = true,
-  } = react;
+  const { enabled = false, extraRules, files = defaultTypeScriptFiles, typeChecked = true } = react;
   const { enabled: enabledTypeScript = true, typeChecked: typeCheckedTypeScript = true } =
     typeScript;
 
@@ -248,11 +242,10 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
   }
 
-  const [reactPlugin, hooksPlugin, refreshPlugin, queryPlugin] = await Promise.all([
+  const [reactPlugin, hooksPlugin, refreshPlugin] = await Promise.all([
     import("@eslint-react/eslint-plugin"),
     import("eslint-plugin-react-hooks"),
     import("eslint-plugin-react-refresh"),
-    includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
 
@@ -273,10 +266,6 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         ? refreshPlugin.reactRefresh.configs.vite()
         : refreshPlugin.reactRefresh.configs.recommended(),
       resolvedFiles,
-    ),
-    configWithFiles(
-      queryPlugin && queryPlugin.default.configs["flat/recommended"],
-      resolvedFiles, // do not collapse to single line
     ),
     {
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
