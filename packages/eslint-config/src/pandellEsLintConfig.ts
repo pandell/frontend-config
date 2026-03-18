@@ -315,8 +315,9 @@ async function pandellTestingConfig(settings: PandellEsLintConfigSettings): Prom
       resolvedFiles, // do not collapse to single line
     ),
     configWithFiles(
-      (extraRules || enabledVitest) && {
+      {
         rules: {
+          "@eslint-react/component-hook-factories": "off", // allow test functions to define components; https://www.eslint-react.xyz/docs/rules/component-hook-factories
           ...(enabledVitest && {
             "vitest/consistent-test-it": "warn",
             "vitest/no-alias-methods": "warn",
@@ -377,7 +378,7 @@ export const defaultTypeScriptFiles = ["**/*.{ts,tsx}"];
 /**
  * Files to which ESLint testing rules apply in Pandell projects by default.
  */
-export const defaultTestFiles = ["**/*.test.{ts,tsx,js,jsx}"];
+export const defaultTestFiles = ["**/*.{test,tests}.{ts,tsx,js,jsx}"];
 
 /**
  * Settings that control behavior of {@link createPandellEsLintConfig}.
