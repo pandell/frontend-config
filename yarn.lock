@@ -711,7 +711,7 @@ __metadata:
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
     eslint-plugin-jsdoc: "npm:^62.8.0"
-    eslint-plugin-react-hooks: "npm:7.1.0-canary-c80a0750-20260312"
+    eslint-plugin-react-hooks: "npm:7.1.0-canary-3f0b9e61-20260317"
     eslint-plugin-react-refresh: "npm:^0.5.2"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
     eslint-plugin-testing-library: "npm:^7.16.0"
@@ -1616,9 +1616,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001759, caniuse-lite@npm:^1.0.30001774":
-  version: 1.0.30001779
-  resolution: "caniuse-lite@npm:1.0.30001779"
-  checksum: 10c0/6cae9492140722ebc6be76cf3057ff8d1b427c7d8c2588b92bba7979bb1ec7ece457c7d3578a099a757ec12cb01b893fe05f224ac8feb841072897f0c12de6cc
+  version: 1.0.30001780
+  resolution: "caniuse-lite@npm:1.0.30001780"
+  checksum: 10c0/8a88f39758a228852d6f3ac92362ecb7694b1b2b022f194d8dfe59123ad40a5de6202bf2dff0fe316bb3d5ca9caf316c22056e0da693459c3be2771cde4f4bf9
   languageName: node
   linkType: hard
 
@@ -2159,9 +2159,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:7.1.0-canary-c80a0750-20260312":
-  version: 7.1.0-canary-c80a0750-20260312
-  resolution: "eslint-plugin-react-hooks@npm:7.1.0-canary-c80a0750-20260312"
+"eslint-plugin-react-hooks@npm:7.1.0-canary-3f0b9e61-20260317":
+  version: 7.1.0-canary-3f0b9e61-20260317
+  resolution: "eslint-plugin-react-hooks@npm:7.1.0-canary-3f0b9e61-20260317"
   dependencies:
     "@babel/core": "npm:^7.24.4"
     "@babel/parser": "npm:^7.24.4"
@@ -2170,7 +2170,7 @@ __metadata:
     zod-validation-error: "npm:^3.5.0 || ^4.0.0"
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0 || ^10.0.0
-  checksum: 10c0/4df5e0b80738d2ac2a31448161c527487ab4493f882fc10e9c835b7ccd4d4cf0ad5be8441f3df996470a5d97f9ccca9ff3d17533ace97600829c6d4201b21476
+  checksum: 10c0/0c244e866f12f321861b61cbf0f13537486b2fac253482cf4c0c550aa208ed35e9cd318b02959a61990194ee36756a0730fa9796680fe2438d73c7adddec2c40
   languageName: node
   linkType: hard
 
@@ -2496,9 +2496,9 @@ __metadata:
   linkType: hard
 
 "flatted@npm:^3.2.9":
-  version: 3.4.1
-  resolution: "flatted@npm:3.4.1"
-  checksum: 10c0/3987a7f1e39bc7215cece001354313b462cdb4fb2dde0df4f7acd9e5016fbae56ee6fb3f0870b2150145033be8bda4f01af6f87a00946049651131bbfca7dfa6
+  version: 3.4.2
+  resolution: "flatted@npm:3.4.2"
+  checksum: 10c0/a65b67aae7172d6cdf63691be7de6c5cd5adbdfdfe2e9da1a09b617c9512ed794037741ee53d93114276bff3f93cd3b0d97d54f9b316e1e4885dde6e9ffdf7ed
   languageName: node
   linkType: hard
 
