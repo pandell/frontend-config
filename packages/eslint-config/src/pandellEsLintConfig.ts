@@ -231,13 +231,7 @@ async function pandellTypeScriptConfig(settings: PandellEsLintConfigSettings): P
  */
 async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promise<Config[]> {
   const { react = {}, typeScript = {} } = settings;
-  const {
-    enabled = false,
-    extraRules,
-    files = defaultTypeScriptFiles,
-    includeReactQuery = false,
-    typeChecked = true,
-  } = react;
+  const { enabled = false, extraRules, files = defaultTypeScriptFiles, typeChecked = true } = react;
   const { enabled: enabledTypeScript = true, typeChecked: typeCheckedTypeScript = true } =
     typeScript;
 
@@ -248,11 +242,10 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
   }
 
-  const [reactPlugin, hooksPlugin, refreshPlugin, queryPlugin] = await Promise.all([
+  const [reactPlugin, hooksPlugin, refreshPlugin] = await Promise.all([
     import("@eslint-react/eslint-plugin"),
     import("eslint-plugin-react-hooks"),
     import("eslint-plugin-react-refresh"),
-    includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
 
@@ -263,19 +256,16 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         : reactPlugin.default.configs.strict,
       resolvedFiles,
     ),
-    configWithFiles(
-      hooksPlugin.configs["recommended-latest"],
-      resolvedFiles, // do not collapse to single line
-    ),
+    {
+      ...hooksPlugin.default.configs.flat["recommended-latest"],
+      name: "eslint-plugin-react-hooks/recommended-latest", // version 7 removed config name (was included in 5.2.x)
+      files: resolvedFiles,
+    },
     configWithFiles(
       settings.vite?.enabled
-        ? refreshPlugin.default.configs.vite
-        : refreshPlugin.default.configs.recommended,
+        ? refreshPlugin.reactRefresh.configs.vite()
+        : refreshPlugin.reactRefresh.configs.recommended(),
       resolvedFiles,
-    ),
-    configWithFiles(
-      queryPlugin && queryPlugin.default.configs["flat/recommended"],
-      resolvedFiles, // do not collapse to single line
     ),
     {
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
@@ -309,18 +299,12 @@ async function pandellTestingConfig(settings: PandellEsLintConfigSettings): Prom
   } = testing;
 
   const resolvedFiles = files === "do not set" ? undefined : files;
-  const [jestDom, testingLibrary, vitest] = await Promise.all([
-    enabledTestingLibrary ? import("eslint-plugin-jest-dom") : null,
+  const [testingLibrary, vitest] = await Promise.all([
     enabledTestingLibrary ? import("eslint-plugin-testing-library") : null,
     enabledVitest ? import("@vitest/eslint-plugin") : null,
   ]);
 
   return defineConfig(
-    configWithFiles(
-      jestDom && jestDom.default.configs["flat/recommended"],
-      resolvedFiles,
-      "jest-dom/flat-recommended",
-    ),
     configWithFiles(
       testingLibrary && testingLibrary.default.configs["flat/react"],
       resolvedFiles,
@@ -331,8 +315,9 @@ async function pandellTestingConfig(settings: PandellEsLintConfigSettings): Prom
       resolvedFiles, // do not collapse to single line
     ),
     configWithFiles(
-      (extraRules || enabledVitest) && {
+      {
         rules: {
+          "@eslint-react/component-hook-factories": "off", // allow test functions to define components; https://www.eslint-react.xyz/docs/rules/component-hook-factories
           ...(enabledVitest && {
             "vitest/consistent-test-it": "warn",
             "vitest/no-alias-methods": "warn",
@@ -393,7 +378,7 @@ export const defaultTypeScriptFiles = ["**/*.{ts,tsx}"];
 /**
  * Files to which ESLint testing rules apply in Pandell projects by default.
  */
-export const defaultTestFiles = ["**/*.test.{ts,tsx,js,jsx}"];
+export const defaultTestFiles = ["**/*.{test,tests}.{ts,tsx,js,jsx}"];
 
 /**
  * Settings that control behavior of {@link createPandellEsLintConfig}.
