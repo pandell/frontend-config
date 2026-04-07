@@ -1,4 +1,4 @@
-/* global document, global, module, DOMException */
+/* global module, DOMException */
 
 module.exports = function setup() {
   if (typeof window !== "undefined") {
@@ -12,15 +12,5 @@ module.exports = function setup() {
     // property. In real apps, it would usually not be defined at all.
     Error.prototype.suppressReactErrorLogging = true;
     DOMException.prototype.suppressReactErrorLogging = true;
-
-    // needed by popper.js, not yet supported: https://github.com/jsdom/jsdom/issues/317
-    global.document.createRange = () => ({
-      setStart: () => {},
-      setEnd: () => {},
-      commonAncestorContainer: {
-        nodeName: "BODY",
-        ownerDocument: document,
-      },
-    });
   }
 };
