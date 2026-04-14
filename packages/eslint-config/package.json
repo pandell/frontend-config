@@ -37,7 +37,7 @@
     "eslint-plugin-jsdoc": "^62.9.0",
     "eslint-plugin-react-hooks": "7.1.0-canary-705268dc-20260409",
     "eslint-plugin-react-refresh": "^0.5.2",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-simple-import-sort": "^13.0.0",
     "eslint-plugin-testing-library": "^7.16.2",
     "typescript-eslint": "^8.58.1"
   },
