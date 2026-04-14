@@ -16,11 +16,11 @@
   "packageManager": "yarn@4.13.0",
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
-    "browserslist": "^4.28.1",
+    "browserslist": "^4.28.2",
     "eslint": "^10.2.0",
     "eslint-formatter-teamcity": "^2.0.1",
-    "prettier": "^3.8.1",
-    "typescript": "~5.9.3"
+    "prettier": "^3.8.2",
+    "typescript": "~6.0.2"
   },
   "dependenciesMeta": {
     "unrs-resolver": {
