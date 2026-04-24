@@ -20,7 +20,7 @@
     "eslint": "^10.2.1",
     "eslint-formatter-teamcity": "^2.0.1",
     "prettier": "^3.8.3",
-    "typescript": "~6.0.2"
+    "typescript": "~6.0.3"
   },
   "dependenciesMeta": {
     "unrs-resolver": {
