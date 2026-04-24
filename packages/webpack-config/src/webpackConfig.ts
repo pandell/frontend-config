@@ -617,7 +617,7 @@ function createWebpackConfigForMode(
     resolveLoader: {
       modules: ["node_modules", ...(settings.modulesDirectories ?? [])],
     },
-  } as WebpackConfigurationWithDevServer);
+  });
 }
 
 /**
