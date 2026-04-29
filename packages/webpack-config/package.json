@@ -33,10 +33,10 @@
     "css-minimizer-webpack-plugin": "^8.0.0",
     "mini-css-extract-plugin": "^2.10.2",
     "open": "^11.0.0",
-    "terser-webpack-plugin": "^5.4.0"
+    "terser-webpack-plugin": "^5.5.0"
   },
   "devDependencies": {
-    "postcss": "^8.5.10",
+    "postcss": "^8.5.12",
     "typescript": "~6.0.3",
     "webpack": "^5.106.2"
   },
