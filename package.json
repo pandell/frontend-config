@@ -13,17 +13,14 @@
     "verify": "run format:quiet && run build && run lint",
     "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
-  "packageManager": "yarn@4.13.0",
-  "resolutions": {
-    "debug": "^4.4.1"
-  },
+  "packageManager": "yarn@4.14.1",
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
-    "browserslist": "^4.28.1",
-    "eslint": "^10.1.0",
+    "browserslist": "^4.28.2",
+    "eslint": "^10.2.1",
     "eslint-formatter-teamcity": "^2.0.1",
-    "prettier": "^3.8.1",
-    "typescript": "~5.9.3"
+    "prettier": "^3.8.3",
+    "typescript": "~6.0.3"
   },
   "dependenciesMeta": {
     "unrs-resolver": {

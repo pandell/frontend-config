@@ -31,14 +31,14 @@
     "@types/webpack": "^5.28.5",
     "assets-webpack-plugin": "^7.1.1",
     "css-minimizer-webpack-plugin": "^8.0.0",
-    "mini-css-extract-plugin": "^2.10.1",
+    "mini-css-extract-plugin": "^2.10.2",
     "open": "^11.0.0",
-    "terser-webpack-plugin": "^5.4.0"
+    "terser-webpack-plugin": "^5.5.0"
   },
   "devDependencies": {
-    "postcss": "^8.5.8",
-    "typescript": "~5.9.3",
-    "webpack": "^5.105.4"
+    "postcss": "^8.5.12",
+    "typescript": "~6.0.3",
+    "webpack": "^5.106.2"
   },
   "peerDependencies": {
     "babel-loader": ">= 10",

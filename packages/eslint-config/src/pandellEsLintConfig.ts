@@ -1,6 +1,6 @@
 // spell-checker:words indexeddb milang tses yalc
 
-import type { ConfigObject as Config, Plugin, RuleConfig } from "@eslint/core";
+import type { ConfigObject as Config, RuleConfig } from "@eslint/core";
 import esLintJs from "@eslint/js";
 import type { TSESLint } from "@typescript-eslint/utils";
 import type { Linter } from "eslint";
@@ -49,16 +49,16 @@ function pandellBaseConfig(settings: PandellEsLintConfigSettings): Config[] {
       ...esLintJs.configs.recommended,
       name: "eslint/js/recommended", // as of 2024-10-29, "@eslint/js" recommended config does not include a name
     },
-    importXFlatConfigs.recommended as Config,
+    importXFlatConfigs.recommended,
     {
       name: "simple-import-sort/all", // as of 2025-10-29, "eslint-plugin-simple-import-sort" isn't fully flat-config compatible, so adapt the plugin to the correct layout
-      plugins: { "simple-import-sort": esLintSimpleImportSort as Plugin },
+      plugins: { "simple-import-sort": esLintSimpleImportSort },
       rules: {
         "simple-import-sort/imports": "warn",
         "simple-import-sort/exports": "warn",
       },
     },
-    jsdoc({ config: "flat/recommended-error" }) as Config,
+    jsdoc({ config: "flat/recommended-error" }),
     {
       name: "@pandell-eslint-config/base",
       rules: {
@@ -231,7 +231,13 @@ async function pandellTypeScriptConfig(settings: PandellEsLintConfigSettings): P
  */
 async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promise<Config[]> {
   const { react = {}, typeScript = {} } = settings;
-  const { enabled = false, extraRules, files = defaultTypeScriptFiles, typeChecked = true } = react;
+  const {
+    enabled = false,
+    extraRules,
+    files = defaultTypeScriptFiles,
+    includeReactQuery = false,
+    typeChecked = true,
+  } = react;
   const { enabled: enabledTypeScript = true, typeChecked: typeCheckedTypeScript = true } =
     typeScript;
 
@@ -242,10 +248,11 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
   }
 
-  const [reactPlugin, hooksPlugin, refreshPlugin] = await Promise.all([
+  const [reactPlugin, hooksPlugin, refreshPlugin, queryPlugin] = await Promise.all([
     import("@eslint-react/eslint-plugin"),
     import("eslint-plugin-react-hooks"),
     import("eslint-plugin-react-refresh"),
+    includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
   const resolvedFiles = files === "do not set" ? undefined : files;
 
@@ -266,6 +273,10 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         ? refreshPlugin.reactRefresh.configs.vite()
         : refreshPlugin.reactRefresh.configs.recommended(),
       resolvedFiles,
+    ),
+    configWithFiles(
+      queryPlugin && queryPlugin.default.configs["flat/recommended"],
+      resolvedFiles, // do not collapse to single line
     ),
     {
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,

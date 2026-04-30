@@ -1,4 +1,4 @@
-// spell-checker:ignore anson colour esbenp fwcd ktfmt otbs yalc
+// spell-checker:words anson esbenp fwcd ktfmt otbs yalc
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
@@ -10,16 +10,17 @@
   },
 
   "search.exclude": {
+    "**/build": true,
+    "**/dist": true,
+    "**/.DS_Store": true,
     ".yalc": true,
-    ".yarn": true,
-    "**/dist": true
+    ".yarn": true
   },
 
-  "typescript.enablePromptUseWorkspaceTsdk": true, // https://stackoverflow.com/a/75357623, "How do I force Visual Studio Code to always use my workspace's version of TypeScript for all projects?"
-  "typescript.tsdk": "node_modules/typescript/lib",
-
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true, // https://stackoverflow.com/a/75357623, "How do I force Visual Studio Code to always use my workspace's version of TypeScript for all projects?"
+  "js/ts.tsc.autoDetect": "off", // do not pollute tasks with auto-detected typescript tasks
   "npm.autoDetect": "off", // do not pollute tasks with auto-detected NPM tasks
-  "typescript.tsc.autoDetect": "off", // do not pollute tasks with auto-detected typescript tasks
 
   // settings for extensions below
 
@@ -38,6 +39,7 @@
     "javascriptreact": true,
     "json": true,
     "jsonc": true,
+    "log": true,
     "markdown": true,
     "plaintext": true,
     "powershell": true,
@@ -46,7 +48,7 @@
     "typescript": true,
     "typescriptreact": true
   },
-  "cSpell.flagWords": ["colour"],
+  "cSpell.flagWords": ["colour"], // spell-checker:disable-line
   "cSpell.words": [
     "autoplace",
     "checkmarx",
