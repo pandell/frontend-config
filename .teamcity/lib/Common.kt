@@ -1,3 +1,6 @@
+// Version 2026-05-14
+// spell-checker:words dotnetcoresdk dotnettool resharper
+
 @file:Suppress("unused")
 
 package lib
@@ -72,21 +75,16 @@ fun BuildSteps.reSharperInspectionsFor(
             --dotnetcoresdk=$sdk
             --severity=$severity
             --properties:Configuration=$configuration
-            --format=Xml
             """.trimIndent()
     }
 }
 
-fun BuildSteps.cleanupAttachedDatabasesWithPli65(
-    name: String,
-    cleanupScript: String = "tools/Remove-TestDatabases.ps1",
-) {
-    powerShell {
+fun BuildSteps.cleanupAttachedDatabasesViaTool(name: String) {
+    script {
         this.name = name
-        edition = PowerShellStep.Edition.Core
-        scriptMode =
-            file {
-                path = cleanupScript
-            }
+        scriptContent =
+            """
+            dotnet tool execute pandell.pli.dotnettool -- test-db clean
+            """
     }
 }

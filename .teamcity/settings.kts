@@ -225,4 +225,5 @@ project {
 
     buildType(buildNpmPackages)
     buildType(publishConfig)
+    buildTypesOrder = arrayListOf(buildNpmPackages, publishConfig)
 }
