@@ -206,7 +206,7 @@ val publishConfig =
                 name = "Publish package build artifact"
                 scriptContent =
                     """
-                    env "npm_config_//registry.npmjs.org/:_authToken=%npmPublishToken%" npm publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
+                    env "npm_config_//registry.npmjs.org/:_authToken=%npmPublishToken%" npm stage publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
                     """
             }
         }
