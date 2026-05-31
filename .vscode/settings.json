@@ -1,4 +1,4 @@
-// spell-checker:words anson esbenp fwcd ktfmt otbs yalc
+// spell-checker:words anson esbenp fwcd ktfmt otbs
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
@@ -8,13 +8,8 @@
   "files.exclude": {
     "**/.DS_Store": true
   },
-
-  "search.exclude": {
-    "**/build": true,
-    "**/dist": true,
-    "**/.DS_Store": true,
-    ".yalc": true,
-    ".yarn": true
+  "files.associations": {
+    "LICENSE": "plaintext"
   },
 
   "js/ts.tsdk.path": "node_modules/typescript/lib",
@@ -91,6 +86,9 @@
     "MD007": { "indent": 4 }
   },
 
+  // redhat xml extension settings
+  "xml.format.maxLineWidth": 0,
+
   // powershell settings
   "powershell.codeFormatting.alignPropertyValuePairs": false,
   "powershell.codeFormatting.pipelineIndentationStyle": "IncreaseIndentationForFirstPipeline",
@@ -137,9 +135,7 @@
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
-  // file associations
-  "files.associations": {
-    "LICENSE": "plaintext"
+  "[xml]": {
+    "files.trimFinalNewlines": false
   }
 }
