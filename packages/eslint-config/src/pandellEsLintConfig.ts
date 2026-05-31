@@ -248,9 +248,8 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
   }
 
-  const [reactPlugin, hooksPlugin, refreshPlugin, queryPlugin] = await Promise.all([
+  const [reactPlugin, refreshPlugin, queryPlugin] = await Promise.all([
     import("@eslint-react/eslint-plugin"),
-    import("eslint-plugin-react-hooks"),
     import("eslint-plugin-react-refresh"),
     includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
@@ -263,11 +262,6 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         : reactPlugin.default.configs.strict,
       resolvedFiles,
     ),
-    {
-      ...hooksPlugin.default.configs.flat["recommended-latest"],
-      name: "eslint-plugin-react-hooks/recommended-latest", // version 7 removed config name (was included in 5.2.x)
-      files: resolvedFiles,
-    },
     configWithFiles(
       settings.vite?.enabled
         ? refreshPlugin.reactRefresh.configs.vite()
@@ -282,9 +276,12 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
       rules: {
-        "react-hooks/exhaustive-deps": [
+        "@eslint-react/exhaustive-deps": [
           "warn",
-          { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
+          {
+            "additionalHooks":
+              "(useDisposables|useEventHandler|useStreamResult|useStreamSubscription)",
+          },
         ],
         ...extraRules,
       },
