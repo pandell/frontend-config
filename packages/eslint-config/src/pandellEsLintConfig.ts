@@ -248,9 +248,8 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
     throw new Error("Type-checked React requires that TypeScript is enabled and type-checked.");
   }
 
-  const [reactPlugin, hooksPlugin, refreshPlugin, queryPlugin] = await Promise.all([
+  const [reactPlugin, refreshPlugin, queryPlugin] = await Promise.all([
     import("@eslint-react/eslint-plugin"),
-    import("eslint-plugin-react-hooks"),
     import("eslint-plugin-react-refresh"),
     includeReactQuery ? import("@tanstack/eslint-plugin-query") : null,
   ]);
@@ -263,11 +262,6 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
         : reactPlugin.default.configs.strict,
       resolvedFiles,
     ),
-    {
-      ...hooksPlugin.default.configs.flat["recommended-latest"],
-      name: "eslint-plugin-react-hooks/recommended-latest", // version 7 removed config name (was included in 5.2.x)
-      files: resolvedFiles,
-    },
     configWithFiles(
       settings.vite?.enabled
         ? refreshPlugin.reactRefresh.configs.vite()
@@ -282,14 +276,12 @@ async function pandellReactConfig(settings: PandellEsLintConfigSettings): Promis
       name: `@pandell-eslint-config/react${typeChecked ? "-type-checked" : ""}`,
       files: resolvedFiles,
       rules: {
-        "@eslint-react/jsx-shorthand-fragment": ["error", -1],
-        "@eslint-react/no-unnecessary-use-callback": "warn",
-        "@eslint-react/no-unnecessary-use-memo": "warn",
-        "@eslint-react/prefer-destructuring-assignment": "off", // set to "warn" in "strict*" presets in "@eslint-react/eslint-plugin@2.2.2"
-        // "@eslint-react/prefer-use-state-lazy-initialization": "warn", // already "warn" in "@eslint-react/eslint-plugin@2.0.2"
-        "react-hooks/exhaustive-deps": [
+        "@eslint-react/exhaustive-deps": [
           "warn",
-          { additionalHooks: "^use(Disposables|EventHandler|StreamResult|StreamSubscription)$" },
+          {
+            "additionalHooks":
+              "(useDisposables|useEventHandler|useStreamResult|useStreamSubscription)",
+          },
         ],
         ...extraRules,
       },
@@ -328,7 +320,6 @@ async function pandellTestingConfig(settings: PandellEsLintConfigSettings): Prom
     configWithFiles(
       {
         rules: {
-          "@eslint-react/component-hook-factories": "off", // allow test functions to define components; https://www.eslint-react.xyz/docs/rules/component-hook-factories
           ...(enabledVitest && {
             "vitest/consistent-test-it": "warn",
             "vitest/no-alias-methods": "warn",
