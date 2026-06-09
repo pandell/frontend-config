@@ -69,6 +69,10 @@ val buildNpmPackages =
             param(name = "env.PANDELL_NPM_TOKEN", value = "%pandell.npmToken.access%")
         }
 
+        outputParams {
+            exposeAllParameters = false
+        }
+
         vcs {
             root(DslContext.settingsRoot)
         }
@@ -83,6 +87,10 @@ val buildNpmPackages =
 
         failureConditions {
             executionTimeoutMin = 20
+        }
+
+        requirements {
+            contains("teamcity.agent.jvm.os.name", "Linux")
         }
 
         steps {
@@ -209,10 +217,6 @@ val publishConfig =
                     env "npm_config_//registry.npmjs.org/:_authToken=%npmPublishToken%" npm stage publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
                     """
             }
-        }
-
-        requirements {
-            contains("teamcity.agent.jvm.os.name", "Linux")
         }
     }
 
