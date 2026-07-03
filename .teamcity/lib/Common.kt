@@ -1,4 +1,4 @@
-// Version 2026-05-14
+// Version 2026-05-23
 // spell-checker:words dotnetcoresdk dotnettool resharper
 
 @file:Suppress("unused")
@@ -39,13 +39,17 @@ fun BuildFeatures.publishCommitStatusToGitHub() {
     }
 }
 
-fun FailureConditions.failOnNonZero(metricType: BuildFailureOnMetric.MetricType) {
+fun FailureConditions.failOnNonZero(
+    metricType: BuildFailureOnMetric.MetricType,
+    stopBuildOnFailure: Boolean = true,
+) {
     failOnMetricChange {
         metric = metricType
         threshold = 0
         units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
         comparison = BuildFailureOnMetric.MetricComparison.MORE
         compareTo = value()
+        this.stopBuildOnFailure = stopBuildOnFailure
     }
 }
 
@@ -79,12 +83,16 @@ fun BuildSteps.reSharperInspectionsFor(
     }
 }
 
-fun BuildSteps.cleanupAttachedDatabasesViaTool(name: String) {
+fun BuildSteps.cleanupAttachedDatabasesViaTool(
+    name: String,
+    version: String? = null,
+) {
     script {
         this.name = name
+        val tool = if (version == null) "pandell.pli.dotnettool" else "pandell.pli.dotnettool@$version"
         scriptContent =
             """
-            dotnet tool execute pandell.pli.dotnettool -- test-db clean
+            dotnet tool execute $tool --ignore-failed-sources -- test-db clean
             """
     }
 }
