@@ -94,7 +94,7 @@ function pandellBaseConfig(settings: PandellEsLintConfigSettings): Config[] {
         // "import-x/no-commonjs": "off", // already "off" in "eslint-plugin-import-x@4.2.1", "flatConfigs.recommended"; handled by @typescript-eslint/no-require-imports
         "import-x/no-cycle": "error",
         "import-x/no-default-export": "error",
-        "import-x/no-deprecated": "warn",
+        "import-x/no-deprecated": "off", // already checked via "@typescript-eslint/no-deprecated"
         // "import-x/no-duplicates": "error", // already "warn" in "eslint-plugin-import-x@4.2.1", "flatConfigs.recommended"
         "import-x/no-extraneous-dependencies": "error",
         "import-x/no-mutable-exports": "error",
