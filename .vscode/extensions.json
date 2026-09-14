@@ -1,4 +1,4 @@
-// spell-checker:words davidanson dbaeumer esbenp fwcd ktfmt mathiasfrohlich wallabyjs
+// spell-checker:words davidanson dbaeumer esbenp fwcd ktfmt mathiasfrohlich typescriptteam wallabyjs
 {
   "recommendations": [
     "davidanson.vscode-markdownlint",
@@ -19,6 +19,7 @@
     "redhat.vscode-xml",
     "redhat.vscode-yaml",
     "streetsidesoftware.code-spell-checker",
+    "typescriptteam.native-preview",
     "wallabyjs.wallaby-vscode"
   ]
 }

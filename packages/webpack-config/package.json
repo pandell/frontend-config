@@ -37,7 +37,6 @@
   },
   "devDependencies": {
     "postcss": "^8.5.28",
-    "typescript": "~6.0.3",
     "webpack": "^5.110.3"
   },
   "peerDependencies": {
