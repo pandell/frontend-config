@@ -82,11 +82,6 @@
   // kotlin extension settings
   "kotlin.languageServer.enabled": false,
 
-  // markdownlint extension settings
-  "markdownlint.config": {
-    "MD007": { "indent": 4 }
-  },
-
   // redhat xml extension settings
   "xml.format.maxLineWidth": 0,
 
