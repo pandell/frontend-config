@@ -12,7 +12,7 @@
 
 # Output and non-source directories/files
 /.yarn/install-state.gz
-/node_modules/
+node_modules/
 dist/
 *.local
 *.log
