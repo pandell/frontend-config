@@ -43,10 +43,10 @@ git clone https://github.com/pandell/frontend-config.git
 cd frontend-config
 
 # initialize node dependencies
-yarn install --inline-builds
+pnpm install --frozen-lockfile --prefer-offline
 
 # check formatting, build, and lint all packages
-yarn verify
+pnpm verify
 ```
 
 ## NPM registry tag management

@@ -21,7 +21,7 @@
   // settings for extensions below
 
   // spell checker settings
-  "cSpell.ignorePaths": [".git", "node_modules", "yarn.lock"],
+  "cSpell.ignorePaths": [".git", "node_modules", "pnpm-lock.yaml"],
   "cSpell.language": "en-US",
   "cSpell.enabledFileTypes": {
     "asciidoc": true,
