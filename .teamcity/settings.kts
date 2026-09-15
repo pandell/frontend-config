@@ -107,6 +107,10 @@ val buildNpmPackages =
                 scriptContent = "yarn run format"
             }
             script {
+                name = "Build (typescript)"
+                scriptContent = "yarn run build"
+            }
+            script {
                 name = "Lint (eslint)"
                 scriptContent = "yarn run lint --format teamcity"
             }
