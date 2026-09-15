@@ -21,7 +21,7 @@ specification (found in `packages/browserslist-config/index.js`) for our three e
 
 ```shell
 cd ~/development/frontend-config
-yarn workspace @pandell/browserslist-config run browserslist:dev
+pnpm workspace @pandell/browserslist-config run browserslist:dev
 # => and_chr 125
 # => chrome 125
 # => ...
