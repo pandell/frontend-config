@@ -9,18 +9,18 @@
     "format-fix": "prettier --experimental-cli --write .",
     "format:quiet": "echo '[prettier]' && run format --log-level warn",
     "lint": "echo '[eslint]' && eslint --max-warnings 0 --cache --cache-location node_modules/.cache/eslint/eslint.cache",
-    "postinstall": "run build",
     "verify": "run format:quiet && run build && run lint",
     "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
-  "packageManager": "yarn@4.17.0",
+  "packageManager": "yarn@4.18.0",
   "devDependencies": {
     "@pandell/eslint-config": "workspace:packages/eslint-config",
-    "browserslist": "^4.28.4",
-    "eslint": "^10.6.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "browserslist": "^4.28.9",
+    "eslint": "^10.10.0",
     "eslint-formatter-teamcity": "^2.0.1",
-    "prettier": "^3.9.4",
-    "typescript": "~6.0.3"
+    "prettier": "^3.9.6",
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "dependenciesMeta": {
     "unrs-resolver": {
