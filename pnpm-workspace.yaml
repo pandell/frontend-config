@@ -13,4 +13,4 @@ minimumReleaseAgeExclude:
   - "@pandell/*"
 
 # https://pnpm.io/cli/run#shellemulator
-# shellEmulator: true
+shellEmulator: true

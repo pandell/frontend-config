@@ -47,7 +47,7 @@ fun BuildSteps.execYarnPack(npmPackagePrefix: NpmPackagePrefix) {
 
     script {
         name = "Pack $npmPackage"
-        scriptContent = "yarn workspace @pandell/$npmPackage pack --out ../../${npmPackage}_%%v.tgz"
+        scriptContent = "pnpm --filter @pandell/$npmPackage pack --out ${npmPackage}_%%v.tgz"
     }
 }
 
@@ -96,23 +96,23 @@ val buildNpmPackages =
         steps {
             script {
                 name = "Install tooling (and build)"
-                scriptContent = "yarn install --immutable"
+                scriptContent = "pnpm install --frozen-lockfile --prefer-offline"
             }
             script {
                 name = "Print tool versions"
-                scriptContent = "yarn run versions"
+                scriptContent = "pnpm run --silent versions"
             }
             script {
                 name = "Check format (prettier)"
-                scriptContent = "yarn run format"
+                scriptContent = "pnpm run --silent format"
             }
             script {
                 name = "Build (typescript)"
-                scriptContent = "yarn run build"
+                scriptContent = "pnpm run --silent build"
             }
             script {
                 name = "Lint (eslint)"
-                scriptContent = "yarn run lint --format teamcity"
+                scriptContent = "pnpm run --silent lint --format teamcity"
             }
             execYarnPack(NpmPackagePrefix.BrowsersList)
             execYarnPack(NpmPackagePrefix.ESLint)

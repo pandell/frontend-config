@@ -1,17 +1,18 @@
 {
   "private": true,
   "scripts": {
-    "build": "echo '[typescript]' && tsc --build",
-    "format": "prettier --experimental-cli --check .",
+    "build": "tsc --build",
+    "format": "prettier --experimental-cli --log-level warn --check .",
     "format-fix": "prettier --experimental-cli --write .",
-    "format:quiet": "echo '[prettier]' && run format --log-level warn",
-    "lint": "echo '[eslint]' && eslint --max-warnings 0 --cache --cache-location node_modules/.cache/eslint/eslint.cache",
-    "verify": "run format:quiet && run build && run lint",
-    "versions": "echo '[node]' && node --version && echo '\n[yarn]' && yarn --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
+    "lint": "eslint --max-warnings 0 --cache --cache-location node_modules/.cache/eslint/eslint.cache",
+    "verify": "pnpm run format && pnpm run build && pnpm run lint",
+    "versions": "echo '[node]' && node --version && echo '\n[pnpm]' && pnpm --version && echo '\n[prettier]' && prettier --version && echo '\n[eslint]' && eslint --version && echo '\n[tsc]' && tsc --version && echo '\n[browserslist]' && browserslist --version"
   },
   "packageManager": "pnpm@12.4.1",
   "devDependencies": {
     "@pandell/eslint-config": "workspace:*",
+    "@pandell/prettier-config": "workspace:*",
+    "@pandell/typescript-config": "workspace:*",
     "@typescript/native": "npm:typescript@^7.0.2",
     "browserslist": "^4.28.9",
     "eslint": "^10.10.0",
