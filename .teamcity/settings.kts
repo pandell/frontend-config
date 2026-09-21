@@ -200,7 +200,7 @@ val publishConfig =
         steps {
             script {
                 name = "Print tool versions"
-                scriptContent = "echo '[pwsh]' && pwsh --version && echo -e '\n[npm]' && npm --version"
+                scriptContent = "echo '[pwsh]' && pwsh --version && echo -e '\n[pnpm]' && pnpm --version"
             }
             powerShell {
                 name = "Find package build artifact"
@@ -218,7 +218,7 @@ val publishConfig =
                 name = "Publish package build artifact"
                 scriptContent =
                     """
-                    env "npm_config_//registry.npmjs.org/:_authToken=%npmPublishToken%" npm stage publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
+                    env "pnpm_config_//registry.npmjs.org/:_authToken=%npmPublishToken%" pnpm stage publish --access public --tag '%selectedNpmTag%' '%packageBuildArtifactFullPath%'
                     """
             }
         }
