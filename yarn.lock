@@ -600,7 +600,7 @@ __metadata:
   dependencies:
     "@eslint-react/eslint-plugin": "npm:^5.20.0"
     "@eslint/js": "npm:^10.0.1"
-    "@tanstack/eslint-plugin-query": "npm:^5.103.1"
+    "@tanstack/eslint-plugin-query": "npm:^5.103.2"
     "@typescript-eslint/utils": "npm:^8.70.1"
     "@vitest/eslint-plugin": "npm:^1.6.27"
     eslint: "npm:^10.11.0"
@@ -711,9 +711,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.103.1":
-  version: 5.103.1
-  resolution: "@tanstack/eslint-plugin-query@npm:5.103.1"
+"@tanstack/eslint-plugin-query@npm:^5.103.2":
+  version: 5.103.2
+  resolution: "@tanstack/eslint-plugin-query@npm:5.103.2"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.58.1"
   peerDependencies:
@@ -722,7 +722,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/d905c1a95110bf9c933676567d8696abed3d2a1dd6c0ea5e997e46746194ee3b666750f7b6519ce0e510cdc2abee614b0eebd5a311048ce9ca81d13c3b272ae2
+  checksum: 10c0/df07fac8dbb4ff4925682ae228af45167d2ec3d14ecee2104ce2fb5bb2571c5341c4bf66fc075ca4e55e2e67bc5e6b326ae20260f32465b415f56f3621e4935f
   languageName: node
   linkType: hard
 
