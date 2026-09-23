@@ -38,7 +38,7 @@ export default definePandellEsLintConfig({
     }
     react: { enabled: true },
     vite: { enabled: true },
-    testing: { enabledJsDom: true, enabledTestingLibrary: true },
+    testing: { enabledTestingLibrary: true, enabledVitest: true },
 });
 ```
 
