@@ -20,9 +20,9 @@
   },
   "main": "./index.js",
   "scripts": {
-    "browserslist:dev": "run -T browserslist --env=development",
-    "browserslist:prod": "run -T browserslist --env=production",
-    "browserslist:test": "run -T browserslist --env=test",
+    "browserslist:dev": "browserslist --env=development",
+    "browserslist:prod": "browserslist --env=production",
+    "browserslist:test": "browserslist --env=test",
     "prepack": "node ../../tools/clean-package-json.mjs"
   },
   "browserslist": [
