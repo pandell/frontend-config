@@ -1,0 +1,16 @@
+# https://pnpm.io/settings#packages
+packages:
+  - "packages/*"
+
+# https://pnpm.io/settings/build#allowbuilds
+allowBuilds:
+  unrs-resolver: false
+
+# Two-day release gate, except for Pandell packages.
+# https://pnpm.io/settings/dependency-resolution#minimumreleaseage
+minimumReleaseAge: 2880
+minimumReleaseAgeExclude:
+  - "@pandell/*"
+
+# https://pnpm.io/cli/run#shellemulator
+shellEmulator: true
