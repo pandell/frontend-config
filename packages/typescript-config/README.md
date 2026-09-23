@@ -12,4 +12,5 @@ Add the following to your `tsconfig.json`:
 }
 ```
 
-For more details and options for configuration, see the [TypeScript documentation](https://www.typescriptlang.org/tsconfig).
+For more details and options for configuration, see the
+[TypeScript documentation](https://www.typescriptlang.org/tsconfig).

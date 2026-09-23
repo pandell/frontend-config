@@ -16,7 +16,8 @@ module.exports = {
 }
 ```
 
-To perform additional setup tasks as defined in `@pandell/jest-config/configureTesting.js`, add the following setup definition:
+To perform additional setup tasks as defined in `@pandell/jest-config/configureTesting.js`,
+add the following setup definition:
 
 ```js
 module.exports = {

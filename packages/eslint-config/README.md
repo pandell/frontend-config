@@ -19,9 +19,10 @@ Add the following to your `package.json`:
 
 ---
 
-Next, create `eslint.config.mjs` in the root of your project. Explore available properties
-in the settings object passed to `createPandellEsLintConfig` function (see `PandellEsLintConfigSettings`
-in `node_modules/@pandell/eslint-config/dist/pandellEsLintConfig.d.ts`). Example contents:
+Next, create `eslint.config.mjs` in the root of your project. Explore available
+properties in the settings object passed to `createPandellEsLintConfig` function
+(see `PandellEsLintConfigSettings` in
+`node_modules/@pandell/eslint-config/dist/pandellEsLintConfig.d.ts`). Example contents:
 
 ```js
 // @ts-check
