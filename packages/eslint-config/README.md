@@ -9,7 +9,7 @@ Add the following to your `package.json`:
 ```jsonc
 {
   "devDependencies": {
-    "@pandell/eslint-config": "^10.4.0-alpha.1",
+    "@pandell/eslint-config": "^10.4.0",
     "eslint": "^10.11.0",
     // ...
   },
@@ -54,5 +54,5 @@ It will start a local web server and open browser that navigates to this server,
 allowing you to visually examine your layers, rules, etc.
 
 ```shell
-yarn run eslint --inspect-config
+pnpm exec eslint --inspect-config
 ```
