@@ -37,6 +37,22 @@ Shared configuration packages for frontend tools used by Pandell engineering tea
 
 ## Development
 
+### Development tools
+
+- [nodejs](http://nodejs.org/) v24+, `scoop install nodejs-lts` on Windows.
+- [pnpm](https://pnpm.io/) v12+, `scoop install pnpm` on Windows.
+- [git](https://github.com/git-for-windows/git/releases) v2+, `scoop install git` on Windows.
+- Optional, recommended on Windows:
+    - [Windows Terminal](https://aka.ms/terminal), the latest version.
+    - [PowerShell](https://microsoft.com/powershell), the latest cross-platform version.
+    - [VSCode](https://code.visualstudio.com/), the latest version with all the recommended
+      extensions (see `.vscode/extensions.json`).
+        - [WallabyJS extension](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode)
+            requires an enterprise license. If you have not been assigned a license yet,
+            please contact [itgroup@pandell.com](mailto:itgroup@pandell.com?subject=WallabyJS%20License%20For%20VSCode).
+
+### How to initialize development environment
+
 ```sh
 cd ~/work
 git clone https://github.com/pandell/frontend-config.git
