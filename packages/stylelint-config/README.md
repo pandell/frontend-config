@@ -14,4 +14,5 @@ Add the following to your `package.json`:
 }
 ```
 
-For more details and options for configuration, see the [Stylelint documentation](https://stylelint.io/user-guide/configure/).
+For more details and options for configuration, see the
+[Stylelint documentation](https://stylelint.io/user-guide/configure/).

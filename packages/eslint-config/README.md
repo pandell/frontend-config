@@ -9,8 +9,8 @@ Add the following to your `package.json`:
 ```jsonc
 {
   "devDependencies": {
-    "@pandell/eslint-config": "^10.3.0",
-    "eslint": "^10.6.0",
+    "@pandell/eslint-config": "^10.4.0-alpha.1",
+    "eslint": "^10.11.0",
     // ...
   },
   // ...
@@ -19,9 +19,10 @@ Add the following to your `package.json`:
 
 ---
 
-Next, create `eslint.config.mjs` in the root of your project. Explore available properties
-in the settings object passed to `createPandellEsLintConfig` function (see `PandellEsLintConfigSettings`
-in `node_modules/@pandell/eslint-config/dist/pandellEsLintConfig.d.ts`). Example contents:
+Next, create `eslint.config.mjs` in the root of your project. Explore available
+properties in the settings object passed to `createPandellEsLintConfig` function
+(see `PandellEsLintConfigSettings` in
+`node_modules/@pandell/eslint-config/dist/pandellEsLintConfig.d.ts`). Example contents:
 
 ```js
 // @ts-check
@@ -38,7 +39,7 @@ export default definePandellEsLintConfig({
     }
     react: { enabled: true },
     vite: { enabled: true },
-    testing: { enabledJsDom: true, enabledTestingLibrary: true },
+    testing: { enabledTestingLibrary: true, enabledVitest: true },
 });
 ```
 

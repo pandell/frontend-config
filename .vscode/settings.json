@@ -12,7 +12,8 @@
     "LICENSE": "plaintext"
   },
 
-  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.experimental.useTsgo": true,
+  "js/ts.tsdk.path": "node_modules/@typescript/native",
   "js/ts.tsdk.promptToUseWorkspaceVersion": true, // https://stackoverflow.com/a/75357623, "How do I force Visual Studio Code to always use my workspace's version of TypeScript for all projects?"
   "js/ts.tsc.autoDetect": "off", // do not pollute tasks with auto-detected typescript tasks
   "npm.autoDetect": "off", // do not pollute tasks with auto-detected NPM tasks
@@ -80,11 +81,6 @@
 
   // kotlin extension settings
   "kotlin.languageServer.enabled": false,
-
-  // markdownlint extension settings
-  "markdownlint.config": {
-    "MD007": { "indent": 4 }
-  },
 
   // redhat xml extension settings
   "xml.format.maxLineWidth": 0,
